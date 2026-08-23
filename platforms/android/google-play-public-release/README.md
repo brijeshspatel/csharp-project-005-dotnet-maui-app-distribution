@@ -2,12 +2,12 @@
 doc_id: maui-dist-channel-google-play
 title: Google Play — Public Release
 type: guide
-version: 1.0.0
+version: 1.1.0
 status: active
 created: 2026-08-23
 updated: 2026-08-23
 owner: Brijesh Patel
-change_summary: Initial channel guide. Written using ASD-STE100 principles.
+change_summary: Corrects the section 9 build evidence. The documented command fails from a clean tree; marshal methods must be disabled. Written using ASD-STE100 principles.
 ---
 
 # Google Play — Public Release
@@ -84,23 +84,56 @@ from a sufficiently long Windows path (AAPT2 "failed to open file"):
 dotnet publish -f net10.0-android -c Release
 ```
 
-This succeeded, producing both `com.companyname.distributionsample.aab` (unsigned) and
-`com.companyname.distributionsample-Signed.aab`/`.apk` (debug-signed) under
-`bin/Release/net10.0-android/publish/`. **Google Play requires the App Bundle (`.aab`) format**,
-not the `.apk`, for new app submissions.
+⚠️ **WARNING — that command alone does not complete on this toolchain.** Re-verified from a
+fully clean tree, with `bin/` and `obj/` both removed, it fails with:
 
-**A transient failure was observed and is worth naming.** The first attempt at this exact command,
-run while other work was executing concurrently on this machine, failed with `javac.exe exited
-with code 1` and no further detail. A clean retry with `-v:detailed` succeeded with zero errors.
-If this command fails for you with the same message, retry before assuming a real defect —
-resource contention during compilation is a plausible, ordinary cause; a path-length failure (the
-issue this repository specifically tested for) reports `APT2098`/`APT2261`, a different and more
-specific error.
+```
+error XAGNM7009: System.InvalidOperationException: Internal error: missing native code generation
+state for architecture 'Arm64'
+```
+
+and writes no `.aab`. This was reproduced on two consecutive clean attempts, run sequentially and
+**not** under concurrent load, which rules out resource contention as the cause.
+
+**The command that completes here disables marshal methods**, which .NET 10 enables by default and
+which Microsoft documents as the mitigation when marshal methods misbehave:
+
+```
+dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
+```
+
+This exits 0 and writes these artefacts to `bin/Release/net10.0-android/publish/`:
+
+| Artefact | Size | Use |
+|---|---|---|
+| `com.companyname.distributionsample.aab` | 28,344,696 bytes | unsigned App Bundle |
+| `com.companyname.distributionsample-Signed.aab` | 28,478,415 bytes | debug-signed App Bundle |
+| `com.companyname.distributionsample-Signed.apk` | 29,058,372 bytes | debug-signed APK, local testing only |
+
+**The sizes are quoted because each file was confirmed on disk, not because a log said so.** A
+.NET publish can report success and name an artefact it never wrote — this repository's iOS guide
+documents exactly that behaviour for the same sample application, in its
+[§9](../../apple/app-store-public-release/README.md#9-build). **List the file. Never trust the
+message.**
+
+**Google Play requires the App Bundle (`.aab`) format**, not the `.apk`, for new app submissions.
+
+**Disabling marshal methods is a mitigation, not a default to adopt blindly.** Marshal methods are
+a startup-performance optimisation. Disabling them is the documented response to a marshal-method
+fault, and it is what makes this build complete here; it is not a recommendation for a project
+whose build already succeeds without it. Retest with the property removed after any Android
+workload update.
+
+**One further trap, observed here.** Setting `AndroidEnableMarshalMethods=false` against a `obj/`
+directory produced with marshal methods **enabled** fails differently again, with R8 reporting
+`Type android.runtime.JavaProxyThrowable is defined multiple times`. That is stale intermediate
+state, not a property fault. Clean `obj/` when you change this property.
 
 ## 10. 🔐 Sign
 
-The build in §9 produces a debug-signed package by default when no explicit signing
-configuration is supplied. For a real release, configure signing explicitly, referencing your own
+The build in §9 produces a debug-signed package alongside the unsigned one when no explicit
+signing configuration is supplied. **A debug-signed bundle is for local testing only and Google
+Play will reject it.** For a real release, configure signing explicitly, referencing your own
 upload keystore:
 
 ```
@@ -156,16 +189,21 @@ here unless you manage your own signing key outside Play App Signing.
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
 | `dotnet publish -f net10.0-android -c Release` fails with `APT2098`/`APT2261` "failed to open file" | Project path is too long for the Android resource compiler on Windows | Compare your project's full path length against a known-short path | Move the project closer to a drive root, or enable Windows long-path support |
-| Same command fails with `javac.exe exited with code 1` and no further detail | Often transient — resource contention from concurrent processes | Re-run with `-v:detailed` and inspect the actual javac output | Retry; if it recurs identically, inspect the detailed log for a real compiler error |
+| Same command fails with `javac.exe exited with code 1` and no further detail | May be transient resource contention from concurrent processes | Re-run with `-v:detailed` and inspect the actual javac output | Retry; if it recurs identically, inspect the detailed log for a real compiler error |
+| `error XAGNM7009: ... missing native code generation state for architecture 'Arm64'` | Marshal methods, enabled by default in .NET 10, fail during native code generation | Re-run from a clean tree; it reproduces | Add `-p:AndroidEnableMarshalMethods=false`, per §9 |
+| R8 reports `Type android.runtime.JavaProxyThrowable is defined multiple times` | `AndroidEnableMarshalMethods` was changed against a stale `obj/` | Check whether the property changed since the last build | Delete `obj/` and rebuild, per §9 |
+| Publish reports success but no `.aab` is on disk | The artefact was never written; the message is not proof | List `bin/Release/net10.0-android/publish/` | Treat as a failure and read the full log. See the iOS guide's §9 for the same class of defect |
 | Upload rejected for target API level | Build targets an API level below Google Play's current floor | Check the current floor in the register (§ Requirements & Freshness Register) | Update `TargetFramework`/Android API level and rebuild |
 | Upload rejected: signing key mismatch | Uploaded `.aab` was signed with a different key than the app's first release | Confirm which upload key Play Console expects for this app | Use the correct upload key, or use Play Console's key-reset process if it was lost |
 
 ## 18. Limitations
 
 This guide's build step (§9) was verified by execution at this repository's own real path, on
-Windows, confirming Risk R-8 (path length) does not affect this specific path. Real upload key
-generation and the actual Play Console submission flow were not executed in this run — they
-require a real, verified Google Play Console account. The API-level floor in §5 changes on a
+Windows, from a clean tree, confirming Risk R-8 (path length) does not affect this specific path.
+**It required `-p:AndroidEnableMarshalMethods=false`; the command without that property does not
+complete on this toolchain.** The artefacts were confirmed on disk by listing them, not inferred
+from the build log. Real upload key generation and the actual Play Console submission flow were
+not executed in this run — they require a real, verified Google Play Console account. The API-level floor in §5 changes on a
 published schedule (§ Requirements & Freshness Register) and must be re-checked, not assumed
 current, after 2026-08-31.
 
@@ -179,5 +217,6 @@ current, after 2026-08-31.
 ## 20. ✅ Last Verified
 
 2026-08-23 — build claims verified by execution against this repository's own sample application,
-at its real repository path; all other claims verified against the sources in §19 on the same
-date.
+at its real repository path, from a clean tree, with the produced artefacts confirmed on disk.
+Signing with a real upload key and the Play Console submission flow are **not** execution-verified.
+All other claims were verified against the sources in §19 on the same date.

@@ -2,12 +2,12 @@
 doc_id: maui-dist-channel-testflight
 title: TestFlight
 type: guide
-version: 1.0.0
+version: 1.1.0
 status: active
 created: 2026-08-23
 updated: 2026-08-23
 owner: Brijesh Patel
-change_summary: Initial channel guide, first run under ADR 0012. Written using ASD-STE100 principles.
+change_summary: Corrects the section 9 build evidence inherited from the App Store guide. No .ipa is produced without code signing. Written using ASD-STE100 principles.
 ---
 
 # 🧪 TestFlight
@@ -65,10 +65,14 @@ Identical to public App Store release ([§8](../app-store-public-release/README.
 
 ## 9. Build
 
-Identical command and result to public App Store release, already verified by execution in that
-guide's [§9](../app-store-public-release/README.md#9-build): `dotnet publish -f net10.0-ios -c
-Release`. This guide does not re-run that command — the artefact is the same `.ipa` shape either
-channel uses; what differs is the upload destination and review path (§12-13), not the build.
+Identical command and result to public App Store release, verified by execution in that guide's
+[§9](../app-store-public-release/README.md#9-build): `dotnet publish -f net10.0-ios -c Release`.
+This guide does not re-run it.
+
+⚠️ **Read that section before you rely on a build.** That command **does not produce an `.ipa`**
+without code signing, although it exits 0 and prints a message saying it did. A TestFlight upload
+needs the same signed `.ipa` an App Store submission needs, produced the same way. What differs
+between the two channels is the upload destination and the review path (§12-§13), not the build.
 
 ## 10. 🔐 Sign
 
@@ -126,8 +130,9 @@ force-removed from tester devices.
 
 Beta review timing for external testers is not guaranteed — this guide states ranges reported
 publicly, not a commitment. This guide did not execute an upload to a real App Store Connect
-account; the build/sign/package steps it relies on were verified by execution in the public App
-Store release guide, which this guide deliberately does not duplicate.
+account. The build step it relies on was verified by execution in the public App Store release
+guide, which this guide deliberately does not duplicate; **the signing and packaging steps were
+not**, and no `.ipa` was produced in any run of this repository. See that guide's §9 and §18.
 
 ## 19. 📚 Official Sources
 
@@ -138,5 +143,6 @@ Store release guide, which this guide deliberately does not duplicate.
 
 ## 20. ✅ Last Verified
 
-2026-08-23 — verified against the sources in §19; build/sign/package claims verified by execution
-in the public App Store release guide on the same date, not re-executed here.
+2026-08-23 — verified against the sources in §19. The build claim was verified by execution in the
+public App Store release guide on the same date and is not re-executed here; the sign and package
+claims are **not** execution-verified in either guide.

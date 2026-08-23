@@ -7,7 +7,7 @@ status: active
 created: 2026-08-23
 updated: 2026-08-23
 owner: Brijesh Patel
-change_summary: Populated with Apple App Store and Google Play public-release entries.
+change_summary: Adds the Apple device-registration entries the ad hoc distribution channel depends on.
 ---
 
 # Requirements & Freshness Register
@@ -27,3 +27,6 @@ date it was last independently verified and what should trigger re-checking it.
 | Personal developer accounts created after 2023-11-13 must complete a 14-day closed test with 12 opted-in testers before production access | Android | account | 2023-11-13 | 2026-08-23 | https://support.google.com/googleplay/android-developer/answer/6112435 | New personal accounts | Cannot reach production without completing this test | Current | Google changes the testing-track requirement |
 | TestFlight internal testers limited to 100; external testers limited to 10,000; builds expire after 90 days | Apple | testing | ongoing | 2026-08-23 | https://developer.apple.com/testflight/ | New and existing TestFlight groups | Plan tester group size and re-upload cadence accordingly | Current | Apple changes TestFlight's published limits |
 | External TestFlight testers require Apple beta review on a build's first upload per version (commonly 24h, reported range 4-48h) | Apple | testing | ongoing | 2026-08-23 | https://developer.apple.com/help/app-store-connect/test-a-beta-version/invite-external-testers | New external test groups | Do not promise a specific review duration to end users | Current | Apple changes beta review timing or process |
+| Ad hoc device registration limit is 100 per product family, per membership year | Apple | account | ongoing | 2026-08-24 | https://developer.apple.com/help/account/register-devices/devices-overview/ | Ad hoc distribution, and development provisioning | Caps how many devices one ad hoc build can reach. Microsoft's .NET MAUI documentation states a flat 100 across all device types, which contradicts Apple's own page | Current | Apple changes the published device limit |
+| Disabling a registered device does not free its registration slot | Apple | account | ongoing | 2026-08-24 | https://developer.apple.com/help/account/register-devices/devices-overview/ | Ad hoc distribution | Slots are reclaimed only at membership renewal, so a device list must be planned before registration | Current | Apple changes device-removal behaviour |
+| Registered devices are removed automatically 180 days after membership expiry | Apple | account | ongoing | 2026-08-24 | https://developer.apple.com/help/account/register-devices/devices-overview/ | Ad hoc distribution | A lapsed membership silently empties the device list | Current | Apple changes the expiry handling |

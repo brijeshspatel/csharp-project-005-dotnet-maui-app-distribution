@@ -5,9 +5,13 @@ blank cell means nobody decided whether that section applies -- this script
 refuses to let that pass as done. A cell reading exactly "N/A - <reason>" is
 an explicit decision and is accepted.
 
+A row must occupy one physical line. A hard-wrapped row is not a table row,
+and it is reported as a failure rather than skipped -- silently skipping one is
+how a channel can appear graded while being examined by nothing.
+
 Exit codes:
   0  every declared channel's every column is filled or explicitly N/A
-  1  a cell is blank
+  1  a cell is blank, or a row's cell count does not match the header
   2  the table could not be read
 """
 
@@ -29,11 +33,26 @@ def parse_table(text: str) -> tuple[list[str], list[dict[str, str]]]:
 
     header = [cell.strip() for cell in lines[0].strip("|").split("|")]
     rows: list[dict[str, str]] = []
+    malformed: list[str] = []
     for line in lines[2:]:
         cells = [cell.strip() for cell in line.strip("|").split("|")]
         if len(cells) != len(header):
+            # A row whose cell count does not match the header is NOT skipped.
+            # Skipping is how a hard-wrapped row -- which is not a table row at
+            # all -- got graded by nothing while the matrix reported "OK".
+            malformed.append(
+                f"{cells[0][:40]!r} has {len(cells)} cell(s), header has {len(header)}"
+            )
             continue
         rows.append(dict(zip(header, cells)))
+    if malformed:
+        print(
+            f"FAIL - {len(malformed)} malformed row(s); a row must be one physical line:",
+            file=sys.stderr,
+        )
+        for m in malformed:
+            print(f"  {m}", file=sys.stderr)
+        raise SystemExit(1)
     return header, rows
 
 

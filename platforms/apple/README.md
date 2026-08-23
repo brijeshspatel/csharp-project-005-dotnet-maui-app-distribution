@@ -21,13 +21,15 @@ the guidance shared across them.
 |---|---|
 | [App Store public release](app-store-public-release/README.md) | Documented |
 | [TestFlight](testflight/README.md) | Documented |
-| Ad hoc distribution | Not yet documented |
+| [Ad hoc distribution](ad-hoc-distribution/README.md) | Documented |
 | Apple Business Manager / enterprise distribution | Not yet documented |
 
 ## Signing and provisioning
 
-App Store public release and TestFlight share one identity: the same distribution certificate
-and provisioning profile. See
+App Store public release, TestFlight and ad hoc distribution share one **certificate**: the same
+Apple distribution certificate. They do **not** share a provisioning profile — an ad hoc profile
+embeds an explicit device list and is generated separately, as its
+[§7](ad-hoc-distribution/README.md#7-security-model) explains. See
 [App Store public release §7 Security Model](app-store-public-release/README.md#7-security-model)
 and [§10 Sign](app-store-public-release/README.md#10-sign) — every current and future Apple
 channel in this repository references that explanation rather than repeating it, per this

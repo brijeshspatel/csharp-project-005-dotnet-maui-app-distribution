@@ -2,12 +2,12 @@
 doc_id: maui-dist-ios-release-checklist
 title: iOS End-to-End Release Checklist
 type: guide
-version: 1.0.0
+version: 1.1.0
 status: active
 created: 2026-08-23
 updated: 2026-08-23
 owner: Brijesh Patel
-change_summary: Initial authoritative end-to-end checklist. Written using ASD-STE100 principles.
+change_summary: Corrects step 7. The iOS build produces no .ipa without code signing. Written using ASD-STE100 principles.
 ---
 
 # 🍎 iOS End-to-End Release Checklist
@@ -32,15 +32,18 @@ official sources live in the linked guide section; this checklist does not repea
 6. ⚠️ **STOP — VERIFY BEFORE CONTINUING.** Back up the certificate's private key and record where
    the provisioning profile lives. Losing either after this point means revoking and re-creating
    before any further step can complete. *Depends on: steps 4 and 5.*
-7. **Build.** `dotnet publish -f net10.0-ios -c Release`. Verified by execution on Windows,
-   producing an ad-hoc-signed `.ipa` when no certificate is supplied — confirms the build itself
-   works before attaching real signing. *Depends on: step 3.*
+7. **Build.** `dotnet publish -f net10.0-ios -c Release`. Verified by execution on Windows:
+   it compiles the managed and AOT output. ⚠️ **It produces no `.ipa`**, although it exits 0 and
+   prints a message claiming it did. Signing is a prerequisite of a package here, not a later
+   refinement. *Depends on: step 3.*
    [Details](../platforms/apple/app-store-public-release/README.md#9-build)
 8. 🔐 **Sign for real distribution**, using `-p:CodesignKey`/`-p:CodesignProvision` naming the
    certificate and profile from steps 4-5. *Depends on: steps 5 and 7.*
    [Details](../platforms/apple/app-store-public-release/README.md#10-sign)
-9. 📦 **Package.** Confirm the signed `.ipa` exists at the expected output path. *Depends on:
-   step 8.* [Details](../platforms/apple/app-store-public-release/README.md#11-package)
+9. 📦 **Package.** Confirm the signed `.ipa` exists at the expected output path — **list the
+   file; do not read the build log**, which reports a package even when none was written.
+   *Depends on: step 8.*
+   [Details](../platforms/apple/app-store-public-release/README.md#11-package)
 10. **Create an App Store Connect app record**: name, primary language, Bundle ID, SKU.
     *Depends on: step 3 (Bundle ID must already be fixed).*
     [Details](../platforms/apple/app-store-public-release/README.md#12-configure-distribution-platform)

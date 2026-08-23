@@ -2,12 +2,12 @@
 doc_id: maui-dist-channel-apple-app-store
 title: Apple App Store — Public Release
 type: guide
-version: 1.0.0
+version: 1.1.0
 status: active
 created: 2026-08-23
 updated: 2026-08-23
 owner: Brijesh Patel
-change_summary: Initial channel guide. Written using ASD-STE100 principles.
+change_summary: Corrects the section 9 build evidence. The iOS publish command does not produce an .ipa without code signing, and the SDK reports one that it did not write. Written using ASD-STE100 principles.
 ---
 
 # Apple App Store — Public Release
@@ -86,18 +86,44 @@ to satisfy §5's SDK requirement.
 ## 9. Build
 
 **Verified by execution against this repository's own sample application**
-(`sample/DistributionSample`), 2026-08-23:
+(`sample/DistributionSample`), 2026-08-23, and re-verified the same day from a fully clean tree
+with `bin/` and `obj/` both removed:
 
 ```
 dotnet publish -f net10.0-ios -c Release
 ```
 
-This succeeded on a Windows machine with no macOS host, producing
-`bin/Release/net10.0-ios/ios-arm64/publish/DistributionSample.ipa`. The build log reported: "X.509
-certificate chain validation will use the default trust store selected by .NET for code signing"
-— this is .NET's own **ad hoc** signing, used because no `CodesignKey`/`CodesignProvision` was
-supplied. **This proves the managed-code build and packaging step itself does not require a Mac.**
-It does not prove App-Store-ready signing, which needs the identity described in §10-§11.
+On a Windows machine with no macOS host, this command **exits 0 with 0 warnings and 0 errors** and
+compiles the managed and AOT output to `bin/Release/net10.0-ios/ios-arm64/`. **It does not produce
+an `.ipa`.**
+
+⚠️ **WARNING — the build log claims an `.ipa` that does not exist.** The command prints
+`Created the package: bin\Release\net10.0-ios\ios-arm64\publish\DistributionSample.ipa` and
+then writes no such file; the `publish` folder is created and left empty. This is a reporting
+defect in the iOS SDK itself. In
+`Microsoft.iOS.Sdk.net10.0_26.5/26.5.10301/targets/Xamarin.Shared.Sdk.Publish.targets`, the
+`Publish` target emits that message whenever `BuildIpa` is true, but `Publish` depends only on
+`_PrePublish;Build` and never invokes `CreateIpa`, which is the target that would write the
+archive. **Never accept that line, or exit code 0, as evidence that an `.ipa` exists. Confirm the
+file is on disk.**
+
+**Producing a real `.ipa` requires code signing.** Adding the archive properties Microsoft
+documents for command-line publishing makes the requirement explicit instead of silent:
+
+```
+dotnet publish -f net10.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64
+```
+
+This fails immediately, and correctly, with:
+
+```
+error : Code signing must be enabled to create an Xcode archive.
+```
+
+**What this proves, and what it does not.** The managed compilation and AOT steps of an iOS Release
+build run on Windows with no Mac. Producing an installable, distributable `.ipa` does not: it needs
+a real signing identity (§10) and Apple's archiving tools. Treat §10-§11 as prerequisites of a
+package, not as refinements of one you already have.
 
 ## 10. 🔐 Sign
 
@@ -120,8 +146,8 @@ tooling limitation this guide names plainly, not an unstated one.
 ## 11. 📦 Package
 
 Once signed with a real identity, `dotnet publish` (or Visual Studio's own Archive/Distribute
-flow) produces the `.ipa` uploaded to App Store Connect. The unsigned/ad-hoc `.ipa` verified in
-§9 is structurally the same package format; only its signature differs.
+flow) produces the `.ipa` uploaded to App Store Connect. **No `.ipa` exists before that point** —
+see the warning in §9. There is no unsigned intermediate package to inspect on this platform.
 
 ## 12. Configure Distribution Platform
 
@@ -161,14 +187,19 @@ the certificate itself is compromised or no longer needed.
 | Build rejected: privacy manifest missing a declaration | A required-reason API or third-party SDK is used but not declared | Check App Review's rejection message for the named API | Add the declaration to the privacy manifest, per §5, and resubmit |
 | Signing mismatch on upload | Provisioning profile does not match the certificate or Bundle ID used to sign | Compare the profile's App ID and certificate against `CodesignProvision`/`CodesignKey` | Regenerate or select the correct profile in §11 |
 | Build built on the wrong SDK | Tooling predates the iOS 26 SDK requirement (effective 2026-04-28) | Check the installed `ios` workload version | Update the .NET MAUI iOS workload before building |
+| Build reports `Created the package: ...DistributionSample.ipa` but no `.ipa` exists | The SDK's `Publish` target prints this message unconditionally when `BuildIpa` is true, without running `CreateIpa` | List the `publish` folder; it is empty | Expected without signing. Supply `CodesignKey`/`CodesignProvision` per §10, or use the Archive/Distribute flow. See §9 |
+| `error : Code signing must be enabled to create an Xcode archive.` | `ArchiveOnBuild=true` was set with no signing identity | Confirm whether `CodesignKey` and `CodesignProvision` are supplied | Supply a real distribution identity per §10, or drop `ArchiveOnBuild` and accept that no `.ipa` is produced |
 
 ## 18. Limitations
 
-This guide's build and packaging steps (§9) were verified by execution on Windows without a Mac.
-Creating a genuine Apple distribution certificate (§10) was not executed in this run — it requires
-an enrolled Apple Developer Program identity and, per Microsoft's current documentation, a
-Mac-paired Visual Studio. App Review timing is not guaranteed; do not present any duration as a
-commitment.
+**This guide's packaging step is documented, not demonstrated.** Execution on Windows without a
+Mac proves the managed and AOT compilation steps only. **No `.ipa` was produced in any run of this
+repository**, because every route to one requires a real Apple signing identity — see §9 for the
+commands run and their exact results. Creating a genuine Apple distribution certificate (§10) was
+likewise not executed: it requires an enrolled Apple Developer Program identity and, per
+Microsoft's current documentation, a Mac-paired Visual Studio. Every claim in §10-§13 therefore
+rests on the sources in §19, not on execution in this environment. App Review timing is not
+guaranteed; do not present any duration as a commitment.
 
 ## 19. 📚 Official Sources
 
@@ -179,5 +210,7 @@ commitment.
 
 ## 20. ✅ Last Verified
 
-2026-08-23 — build/package claims verified by execution against this repository's own sample
-application; all other claims verified against the sources in §19 on the same date.
+2026-08-23 — the §9 build claims were verified by execution against this repository's own sample
+application, including a clean-tree re-run that corrected an earlier, incorrect claim that an
+`.ipa` had been produced. Packaging and signing (§10-§11) are **not** execution-verified. All other
+claims were verified against the sources in §19 on the same date.

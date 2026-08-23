@@ -2,12 +2,12 @@
 doc_id: maui-dist-android-release-checklist
 title: Android End-to-End Release Checklist
 type: guide
-version: 1.0.0
+version: 1.1.0
 status: active
 created: 2026-08-23
 updated: 2026-08-23
 owner: Brijesh Patel
-change_summary: Initial authoritative end-to-end checklist. Written using ASD-STE100 principles.
+change_summary: Corrects step 6. The build needs marshal methods disabled on this toolchain. Written using ASD-STE100 principles.
 ---
 
 # 🤖 Android End-to-End Release Checklist
@@ -32,14 +32,18 @@ official sources live in the linked guide section; this checklist does not repea
 5. **Set versioning.** Version name and version code, both higher than any prior release.
    *Depends on: nothing for a first release.*
    [Details](../platforms/android/google-play-public-release/README.md#8-application-preparation)
-6. **Build.** `dotnet publish -f net10.0-android -c Release`, run **at your project's real
-   path**, not a temporary copy — a sufficiently long path can fail this step (`APT2098`/`APT2261`
-   "failed to open file"). *Depends on: steps 3-5.*
+6. **Build.** `dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false`,
+   run **at your project's real path**, not a temporary copy — a sufficiently long path can fail
+   this step (`APT2098`/`APT2261` "failed to open file"). ⚠️ **Without
+   `-p:AndroidEnableMarshalMethods=false` this step fails** on the verified toolchain, with
+   `XAGNM7009`. *Depends on: steps 3-5.*
    [Details](../platforms/android/google-play-public-release/README.md#9-build)
-7. ⚠️ **STOP — VERIFY BEFORE CONTINUING.** If step 6 failed with a `javac.exe` error and no
-   further detail, retry once with `-v:detailed` before assuming a real defect — this can be
-   transient under concurrent load. If it failed with `APT2098`/`APT2261`, shorten the project
-   path or enable Windows long-path support before retrying.
+7. ⚠️ **STOP — VERIFY BEFORE CONTINUING.** Confirm the `.aab` exists by listing
+   `bin/Release/net10.0-android/publish/`. Do not accept the build log as proof. If step 6 failed
+   with `XAGNM7009`, confirm the marshal-methods property is set and `obj/` was clean. If it
+   failed with a `javac.exe` error and no further detail, retry once with `-v:detailed` before
+   assuming a real defect. If it failed with `APT2098`/`APT2261`, shorten the project path or
+   enable Windows long-path support before retrying.
 8. 🔐 **Create and protect an upload keystore.** Never commit it or its passwords to source
    control. *Depends on: nothing; do this before signing a real release build.*
    [Details](../platforms/android/google-play-public-release/README.md#7-security-model)
