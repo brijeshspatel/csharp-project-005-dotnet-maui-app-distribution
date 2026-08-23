@@ -31,8 +31,8 @@ platform-specific prerequisites in addition to these.
 
 ## Platform-specific
 
-- Apple: see [`channels/AppleAppStorePublicRelease/README.md`](../channels/AppleAppStorePublicRelease/README.md#prerequisites).
-- Android: see [`channels/GooglePlayPublicRelease/README.md`](../channels/GooglePlayPublicRelease/README.md#prerequisites).
+- Apple: see [`platforms/apple/app-store-public-release/README.md`](../platforms/apple/app-store-public-release/README.md#prerequisites).
+- Android: see [`platforms/android/google-play-public-release/README.md`](../platforms/android/google-play-public-release/README.md#prerequisites).
 
 ## Before you create any signing material
 

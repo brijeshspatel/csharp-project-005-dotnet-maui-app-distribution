@@ -58,7 +58,7 @@ Register at Google Play Console, pay the one-time fee, and complete identity ver
 creating your first app listing. If the closed-test requirement in §4 applies to your account,
 plan for at least 14 days between your first internal build and requesting production access.
 
-## 7. Security Model
+## 7. 🔐 Security Model
 
 Google Play distinguishes an **upload key** (signs the App Bundle you upload) from an **app
 signing key** (signs what actually reaches devices). With **Play App Signing** — the default and
@@ -97,7 +97,7 @@ resource contention during compilation is a plausible, ordinary cause; a path-le
 issue this repository specifically tested for) reports `APT2098`/`APT2261`, a different and more
 specific error.
 
-## 10. Sign
+## 10. 🔐 Sign
 
 The build in §9 produces a debug-signed package by default when no explicit signing
 configuration is supplied. For a real release, configure signing explicitly, referencing your own
@@ -114,7 +114,7 @@ dotnet publish -f net10.0-android -c Release ^
 **Never commit a keystore or its passwords to source control.** Use a secrets manager or a CI
 secret store; this repository's own `.gitignore` excludes common keystore file extensions.
 
-## 11. Package
+## 11. 📦 Package
 
 The `.aab` produced in §9-§10 is the artefact uploaded to Google Play Console. Keep the matching
 `.apk` only for local device testing — it is not the upload artefact for this channel.
@@ -126,20 +126,20 @@ and free/paid status. Complete the store listing, content rating questionnaire, 
 declaration before your first release can reach production — Play Console will not allow
 publishing to production with these incomplete.
 
-## 13. Deploy
+## 13. 🚀 Deploy
 
 For a brand-new app, the first `.aab` **must be uploaded manually** through Play Console's own
 release flow — this is what establishes the signing key relationship for every future release.
 Subsequent releases may use `dotnet publish` plus Play Console's upload, or the Google Play
 Developer API for automation (not covered by this guide's manual-first scope).
 
-## 14. Validate
+## 14. ✅ Validate
 
 Play Console runs automated pre-launch checks after upload (crash detection, basic
 compatibility). Confirm the release reaches "Ready to publish" before submitting to review, and
 resolve any pre-launch warnings first.
 
-## 15. Update
+## 15. 🔄 Update
 
 Increase the version code (and version name) and repeat §9-§14. Google Play rejects an upload
 whose version code does not exceed the previous release.
@@ -151,7 +151,7 @@ status controls, or the dedicated unpublish action). This stops new installs; it
 the app from devices that already installed it. There is no equivalent to revoking a certificate
 here unless you manage your own signing key outside Play App Signing.
 
-## 17. Troubleshooting
+## 17. ⚠️ Troubleshooting
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
@@ -169,14 +169,14 @@ require a real, verified Google Play Console account. The API-level floor in §5
 published schedule (§ Requirements & Freshness Register) and must be re-checked, not assumed
 current, after 2026-08-31.
 
-## 19. Official Sources
+## 19. 📚 Official Sources
 
 - [Publish a .NET MAUI Android app for Google Play distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-google-play?view=net-maui-10.0)
 - [About Android App Bundles — Android Developers](https://developer.android.com/guide/app-bundle)
 - [Get started with Play Console — Play Console Help](https://support.google.com/googleplay/android-developer/answer/6112435)
 - [Target API level requirements for Google Play apps — Play Console Help](https://support.google.com/googleplay/android-developer/answer/11926878)
 
-## 20. Last Verified
+## 20. ✅ Last Verified
 
 2026-08-23 — build claims verified by execution against this repository's own sample application,
 at its real repository path; all other claims verified against the sources in §19 on the same

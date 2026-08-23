@@ -63,7 +63,7 @@ Enrol at the Apple Developer Program's own enrolment page. Individual enrolment 
 §10-§11 below — they are obtained together with the provisioning profile, not separately in
 advance.
 
-## 7. Security Model
+## 7. 🔐 Security Model
 
 Three things must agree before Apple accepts a build: a **distribution certificate** (proves who
 you are), an **App ID** matching your Bundle ID, and a **provisioning profile** binding the two
@@ -99,7 +99,7 @@ certificate chain validation will use the default trust store selected by .NET f
 supplied. **This proves the managed-code build and packaging step itself does not require a Mac.**
 It does not prove App-Store-ready signing, which needs the identity described in §10-§11.
 
-## 10. Sign
+## 10. 🔐 Sign
 
 To sign with a real distribution identity, add the `CodesignKey` and `CodesignProvision`
 properties, naming the distribution certificate and provisioning profile created in §11:
@@ -117,7 +117,7 @@ not execute this step** — it requires a real Apple Developer Program identity 
 own current documentation, a Mac build host paired to Visual Studio. This is the credentials and
 tooling limitation this guide names plainly, not an unstated one.
 
-## 11. Package
+## 11. 📦 Package
 
 Once signed with a real identity, `dotnet publish` (or Visual Studio's own Archive/Distribute
 flow) produces the `.ipa` uploaded to App Store Connect. The unsigned/ad-hoc `.ipa` verified in
@@ -128,20 +128,20 @@ flow) produces the `.ipa` uploaded to App Store Connect. The unsigned/ad-hoc `.i
 Create an app record in **App Store Connect** before uploading: name, primary language, Bundle
 ID, and a unique SKU. This record is what your uploaded build attaches to.
 
-## 13. Deploy
+## 13. 🚀 Deploy
 
 Upload via Visual Studio's Distribute dialog (select **App Store**, then **Upload to Store**,
 authenticating with an app-specific password — not your normal Apple Account password), or via
 Transporter for a `.ipa` already produced. Uploading requires the app record from §12 to already
 exist.
 
-## 14. Validate
+## 14. ✅ Validate
 
 Confirm the build appears in App Store Connect under your app record, in "Processing" then
 "Ready to Submit" status. Transporter reports packaging errors before upload completes, which
 catches most signing mismatches early.
 
-## 15. Update
+## 15. 🔄 Update
 
 Increase both the display version and the build number, repeat §9-§14, and attach the new build
 to the same app record. Apple does not require a new provisioning profile per release unless your
@@ -154,7 +154,7 @@ stops new installs; it does not remove the app from devices that already install
 distribution certificate invalidates every provisioning profile built from it — done only when
 the certificate itself is compromised or no longer needed.
 
-## 17. Troubleshooting
+## 17. ⚠️ Troubleshooting
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
@@ -170,14 +170,14 @@ an enrolled Apple Developer Program identity and, per Microsoft's current docume
 Mac-paired Visual Studio. App Review timing is not guaranteed; do not present any duration as a
 commitment.
 
-## 19. Official Sources
+## 19. 📚 Official Sources
 
 - [Publish a .NET MAUI iOS app for App Store distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-app-store?view=net-maui-10.0)
 - [Publish a .NET MAUI iOS app using the command line — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-cli?view=net-maui-10.0)
 - [Apple Developer Program — Become a member](https://developer.apple.com/programs/enroll/)
 - [Apple Developer — SDK minimum requirements](https://developer.apple.com/news/upcoming-requirements/)
 
-## 20. Last Verified
+## 20. ✅ Last Verified
 
 2026-08-23 — build/package claims verified by execution against this repository's own sample
 application; all other claims verified against the sources in §19 on the same date.

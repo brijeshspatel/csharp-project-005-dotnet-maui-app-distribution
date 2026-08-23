@@ -39,9 +39,9 @@ flowchart TD
 
 | Your situation | Read this first |
 |---|---|
-| Publishing to the general public on iOS | [`channels/AppleAppStorePublicRelease/README.md`](../channels/AppleAppStorePublicRelease/README.md) |
-| Publishing to the general public on Android | [`channels/GooglePlayPublicRelease/README.md`](../channels/GooglePlayPublicRelease/README.md) |
-| Beta testing before a public iOS release | Not yet documented — see the catalogue |
+| Publishing to the general public on iOS | [`platforms/apple/app-store-public-release/README.md`](../platforms/apple/app-store-public-release/README.md) |
+| Publishing to the general public on Android | [`platforms/android/google-play-public-release/README.md`](../platforms/android/google-play-public-release/README.md) |
+| Beta testing before a public iOS release | [`platforms/apple/testflight/README.md`](../platforms/apple/testflight/README.md) |
 | Beta testing before a public Android release | Not yet documented — see the catalogue |
 | Distributing only inside your own organisation | Not yet documented — see the catalogue |
 | Distributing on Windows | Out of scope for this phase — see the catalogue |
@@ -49,6 +49,14 @@ flowchart TD
 See [`docs/maui-distribution-channel-catalogue-v1.0.0.md`](../docs/maui-distribution-channel-catalogue-v1.0.0.md)
 for the complete list of channels this repository's scope covers, including those not yet
 documented.
+
+## 📚 Platform hubs, comparison, and authoritative checklists
+
+- [Apple / iOS platform hub](../platforms/apple/README.md) — every Apple channel in one place.
+- [Android / Google platform hub](../platforms/android/README.md) — every Android channel in one place.
+- [iOS vs Android — Platform Comparison](platform-comparison.md) — side-by-side prerequisites, signing, testing, review and release.
+- [🍎 iOS End-to-End Release Checklist](ios-release-checklist.md) — the authoritative execution path, prerequisites through post-release verification.
+- [🤖 Android End-to-End Release Checklist](android-release-checklist.md) — the equivalent authoritative execution path for Android.
 
 ## Before you start either channel
 

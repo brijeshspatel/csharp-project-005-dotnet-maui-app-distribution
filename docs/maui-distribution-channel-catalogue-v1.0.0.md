@@ -19,8 +19,9 @@ each is documented yet. A channel linked to a folder rather than a `README.md` i
 
 | Channel | Platform | Guide | Status |
 |---|---|---|---|
-| App Store public release | Apple | [`channels/AppleAppStorePublicRelease/README.md`](../channels/AppleAppStorePublicRelease/README.md) | Documented |
-| Google Play public release | Android | [`channels/GooglePlayPublicRelease/README.md`](../channels/GooglePlayPublicRelease/README.md) | Documented |
+| App Store public release | Apple | [`platforms/apple/app-store-public-release/README.md`](../platforms/apple/app-store-public-release/README.md) | Documented |
+| Google Play public release | Android | [`platforms/android/google-play-public-release/README.md`](../platforms/android/google-play-public-release/README.md) | Documented |
+| TestFlight | Apple | [`platforms/apple/testflight/README.md`](../platforms/apple/testflight/README.md) | Documented |
 
 ## Not yet documented
 
@@ -29,7 +30,6 @@ built in this increment. They are listed so a reader can see they were considere
 
 | Channel | Platform | Status |
 |---|---|---|
-| TestFlight | Apple | not yet documented |
 | Ad hoc distribution | Apple | not yet documented |
 | Apple Business Manager / enterprise distribution | Apple | not yet documented |
 | Google Play internal testing | Android | not yet documented |
@@ -46,7 +46,7 @@ built in this increment. They are listed so a reader can see they were considere
 
 ## Section contract every documented channel follows
 
-Every channel guide under `channels/<Channel>/README.md` uses this fixed section order: What
+Every channel guide under `platforms/<platform>/<channel>/README.md` uses this fixed section order: What
 This Channel Is; When to Use It; When Not to Use It; Eligibility; Prerequisites; How to Obtain
 the Prerequisites; Security Model; Application Preparation; Build; Sign; Package; Configure
 Distribution Platform; Deploy; Validate; Update; Revoke / Withdraw / Retire; Troubleshooting;

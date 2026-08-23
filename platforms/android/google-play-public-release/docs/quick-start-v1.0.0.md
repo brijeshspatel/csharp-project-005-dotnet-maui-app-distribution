@@ -28,4 +28,4 @@ replace the [full guide](../README.md), which it links back to at every step.
 
 STOP — VERIFY BEFORE CONTINUING: confirm your build targets the current required API level
 before step 3 — this floor changes on a published schedule. See the
-[Requirements & Freshness Register](../../../docs/reference/requirements-freshness-register-v1.0.0.md).
+[Requirements & Freshness Register](../../../../docs/reference/requirements-freshness-register-v1.0.0.md).

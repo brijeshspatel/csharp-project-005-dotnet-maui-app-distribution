@@ -36,8 +36,8 @@
         "governed": true
       },
       {
-        "path": "channels/*/docs/**",
-        "reason": "each distribution channel's own supporting documentation, kept with the channel so the folder is self-contained. Graded by tools/pattern_docs_check.py in the workspace, applied with --folder channels, which applies the same naming, frontmatter and version rules used under docs/ -- mdgs_check.py cannot, because it grades paths anchored at the repository's own docs/ folder and nothing else",
+        "path": "platforms/*/*/docs/**",
+        "reason": "each distribution channel's own supporting documentation, nested under its platform folder. Graded by tools/pattern_docs_check.py --folder platforms/apple and --folder platforms/android separately, since the checker matches one level of nesting per invocation.",
         "governed": true
       },
       {
@@ -107,7 +107,7 @@
     "max_depth_below_docs": 3
   },
   "placement": {
-    "_note": "Placement decides where a document type lives in the central docs/ tree. It does not apply to channels/*/docs/ or start-here/, where the folder itself is the placement.",
+    "_note": "Placement decides where a document type lives in the central docs/ tree. It does not apply to platforms/*/*/docs/ or start-here/, where the folder itself is the placement.",
     "index": "docs",
     "guide": "docs/how-to",
     "runbook": "docs/how-to",

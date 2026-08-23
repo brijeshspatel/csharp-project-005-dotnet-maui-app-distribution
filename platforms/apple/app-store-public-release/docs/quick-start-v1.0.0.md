@@ -25,4 +25,4 @@ not replace the [full guide](../README.md), which it links back to at every step
 6. Upload and submit for review. See [§13 Deploy](../README.md#13-deploy).
 
 STOP — VERIFY BEFORE CONTINUING: confirm your build tooling targets the iOS 26 SDK (required for
-submissions from 2026-04-28) before step 3. See the [Requirements & Freshness Register](../../../docs/reference/requirements-freshness-register-v1.0.0.md).
+submissions from 2026-04-28) before step 3. See the [Requirements & Freshness Register](../../../../docs/reference/requirements-freshness-register-v1.0.0.md).
