@@ -1,7 +1,7 @@
 ---
 doc_id: maui-dist-channel-catalogue
 title: .NET MAUI Distribution Channel Catalogue
-type: reference
+type: index
 version: 1.0.0
 status: active
 created: 2026-08-23
