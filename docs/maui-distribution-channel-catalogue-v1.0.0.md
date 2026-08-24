@@ -27,6 +27,8 @@ each is documented yet. A channel linked to a folder rather than a `README.md` i
 
 | Google Play internal testing | Android | [`platforms/android/google-play-internal-testing/README.md`](../platforms/android/google-play-internal-testing/README.md) | Documented |
 
+| Google Play closed testing | Android | [`platforms/android/google-play-closed-testing/README.md`](../platforms/android/google-play-closed-testing/README.md) | Documented |
+
 ## Not yet documented
 
 These channels are within the mobile distribution domain this repository covers, but are not
@@ -34,7 +36,6 @@ built in this increment. They are listed so a reader can see they were considere
 
 | Channel | Platform | Status |
 |---|---|---|
-| Google Play closed testing | Android | not yet documented |
 | Google Play open testing | Android | not yet documented |
 | Managed Google Play / Android Enterprise distribution | Android | not yet documented |
 | Direct APK distribution | Android | not yet documented |
