@@ -38,12 +38,12 @@ platform.
 | App Store public release | 🍎 Apple | [Guide](platforms/apple/app-store-public-release/README.md) | [Quick start](platforms/apple/app-store-public-release/docs/quick-start-v1.0.0.md) |
 | TestFlight | 🍎 Apple | [Guide](platforms/apple/testflight/README.md) | [Quick start](platforms/apple/testflight/docs/quick-start-v1.0.0.md) |
 | Ad hoc distribution | 🍎 Apple | [Guide](platforms/apple/ad-hoc-distribution/README.md) | [Quick start](platforms/apple/ad-hoc-distribution/docs/quick-start-v1.0.0.md) |
-| Apple Business Manager and enterprise | 🍎 Apple | [Guide](platforms/apple/business-manager-and-enterprise/README.md) | [Quick start](platforms/apple/business-manager-and-enterprise/docs/quick-start-v1.0.0.md) |
+| Apple Business Manager / enterprise distribution | 🍎 Apple | [Guide](platforms/apple/business-manager-and-enterprise/README.md) | [Quick start](platforms/apple/business-manager-and-enterprise/docs/quick-start-v1.0.0.md) |
 | Google Play public release | 🤖 Android | [Guide](platforms/android/google-play-public-release/README.md) | [Quick start](platforms/android/google-play-public-release/docs/quick-start-v1.0.0.md) |
 | Google Play internal testing | 🤖 Android | [Guide](platforms/android/google-play-internal-testing/README.md) | [Quick start](platforms/android/google-play-internal-testing/docs/quick-start-v1.0.0.md) |
 | Google Play closed testing | 🤖 Android | [Guide](platforms/android/google-play-closed-testing/README.md) | [Quick start](platforms/android/google-play-closed-testing/docs/quick-start-v1.0.0.md) |
 | Google Play open testing | 🤖 Android | [Guide](platforms/android/google-play-open-testing/README.md) | [Quick start](platforms/android/google-play-open-testing/docs/quick-start-v1.0.0.md) |
-| Managed Google Play / Android Enterprise | 🤖 Android | [Guide](platforms/android/managed-google-play-enterprise/README.md) | [Quick start](platforms/android/managed-google-play-enterprise/docs/quick-start-v1.0.0.md) |
+| Managed Google Play / Android Enterprise distribution | 🤖 Android | [Guide](platforms/android/managed-google-play-enterprise/README.md) | [Quick start](platforms/android/managed-google-play-enterprise/docs/quick-start-v1.0.0.md) |
 | Direct APK distribution | 🤖 Android | [Guide](platforms/android/direct-apk-distribution/README.md) | [Quick start](platforms/android/direct-apk-distribution/docs/quick-start-v1.0.0.md) |
 
 ## Reference
