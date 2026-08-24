@@ -24,7 +24,7 @@ for the guidance shared across them.
 | [Google Play closed testing](google-play-closed-testing/README.md) | Documented |
 | [Google Play open testing](google-play-open-testing/README.md) | Documented |
 | [Managed Google Play / Android Enterprise distribution](managed-google-play-enterprise/README.md) | Documented |
-| Direct APK distribution | Not yet documented |
+| [Direct APK distribution](direct-apk-distribution/README.md) | Documented |
 
 ## Signing and keystores
 
