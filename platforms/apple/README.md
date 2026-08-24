@@ -2,12 +2,12 @@
 doc_id: maui-dist-platform-apple
 title: Apple / iOS Distribution
 type: index
-version: 1.0.0
+version: 1.1.0
 status: active
 created: 2026-08-23
-updated: 2026-08-23
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial Apple platform hub, grouping all Apple-related channels and shared Apple-specific guidance in one place.
+change_summary: Corrects the channel count from two to four, and rewrites the shared-material paragraph. ADR 0013's condition for extracting shared Apple material into this hub has now been met; the paragraph now records that as outstanding work for increment B rather than claiming the condition has not yet fired.
 ---
 
 # Apple / iOS Distribution
@@ -39,11 +39,13 @@ concept).
 ## Certificates and identities, privacy and compliance, release management, troubleshooting, automation
 
 Each of these is currently covered **inside each channel's own guide** (its Prerequisites,
-Security Model and Troubleshooting sections) rather than as a separate shared document, because
-only two channels exist so far and their content does not yet diverge enough to justify
-extracting it. **This is a placeholder statement of intent, not a claim that the extraction has
-happened** — when a third or fourth Apple channel repeats material identical across all of them,
-that shared material moves here instead of being copied again, per the same principle.
+Security Model and Troubleshooting sections) rather than as a separate shared document.
+
+**The condition for extracting them has now been met.** ADR 0013 recorded that shared,
+platform-specific material moves into this hub once a later Apple channel repeats it. Four Apple
+channels now exist, and they do repeat material. **The extraction has not happened yet** — it is
+increment B of the documentation restructure, and this paragraph stays until it is done. It
+records outstanding work, not a completed state.
 
 ## Where to start
 

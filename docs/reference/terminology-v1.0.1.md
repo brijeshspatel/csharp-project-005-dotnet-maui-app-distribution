@@ -2,12 +2,12 @@
 doc_id: maui-dist-terminology
 title: Controlled Terminology
 type: reference
-version: 1.0.0
+version: 1.0.1
 status: active
 created: 2026-08-23
-updated: 2026-08-23
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial terminology model, covering both documented channels.
+change_summary: Corrects a stale summary that described a two-channel repository. The terminology model itself is unchanged and already covers every one of the ten documented channels. Renamed from v1.0.0 because mdgs_check compares the filename version token to the frontmatter.
 ---
 
 # Controlled Terminology

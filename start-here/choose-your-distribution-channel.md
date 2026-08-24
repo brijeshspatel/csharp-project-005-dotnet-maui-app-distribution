@@ -2,19 +2,22 @@
 doc_id: maui-dist-choose-channel
 title: Choose Your Distribution Channel
 type: guide
-version: 1.0.1
+version: 1.1.0
 status: active
 created: 2026-08-23
 updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
+change_summary: Corrects the claim that this repository documents two channels; it documents ten. Replaces two rows that read 'Not yet documented' for Android beta testing and for organisation-internal distribution, both of which have had guides for some time, and adds rows for ad hoc and direct APK distribution.
 ---
 
 # Choose Your Distribution Channel
 
-This repository currently documents two channels: public release through the **Apple App
-Store**, and public release through **Google Play**. Most .NET MAUI apps that reach the public
-need both, since Apple and Android users cannot install from each other's store.
+This repository documents **ten channels**: four Apple and six Android. Most .NET MAUI apps that
+reach the public need one from each platform, since Apple and Android users cannot install from
+each other's store.
+
+Start from the table below. If you only want the public stores, you need **App Store public
+release** and **Google Play public release**, and nothing else here is required.
 
 ## Overall lifecycle
 
@@ -42,13 +45,16 @@ flowchart TD
 | Publishing to the general public on iOS | [`platforms/apple/app-store-public-release/README.md`](../platforms/apple/app-store-public-release/README.md) |
 | Publishing to the general public on Android | [`platforms/android/google-play-public-release/README.md`](../platforms/android/google-play-public-release/README.md) |
 | Beta testing before a public iOS release | [`platforms/apple/testflight/README.md`](../platforms/apple/testflight/README.md) |
-| Beta testing before a public Android release | Not yet documented — see the catalogue |
-| Distributing only inside your own organisation | Not yet documented — see the catalogue |
+| Beta testing before a public Android release | [`platforms/android/google-play-internal-testing/README.md`](../platforms/android/google-play-internal-testing/README.md) for a small trusted group, then [closed](../platforms/android/google-play-closed-testing/README.md) and [open](../platforms/android/google-play-open-testing/README.md) testing |
+| Distributing to registered iOS devices without any store | [`platforms/apple/ad-hoc-distribution/README.md`](../platforms/apple/ad-hoc-distribution/README.md) |
+| Distributing only inside your own organisation, Apple | [`platforms/apple/business-manager-and-enterprise/README.md`](../platforms/apple/business-manager-and-enterprise/README.md) |
+| Distributing only inside your own organisation, Android | [`platforms/android/managed-google-play-enterprise/README.md`](../platforms/android/managed-google-play-enterprise/README.md) |
+| Installing an Android build directly, no store at all | [`platforms/android/direct-apk-distribution/README.md`](../platforms/android/direct-apk-distribution/README.md) |
 | Distributing on Windows | Out of scope for this phase — see the catalogue |
 
 See [`docs/maui-distribution-channel-catalogue-v1.0.0.md`](../docs/maui-distribution-channel-catalogue-v1.0.0.md)
-for the complete list of channels this repository's scope covers, including those not yet
-documented.
+for the complete list of channels this repository's scope covers. Every one of them is
+documented; the catalogue's "not yet documented" section is deliberately kept and empty.
 
 ## Platform hubs, comparison, and authoritative checklists
 
