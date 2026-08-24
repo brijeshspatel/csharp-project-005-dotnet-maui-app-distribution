@@ -20,7 +20,7 @@ for the guidance shared across them.
 | Channel | Status |
 |---|---|
 | [Google Play public release](google-play-public-release/README.md) | Documented |
-| Google Play internal testing | Not yet documented |
+| [Google Play internal testing](google-play-internal-testing/README.md) | Documented |
 | Google Play closed testing | Not yet documented |
 | Google Play open testing | Not yet documented |
 | Managed Google Play / Android Enterprise distribution | Not yet documented |

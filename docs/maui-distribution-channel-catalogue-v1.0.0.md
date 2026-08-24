@@ -25,6 +25,8 @@ each is documented yet. A channel linked to a folder rather than a `README.md` i
 | Ad hoc distribution | Apple | [`platforms/apple/ad-hoc-distribution/README.md`](../platforms/apple/ad-hoc-distribution/README.md) | Documented |
 | Apple Business Manager / enterprise distribution | Apple | [`platforms/apple/business-manager-and-enterprise/README.md`](../platforms/apple/business-manager-and-enterprise/README.md) | Documented |
 
+| Google Play internal testing | Android | [`platforms/android/google-play-internal-testing/README.md`](../platforms/android/google-play-internal-testing/README.md) | Documented |
+
 ## Not yet documented
 
 These channels are within the mobile distribution domain this repository covers, but are not
@@ -32,7 +34,6 @@ built in this increment. They are listed so a reader can see they were considere
 
 | Channel | Platform | Status |
 |---|---|---|
-| Google Play internal testing | Android | not yet documented |
 | Google Play closed testing | Android | not yet documented |
 | Google Play open testing | Android | not yet documented |
 | Managed Google Play / Android Enterprise distribution | Android | not yet documented |
