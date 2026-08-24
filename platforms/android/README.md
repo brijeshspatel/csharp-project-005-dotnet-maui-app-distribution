@@ -22,7 +22,7 @@ for the guidance shared across them.
 | [Google Play public release](google-play-public-release/README.md) | Documented |
 | [Google Play internal testing](google-play-internal-testing/README.md) | Documented |
 | [Google Play closed testing](google-play-closed-testing/README.md) | Documented |
-| Google Play open testing | Not yet documented |
+| [Google Play open testing](google-play-open-testing/README.md) | Documented |
 | Managed Google Play / Android Enterprise distribution | Not yet documented |
 | Direct APK distribution | Not yet documented |
 
