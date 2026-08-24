@@ -31,6 +31,8 @@ each is documented yet. A channel linked to a folder rather than a `README.md` i
 
 | Google Play open testing | Android | [`platforms/android/google-play-open-testing/README.md`](../platforms/android/google-play-open-testing/README.md) | Documented |
 
+| Managed Google Play / Android Enterprise distribution | Android | [`platforms/android/managed-google-play-enterprise/README.md`](../platforms/android/managed-google-play-enterprise/README.md) | Documented |
+
 ## Not yet documented
 
 These channels are within the mobile distribution domain this repository covers, but are not
@@ -38,7 +40,6 @@ built in this increment. They are listed so a reader can see they were considere
 
 | Channel | Platform | Status |
 |---|---|---|
-| Managed Google Play / Android Enterprise distribution | Android | not yet documented |
 | Direct APK distribution | Android | not yet documented |
 
 ## Excluded from this repository's current scope
