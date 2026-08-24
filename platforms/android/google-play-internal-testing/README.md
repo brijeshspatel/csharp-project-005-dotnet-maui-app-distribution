@@ -2,15 +2,15 @@
 doc_id: maui-dist-channel-google-play-internal-testing
 title: Google Play Internal Testing
 type: guide
-version: 1.0.0
+version: 1.0.1
 status: active
 created: 2026-08-24
-updated: 2026-08-24
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial channel guide, fourth run under ADR 0012. Written using ASD-STE100 principles.
+change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
 ---
 
-# 🤖 Google Play Internal Testing
+# Google Play Internal Testing
 
 Written using ASD-STE100 principles.
 
@@ -72,7 +72,7 @@ for the account and signing key. The one item specific to this channel is the te
 the Google Account email address of every tester. In Play Console you create the list by entering
 addresses separated by commas, or by uploading a CSV file.
 
-## 7. 🔐 Security Model
+## 7. Security Model
 
 Identical to [public release §7](../google-play-public-release/README.md#7-security-model). The
 same upload key and the same Play App Signing arrangement apply — an internal test build is a real,
@@ -106,12 +106,12 @@ toolchain.** Without it the build fails with `XAGNM7009`. The full evidence, inc
 artefacts and their sizes confirmed on disk, is in that guide's §9. This guide does not re-run the
 command.
 
-## 10. 🔐 Sign
+## 10. Sign
 
 Identical to [public release §10](../google-play-public-release/README.md#10-sign). Use your real
 upload keystore; the debug-signed output is for local testing only.
 
-## 11. 📦 Package
+## 11. Package
 
 The `.aab` is the upload artefact, as for production. **Confirm it exists by listing
 `bin/Release/net10.0-android/publish/`** — see the public release guide's §9 for why the build log
@@ -127,7 +127,7 @@ In Play Console, open **Testing > Internal testing**:
 3. Copy the **opt-in link**. Each tester must open it and opt in themselves; being on the list is
    not by itself enough.
 
-## 13. 🚀 Deploy
+## 13. Deploy
 
 Create a release on the internal testing track and upload the `.aab`, then roll it out.
 
@@ -137,7 +137,7 @@ minutes.** This is the defining property of the track, and the reason to use it.
 Send the opt-in link to your testers. Each opens it, reads the tester responsibilities, and opts
 in. They then install the app from Google Play as normal.
 
-## 14. ✅ Validate
+## 14. Validate
 
 1. Confirm the release shows as available on the internal testing track in Play Console.
 2. Confirm at least one tester has opted in through the link.
@@ -146,7 +146,7 @@ in. They then install the app from Google Play as normal.
 A tester who reports that Google Play cannot find the app has usually not opted in, or is signed
 in with a different Google Account than the one on the list. See §17.
 
-## 15. 🔄 Update
+## 15. Update
 
 Increment the version code, rebuild, and upload a new release to the same track. Testers receive
 the update through Google Play. Availability is again within minutes.
@@ -159,7 +159,7 @@ track to end everyone's. You can also halt the release in Play Console.
 Removal stops future distribution and updates. **An already-installed build stays on the device**
 until the tester removes it.
 
-## 17. ⚠️ Troubleshooting
+## 17. Troubleshooting
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
@@ -183,13 +183,13 @@ read it as pre-approval.
 
 **The 100-tester limit is a hard ceiling on this track.** It cannot be raised.
 
-## 19. 📚 Official Sources
+## 19. Official Sources
 
 - [Set up an open, closed, or internal test — Play Console Help](https://support.google.com/googleplay/android-developer/answer/9845334?hl=en)
 - [Prepare and roll out a release — Play Console Help](https://support.google.com/googleplay/android-developer/answer/9859348?hl=en)
 - [Publish a .NET MAUI Android app for Google Play distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-google-play?view=net-maui-10.0)
 
-## 20. ✅ Last Verified
+## 20. Last Verified
 
 2026-08-24 — every claim verified against the sources in §19 on this date. The build step it relies
 on was verified by execution in the public release guide and is not re-executed here. Nothing in

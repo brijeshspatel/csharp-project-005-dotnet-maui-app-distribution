@@ -2,20 +2,20 @@
 doc_id: maui-dist-prerequisites-overview
 title: Prerequisites Overview
 type: guide
-version: 1.0.0
+version: 1.1.0
 status: active
 created: 2026-08-23
-updated: 2026-08-23
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial overview covering prerequisites common to both documented channels.
+change_summary: Rewrites the document for ten channels across two platforms rather than two channels. Separates the prerequisites that every channel needs from those only the public store listings require, because ad hoc and direct APK distribution have no listing and no reviewer.
 ---
 
 # Prerequisites Overview
 
-These prerequisites apply before you start either channel. Each channel guide lists its own
-platform-specific prerequisites in addition to these.
+These prerequisites apply before you start **any** of the ten channels this repository documents.
+Each channel guide lists its own prerequisites in addition to these.
 
-## Common to both channels
+## Common to every channel
 
 - A supported .NET SDK and .NET MAUI workload, matching what each channel guide's Freshness
   Register entry currently states as supported.
@@ -24,15 +24,28 @@ platform-specific prerequisites in addition to these.
   can change after you first publish with it.
 - A versioning scheme: a display version and a platform build number, both of which must
   increase on every release you submit.
-- App icons and a splash image, sized per each store's own current requirements — see each
-  channel guide's own Prerequisites section for the current values.
-- A privacy policy URL, required by both stores before a public listing is accepted.
-- Release-configuration build settings verified locally before you configure either store.
+- App icons and a splash image, sized per the current requirements of whichever channel you use
+  — see that channel guide's own Prerequisites section for the values.
+- Release-configuration build settings verified locally before you configure any distribution
+  platform.
+
+## Required by the public stores, but not by every channel
+
+- **A privacy policy URL.** Both public store listings require one. The direct APK channel has no
+  listing and no reviewer, so nothing enforces it there.
+- **A store listing, content rating and privacy declaration.** These belong to the store
+  channels. Ad hoc and direct APK distribution have none of them.
 
 ## Platform-specific
 
-- Apple: see [`platforms/apple/app-store-public-release/README.md`](../platforms/apple/app-store-public-release/README.md#prerequisites).
-- Android: see [`platforms/android/google-play-public-release/README.md`](../platforms/android/google-play-public-release/README.md#prerequisites).
+- Apple: see [`platforms/apple/README.md`](../platforms/apple/README.md) for the four Apple
+  channels, and
+  [App Store public release §5](../platforms/apple/app-store-public-release/README.md#5-prerequisites)
+  for the fullest prerequisite list.
+- Android: see [`platforms/android/README.md`](../platforms/android/README.md) for the six
+  Android channels, and
+  [Google Play public release §5](../platforms/android/google-play-public-release/README.md#5-prerequisites)
+  for the fullest prerequisite list.
 
 ## Before you create any signing material
 

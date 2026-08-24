@@ -2,12 +2,12 @@
 doc_id: maui-dist-platform-android
 title: Android / Google Distribution
 type: index
-version: 1.0.0
+version: 1.1.0
 status: active
 created: 2026-08-23
-updated: 2026-08-23
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial Android platform hub, grouping all Android-related channels and shared Android-specific guidance in one place.
+change_summary: Corrects the channel count from one to six, and rewrites the shared-material paragraph. ADR 0013's condition for extracting shared Android material into this hub has now been met; the paragraph now records that as outstanding work for increment B rather than claiming the condition has not yet fired.
 ---
 
 # Android / Google Distribution
@@ -34,9 +34,14 @@ distinction every current and future Android channel in this repository relies o
 
 ## Certificates and identities, privacy and compliance, release management, troubleshooting, automation
 
-Currently covered **inside the Google Play guide itself** — only one channel exists so far, so
-there is nothing yet to extract into a shared document without duplicating it prematurely. When a
-second Android channel repeats material identical across both, that shared material moves here.
+Currently covered **inside each channel's own guide**, with the Google Play public release guide
+holding the authoritative explanation that the other five reference.
+
+**The condition for extracting them has now been met.** ADR 0013 recorded that shared,
+platform-specific material moves into this hub once a later Android channel repeats it. Six
+Android channels now exist, and they do repeat material. **The extraction has not happened yet**
+— it is increment B of the documentation restructure, and this paragraph stays until it is done.
+It records outstanding work, not a completed state.
 
 ## Where to start
 

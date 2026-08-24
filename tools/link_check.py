@@ -2,7 +2,7 @@
 
 This proves reachability only. A link that returns 200 is not proof that its
 content is still current or authoritative -- that judgement belongs in the
-Requirements & Freshness Register, not here. See docs/terminology-v1.0.0.md
+Requirements & Freshness Register, not here. See docs/reference/terminology-v1.0.1.md
 and the specification's own §3.4 for why the two checks are kept separate.
 
 Exit codes:

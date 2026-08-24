@@ -2,15 +2,15 @@
 doc_id: maui-dist-channel-google-play-open-testing
 title: Google Play Open Testing
 type: guide
-version: 1.0.0
+version: 1.0.1
 status: active
 created: 2026-08-24
-updated: 2026-08-24
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial channel guide, sixth run under ADR 0012. Written using ASD-STE100 principles.
+change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
 ---
 
-# 🤖 Google Play Open Testing
+# Google Play Open Testing
 
 Written using ASD-STE100 principles.
 
@@ -76,7 +76,7 @@ for the account and signing key, and complete production access first if you do 
 **No tester list is needed.** That is the defining difference from the other two tracks — testers
 enrol themselves.
 
-## 7. 🔐 Security Model
+## 7. Security Model
 
 Identical to [public release §7](../google-play-public-release/README.md#7-security-model) — the
 same upload key and Play App Signing arrangement.
@@ -105,11 +105,11 @@ dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=fals
 ⚠️ **`-p:AndroidEnableMarshalMethods=false` is not optional on the verified toolchain.** Without it
 the build fails with `XAGNM7009`. This guide does not re-run the command.
 
-## 10. 🔐 Sign
+## 10. Sign
 
 Identical to [public release §10](../google-play-public-release/README.md#10-sign).
 
-## 11. 📦 Package
+## 11. Package
 
 The `.aab` is the upload artefact. **Confirm it exists by listing
 `bin/Release/net10.0-android/publish/`.**
@@ -124,7 +124,7 @@ In Play Console, open **Testing > Open testing**:
 
 No email list and no Google Group are required.
 
-## 13. 🚀 Deploy
+## 13. Deploy
 
 Create a release on the open track, upload the `.aab`, and roll it out.
 
@@ -134,7 +134,7 @@ Once live, users find the test in two ways: through Google Play itself — searc
 production listing page — or through the opt-in link you share. Each tester opts in, then installs
 from Google Play as normal.
 
-## 14. ✅ Validate
+## 14. Validate
 
 1. Confirm the release reaches an available state on the open track — allow several hours.
 2. Confirm the test is discoverable: search Google Play, and check the production listing page.
@@ -143,7 +143,7 @@ from Google Play as normal.
    prove.
 4. Confirm the private feedback path works.
 
-## 15. 🔄 Update
+## 15. Update
 
 Increment the version code, rebuild, and upload a new release to the track. Expect the same
 several-hour delay. Review applies to updates.
@@ -160,7 +160,7 @@ never as "remove it from testers".
 ⚠️ **Anything shipped to an open test should be treated as permanently public.** Withdrawal limits
 future reach only.
 
-## 17. ⚠️ Troubleshooting
+## 17. Troubleshooting
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
@@ -184,14 +184,14 @@ becomes available after production access**, combined with the testing requireme
 accounts created after 13 November 2023. Account types and dates change; check the current rule
 for your own account rather than assuming this guide's applies.
 
-## 19. 📚 Official Sources
+## 19. Official Sources
 
 - [Set up an open, closed, or internal test — Play Console Help](https://support.google.com/googleplay/android-developer/answer/9845334?hl=en)
 - [App testing requirements for new personal developer accounts — Play Console Help](https://support.google.com/googleplay/android-developer/answer/14151465?hl=en)
 - [Prepare and roll out a release — Play Console Help](https://support.google.com/googleplay/android-developer/answer/9859348?hl=en)
 - [Publish a .NET MAUI Android app for Google Play distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-google-play?view=net-maui-10.0)
 
-## 20. ✅ Last Verified
+## 20. Last Verified
 
 2026-08-24 — every claim verified against the sources in §19 on this date. The build step it relies
 on was verified by execution in the public release guide and is not re-executed here. Nothing in

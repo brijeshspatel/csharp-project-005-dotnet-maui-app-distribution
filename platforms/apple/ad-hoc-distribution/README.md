@@ -2,15 +2,15 @@
 doc_id: maui-dist-channel-apple-ad-hoc
 title: Ad Hoc Distribution
 type: guide
-version: 1.0.0
+version: 1.0.1
 status: active
 created: 2026-08-24
-updated: 2026-08-24
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial channel guide, second run under ADR 0012. Written using ASD-STE100 principles.
+change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
 ---
 
-# 🍎 Ad Hoc Distribution
+# Ad Hoc Distribution
 
 Written using ASD-STE100 principles.
 
@@ -112,7 +112,7 @@ add a profile, and select **Ad Hoc** — not App Store. Select your App ID, then
 certificate, then **select the devices this build may install on**. Name the profile and generate
 it. Record the name: §10 needs it.
 
-## 7. 🔐 Security Model
+## 7. Security Model
 
 Ad hoc distribution uses the **same distribution certificate** as App Store release, so the
 identity model in [App Store §7](../app-store-public-release/README.md#7-security-model) applies
@@ -164,7 +164,7 @@ file at all. The cause is documented in the
 [App Store guide's §9](../app-store-public-release/README.md#9-build). **Always list the output
 directory.**
 
-## 10. 🔐 Sign
+## 10. Sign
 
 Supply the distribution certificate and the **ad hoc** provisioning profile created in §6:
 
@@ -198,7 +198,7 @@ Add these to the command, or supply them from a secret store rather than the pro
 
 **Never commit `ServerPassword`, a certificate, or a profile to source control.**
 
-## 11. 📦 Package
+## 11. Package
 
 A successful signed build writes the `.ipa` to
 `bin/Release/net10.0-ios/ios-arm64/publish/`. **Confirm the file is on disk by listing that
@@ -218,7 +218,7 @@ mechanism.
 The practical consequence is that **everything this channel needs, it needs before signing.** Once
 the `.ipa` exists, its device list is fixed.
 
-## 13. 🚀 Deploy
+## 13. Deploy
 
 Install the `.ipa` with **Apple Configurator** on a Mac, with the target device connected by USB or
 Thunderbolt:
@@ -235,7 +235,7 @@ than by cable, and requires Wi-Fi plus Ethernet.
 A build may only install on a device whose UDID is in the embedded profile. Installation onto any
 other device fails, by design.
 
-## 14. ✅ Validate
+## 14. Validate
 
 Confirm three things, in this order:
 
@@ -247,7 +247,7 @@ Confirm three things, in this order:
 Confirm installation on at least one device that was registered late in the process, if any were.
 That is the case most likely to reveal a stale provisioning profile.
 
-## 15. 🔄 Update
+## 15. Update
 
 Increment the build number, then rebuild, re-sign and redistribute. Every recipient must install
 the new `.ipa` through the same route; there is no update notification and no automatic delivery.
@@ -271,7 +271,7 @@ The available controls are indirect:
 ⚠️ **Certificate revocation is not a targeted tool.** It affects every build signed with that
 certificate, across every channel. Do not use it to withdraw one ad hoc build.
 
-## 17. ⚠️ Troubleshooting
+## 17. Troubleshooting
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
@@ -301,7 +301,7 @@ not documented as a procedure. Treat any third-party description of it as unveri
 discrepancy about what that limit is. Verify the current figure against Apple's own page before
 planning around it.
 
-## 19. 📚 Official Sources
+## 19. Official Sources
 
 - [Publish a .NET MAUI iOS app for ad-hoc distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-ad-hoc?view=net-maui-10.0)
 - [Publish a .NET MAUI iOS app using the command line — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-cli?view=net-maui-10.0)
@@ -309,7 +309,7 @@ planning around it.
 - [Register a single device — Apple Developer Account Help](https://developer.apple.com/help/account/register-devices/register-a-single-device/)
 - [Add apps to a device in Apple Configurator for Mac — Apple Support](https://support.apple.com/guide/apple-configurator-mac/add-apps-to-a-device-cad4cd08c03/mac)
 
-## 20. ✅ Last Verified
+## 20. Last Verified
 
 2026-08-24 — every claim verified against the sources in §19 on this date. The §9 build failure was
 verified by execution against this repository's own sample application on the same date. Signing,
