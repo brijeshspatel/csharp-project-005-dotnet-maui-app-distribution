@@ -2,15 +2,15 @@
 doc_id: maui-dist-platform-comparison
 title: iOS vs Android — Platform Comparison
 type: guide
-version: 1.1.0
+version: 1.1.1
 status: active
 created: 2026-08-23
-updated: 2026-08-24
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Corrects the build-without-vendor-OS row for both platforms, after clean-tree re-verification. Written using ASD-STE100 principles.
+change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
 ---
 
-# 📚 iOS vs Android — Platform Comparison
+# iOS vs Android — Platform Comparison
 
 Written using ASD-STE100 principles. Every claim here traces to a documented channel guide —
 follow the link in the last column for the full detail and its official sources.

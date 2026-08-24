@@ -2,12 +2,12 @@
 doc_id: maui-dist-prerequisites-overview
 title: Prerequisites Overview
 type: guide
-version: 1.0.0
+version: 1.0.1
 status: active
 created: 2026-08-23
-updated: 2026-08-23
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial overview covering prerequisites common to both documented channels.
+change_summary: Corrects two links that pointed at #prerequisites, where the heading is '5. Prerequisites'. No prerequisite changed.
 ---
 
 # Prerequisites Overview
@@ -31,8 +31,8 @@ platform-specific prerequisites in addition to these.
 
 ## Platform-specific
 
-- Apple: see [`platforms/apple/app-store-public-release/README.md`](../platforms/apple/app-store-public-release/README.md#prerequisites).
-- Android: see [`platforms/android/google-play-public-release/README.md`](../platforms/android/google-play-public-release/README.md#prerequisites).
+- Apple: see [`platforms/apple/app-store-public-release/README.md`](../platforms/apple/app-store-public-release/README.md#5-prerequisites).
+- Android: see [`platforms/android/google-play-public-release/README.md`](../platforms/android/google-play-public-release/README.md#5-prerequisites).
 
 ## Before you create any signing material
 

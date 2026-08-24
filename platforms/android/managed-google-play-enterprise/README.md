@@ -2,15 +2,15 @@
 doc_id: maui-dist-channel-managed-google-play
 title: Managed Google Play and Android Enterprise Distribution
 type: guide
-version: 1.0.0
+version: 1.0.1
 status: active
 created: 2026-08-24
-updated: 2026-08-24
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial channel guide, seventh run under ADR 0012. Written using ASD-STE100 principles.
+change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
 ---
 
-# 🤖 Managed Google Play and Android Enterprise Distribution
+# Managed Google Play and Android Enterprise Distribution
 
 Written using ASD-STE100 principles.
 
@@ -79,7 +79,7 @@ iframe, selects the organisation icon, and copies the Organization ID string. Th
 There is no way for you to discover it independently, so this step is a dependency on another
 organisation's schedule — start it early.
 
-## 7. 🔐 Security Model
+## 7. Security Model
 
 Signing is identical to [public release §7](../google-play-public-release/README.md#7-security-model):
 the same upload key, the same Play App Signing arrangement.
@@ -112,11 +112,11 @@ dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=fals
 ⚠️ **`-p:AndroidEnableMarshalMethods=false` is not optional on the verified toolchain.** Without it
 the build fails with `XAGNM7009`. This guide does not re-run the command.
 
-## 10. 🔐 Sign
+## 10. Sign
 
 Identical to [public release §10](../google-play-public-release/README.md#10-sign).
 
-## 11. 📦 Package
+## 11. Package
 
 The `.aab` is the upload artefact. **Confirm it exists by listing
 `bin/Release/net10.0-android/publish/`.**
@@ -141,7 +141,7 @@ you restrict, not afterwards.
 from the EMM console rather than from Play Console. This guide documents the Play Console route
 because it is the one that does not depend on which EMM the recipient runs.
 
-## 13. 🚀 Deploy
+## 13. Deploy
 
 Publishing is the whole of your side. **After publication the app is searchable and distributable
 through the recipients' EMM consoles within a few minutes.**
@@ -153,7 +153,7 @@ The recipient's IT team then chooses how their users get it:
 
 Private apps are distributed exactly like public apps from the EMM's point of view.
 
-## 14. ✅ Validate
+## 14. Validate
 
 1. Confirm the `.aab` exists on disk (§11) and the release is published in Play Console.
 2. Confirm the app is restricted to the intended Organization IDs, and to no others. **Check the
@@ -162,7 +162,7 @@ Private apps are distributed exactly like public apps from the EMM's point of vi
 3. Ask one recipient admin to confirm the app appears in their EMM console.
 4. Confirm installation and launch on a managed device.
 
-## 15. 🔄 Update
+## 15. Update
 
 Increment the version code, rebuild, and publish a new release. Play delivers updates through the
 recipients' EMM exactly as for a public app. **Keeping Play's update path is the main advantage of
@@ -181,7 +181,7 @@ unless the recipient's EMM removes it.
 **The recipient's EMM is the only reliable removal tool**, and it is theirs, not yours. If removal
 from devices matters to you, agree it with the recipient before distributing.
 
-## 17. ⚠️ Troubleshooting
+## 17. Troubleshooting
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
@@ -205,14 +205,14 @@ guide stops at the boundary where your control ends.
 
 **"Within a few minutes" is Google's own wording**, not a measured figure, and not a commitment.
 
-## 19. 📚 Official Sources
+## 19. Official Sources
 
 - [Publish private apps from the Play Console — Managed Google Play Help](https://support.google.com/googleplay/work/answer/6145139?hl=en)
 - [Distribute private apps — Managed Google Play Help](https://support.google.com/googleplay/work/answer/9495634?hl=en)
 - [Publish private apps from managed Play in your EMM console — Android Enterprise Help](https://support.google.com/work/android/answer/9146439?hl=en)
 - [Publish a .NET MAUI Android app for Google Play distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-google-play?view=net-maui-10.0)
 
-## 20. ✅ Last Verified
+## 20. Last Verified
 
 2026-08-24 — every claim verified against the sources in §19 on this date. The build step it relies
 on was verified by execution in the public release guide and is not re-executed here. Nothing in

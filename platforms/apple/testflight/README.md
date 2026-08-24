@@ -2,15 +2,15 @@
 doc_id: maui-dist-channel-testflight
 title: TestFlight
 type: guide
-version: 1.1.0
+version: 1.1.1
 status: active
 created: 2026-08-23
-updated: 2026-08-23
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Corrects the section 9 build evidence inherited from the App Store guide. No .ipa is produced without code signing. Written using ASD-STE100 principles.
+change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
 ---
 
-# 🧪 TestFlight
+# TestFlight
 
 Written using ASD-STE100 principles.
 
@@ -52,7 +52,7 @@ certificate, provisioning profile, current iOS SDK. TestFlight adds:
 Follow the public App Store release guide's [§6](../app-store-public-release/README.md#6-how-to-obtain-the-prerequisites)
 for the certificate and provisioning profile — the same identity is used for both channels.
 
-## 7. 🔐 Security Model
+## 7. Security Model
 
 Identical to public App Store release
 ([§7](../app-store-public-release/README.md#7-security-model)). TestFlight adds no separate
@@ -74,13 +74,13 @@ without code signing, although it exits 0 and prints a message saying it did. A 
 needs the same signed `.ipa` an App Store submission needs, produced the same way. What differs
 between the two channels is the upload destination and the review path (§12-§13), not the build.
 
-## 10. 🔐 Sign
+## 10. Sign
 
 Identical to public App Store release ([§10](../app-store-public-release/README.md#10-sign)) —
 the same distribution certificate and provisioning profile. TestFlight does not have its own,
 separate signing identity.
 
-## 11. 📦 Package
+## 11. Package
 
 Identical to public App Store release ([§11](../app-store-public-release/README.md#11-package)).
 
@@ -91,7 +91,7 @@ tab, on the same app record used for public release. Internal testers (up to 100
 Connect team members) need no further configuration; external testers (up to 10,000) need a
 public link or an email-invited group.
 
-## 13. 🚀 Deploy
+## 13. Deploy
 
 Upload the build exactly as in public App Store release's [§13](../app-store-public-release/README.md#13-deploy).
 **Internal testers** get access within minutes, no review. **External testers'** first build per
@@ -100,13 +100,13 @@ subsequent builds of the same version are typically reviewed faster, and are aut
 they change nothing Apple's review specifically cares about (entitlements, privacy strings,
 marketing copy) — do not treat auto-approval as guaranteed for every change.
 
-## 14. ✅ Validate
+## 14. Validate
 
 Confirm the build appears in the TestFlight tab with status "Ready to Test" (internal) or after
 beta review completes (external). Confirm testers received their invitation and can install via
 the TestFlight app.
 
-## 15. 🔄 Update
+## 15. Update
 
 Upload a new build under the same or a new version; each build is independently listed and
 independently expires. Internal testers see new builds immediately; a new external build may
@@ -118,7 +118,7 @@ Remove a tester from the internal or external group to end their access. A build
 installable to new testers automatically after 90 days from upload; existing installs are not
 force-removed from tester devices.
 
-## 17. ⚠️ Troubleshooting
+## 17. Troubleshooting
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
@@ -134,14 +134,14 @@ account. The build step it relies on was verified by execution in the public App
 guide, which this guide deliberately does not duplicate; **the signing and packaging steps were
 not**, and no `.ipa` was produced in any run of this repository. See that guide's §9 and §18.
 
-## 19. 📚 Official Sources
+## 19. Official Sources
 
 - [TestFlight — Apple Developer](https://developer.apple.com/testflight/)
 - [Add internal testers — App Store Connect Help](https://developer.apple.com/help/app-store-connect/test-a-beta-version/add-internal-testers)
 - [Invite external testers — App Store Connect Help](https://developer.apple.com/help/app-store-connect/test-a-beta-version/invite-external-testers)
 - [Publish a .NET MAUI iOS app for App Store distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-app-store?view=net-maui-10.0)
 
-## 20. ✅ Last Verified
+## 20. Last Verified
 
 2026-08-23 — verified against the sources in §19. The build claim was verified by execution in the
 public App Store release guide on the same date and is not re-executed here; the sign and package

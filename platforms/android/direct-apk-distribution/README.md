@@ -2,15 +2,15 @@
 doc_id: maui-dist-channel-direct-apk
 title: Direct APK Distribution
 type: guide
-version: 1.0.0
+version: 1.0.1
 status: active
 created: 2026-08-24
-updated: 2026-08-24
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial channel guide, eighth run under ADR 0012. Signing and packaging verified by execution. Written using ASD-STE100 principles.
+change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
 ---
 
-# 🤖 Direct APK Distribution
+# Direct APK Distribution
 
 Written using ASD-STE100 principles.
 
@@ -92,7 +92,7 @@ keytool -list -keystore {filename}.keystore
 
 **If several JDKs are installed, run `keytool` from the newest.**
 
-## 7. 🔐 Security Model
+## 7. Security Model
 
 **You are the entire trust chain.** Every other channel in this repository interposes a party that
 checks something. This one interposes nobody.
@@ -180,7 +180,7 @@ repository, and is not committed. See §18.
 the build fails with `XAGNM7009`, exactly as documented in the
 [public release guide's §9](../google-play-public-release/README.md#9-build).
 
-## 10. 🔐 Sign
+## 10. Sign
 
 Signing happens during the build above; there is no separate step. Two details matter more here
 than elsewhere.
@@ -202,7 +202,7 @@ channel because this channel produces an `apk`.
 you wish; keep the passwords on the command line, in an environment variable, or in a file outside
 the repository.
 
-## 11. 📦 Package
+## 11. Package
 
 **The `.apk` is the artefact for this channel. The `.aab` is not usable.** An Android App Bundle is
 an upload format that a store turns into per-device APKs; a user cannot install one. This is the
@@ -222,7 +222,7 @@ alongside it:
 - The certificate fingerprint from §7.
 - Plain instructions for §13, because the install will not proceed without them.
 
-## 13. 🚀 Deploy
+## 13. Deploy
 
 The user opens the download link on the Android device. Android begins installing it **only if that
 source is permitted to install apps.**
@@ -238,7 +238,7 @@ too.
 
 Expect Play Protect to inspect the app at install (§7).
 
-## 14. ✅ Validate
+## 14. Validate
 
 1. **List the publish directory** and confirm the signed `.apk` exists.
 2. Confirm the signature with `keytool -list`, and check the fingerprint matches what you publish.
@@ -249,7 +249,7 @@ Expect Play Protect to inspect the app at install (§7).
 5. Download it through the real hosting path, on a device that has not yet permitted your source —
    this is the only way to see what a first-time user actually faces.
 
-## 15. 🔄 Update
+## 15. Update
 
 ⚠️ **This channel has no update mechanism. Nothing tells the user a new version exists, and nothing
 installs it.**
@@ -276,7 +276,7 @@ whatever version it has, until the user removes it.
 ⚠️ **A serious defect shipped through this channel cannot be recalled.** If that risk is
 unacceptable, this is the wrong channel — decide before distributing, not after.
 
-## 17. ⚠️ Troubleshooting
+## 17. Troubleshooting
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
@@ -307,14 +307,14 @@ artefact.
 and no review are properties of distributing without an intermediary. They cannot be mitigated
 away, only accepted or avoided by choosing another channel.
 
-## 19. 📚 Official Sources
+## 19. Official Sources
 
 - [Publish an Android app using the command line — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-cli?view=net-maui-10.0)
 - [Use Google Play Protect to help keep your apps safe and your data private — Google Play Help](https://support.google.com/googleplay/answer/2812853?hl=en)
 - [Use of the REQUEST_INSTALL_PACKAGES permission — Play Console Help](https://support.google.com/googleplay/android-developer/answer/12085295?hl=en)
 - [Alternative distribution options — Android Developers](https://developer.android.com/distribute/marketing-tools/alternative-distribution)
 
-## 20. ✅ Last Verified
+## 20. Last Verified
 
 2026-08-24 — the §9 build, signing and packaging claims were verified by execution against this
 repository's own sample application, from a clean tree, with the artefact confirmed on disk. All

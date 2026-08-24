@@ -2,12 +2,12 @@
 doc_id: maui-dist-choose-channel
 title: Choose Your Distribution Channel
 type: guide
-version: 1.0.0
+version: 1.0.1
 status: active
 created: 2026-08-23
-updated: 2026-08-23
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial guide covering the two documented channels.
+change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
 ---
 
 # Choose Your Distribution Channel
@@ -50,7 +50,7 @@ See [`docs/maui-distribution-channel-catalogue-v1.0.0.md`](../docs/maui-distribu
 for the complete list of channels this repository's scope covers, including those not yet
 documented.
 
-## 📚 Platform hubs, comparison, and authoritative checklists
+## Platform hubs, comparison, and authoritative checklists
 
 - [Apple / iOS platform hub](../platforms/apple/README.md) — every Apple channel in one place.
 - [Android / Google platform hub](../platforms/android/README.md) — every Android channel in one place.

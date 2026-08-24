@@ -2,15 +2,15 @@
 doc_id: maui-dist-channel-apple-business-enterprise
 title: Apple Business Manager and Enterprise Distribution
 type: guide
-version: 1.0.0
+version: 1.0.1
 status: active
 created: 2026-08-24
-updated: 2026-08-24
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial channel guide, third run under ADR 0012. Covers the two private Apple distribution routes and how to choose between them. Written using ASD-STE100 principles.
+change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
 ---
 
-# 🍎 Apple Business Manager and Enterprise Distribution
+# Apple Business Manager and Enterprise Distribution
 
 Written using ASD-STE100 principles.
 
@@ -111,7 +111,7 @@ hoc profile — **no device list**.
 **For Custom Apps, obtain each recipient's Organization ID.** The recipient finds it in their own
 Apple Business Manager account and gives it to you. You cannot look it up.
 
-## 7. 🔐 Security Model
+## 7. Security Model
 
 Both routes use a distribution certificate, so the identity model in the
 [App Store guide's §7](../app-store-public-release/README.md#7-security-model) applies, including
@@ -148,7 +148,7 @@ by execution, and note its warning in full:
 `Created the package: ...` while writing nothing. Producing a package requires code signing. This
 guide did not produce an `.ipa`; see §18.
 
-## 10. 🔐 Sign
+## 10. Sign
 
 Supply the distribution certificate and the profile for the route you chose:
 
@@ -167,7 +167,7 @@ requires. The command does not otherwise change.
 Building from Windows requires a paired Mac build host, with the `Server*` parameters described in
 the [ad hoc guide's §10](../ad-hoc-distribution/README.md#10-sign).
 
-## 11. 📦 Package
+## 11. Package
 
 A signed build writes the `.ipa` to `bin/Release/net10.0-ios/ios-arm64/publish/`. **List the
 directory to confirm it exists**; the build log is not evidence (§9).
@@ -196,7 +196,7 @@ only permitted post-approval change is public to unlisted.
 at all.** You are the distributor. Prepare a manifest alongside the `.ipa` and host both, or hand
 both to your MDM.
 
-## 13. 🚀 Deploy
+## 13. Deploy
 
 ### Custom Apps
 
@@ -214,7 +214,7 @@ Distribute the `.ipa` yourself, by either route Apple documents:
 
 Both require the app to be prepared for distribution, including the manifest.
 
-## 14. ✅ Validate
+## 14. Validate
 
 **Custom Apps.** Confirm the app record shows **Private** before submission. After approval,
 confirm with one recipient that it appears in their Apple Business Manager, and that a device
@@ -226,7 +226,7 @@ organisation, and testing only on a registered device proves nothing about that.
 
 Confirm in both cases that the app launches and runs, not merely that it installs.
 
-## 15. 🔄 Update
+## 15. Update
 
 **Custom Apps.** Increment the build number and submit a new version. **Every updated version goes
 through App Review again**, typically one to two days.
@@ -252,7 +252,7 @@ sale. Apple stops delivering it. Copies already installed are unaffected.
 ⚠️ **Without MDM there is no reliable way to remove an in-house app from a device.** Decide this
 before distributing, not afterwards.
 
-## 17. ⚠️ Troubleshooting
+## 17. Troubleshooting
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
@@ -282,7 +282,7 @@ would risk an incorrect specification.
 criteria. Meeting them does not guarantee acceptance, and Apple states it may reject an
 application at its sole discretion.
 
-## 19. 📚 Official Sources
+## 19. Official Sources
 
 - [Publish a .NET MAUI iOS app for in-house distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-in-house?view=net-maui-10.0)
 - [Apple Developer Enterprise Program](https://developer.apple.com/programs/enterprise/)
@@ -290,7 +290,7 @@ application at its sole discretion.
 - [Distribute Custom Apps to Apple devices — Apple Support](https://support.apple.com/guide/deployment/distribute-custom-apps-dep0113f6e18/web)
 - [Distribute proprietary in-house apps to Apple devices — Apple Support](https://support.apple.com/guide/deployment/depce7cefc4d/web)
 
-## 20. ✅ Last Verified
+## 20. Last Verified
 
 2026-08-24 — every claim verified against the sources in §19 on this date. No step was executed;
 see §18.

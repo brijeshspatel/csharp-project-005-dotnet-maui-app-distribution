@@ -2,12 +2,12 @@
 doc_id: maui-dist-channel-apple-app-store
 title: Apple App Store — Public Release
 type: guide
-version: 1.1.0
+version: 1.1.1
 status: active
 created: 2026-08-23
-updated: 2026-08-23
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Corrects the section 9 build evidence. The iOS publish command does not produce an .ipa without code signing, and the SDK reports one that it did not write. Written using ASD-STE100 principles.
+change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
 ---
 
 # Apple App Store — Public Release
@@ -63,7 +63,7 @@ Enrol at the Apple Developer Program's own enrolment page. Individual enrolment 
 §10-§11 below — they are obtained together with the provisioning profile, not separately in
 advance.
 
-## 7. 🔐 Security Model
+## 7. Security Model
 
 Three things must agree before Apple accepts a build: a **distribution certificate** (proves who
 you are), an **App ID** matching your Bundle ID, and a **provisioning profile** binding the two
@@ -125,7 +125,7 @@ build run on Windows with no Mac. Producing an installable, distributable `.ipa`
 a real signing identity (§10) and Apple's archiving tools. Treat §10-§11 as prerequisites of a
 package, not as refinements of one you already have.
 
-## 10. 🔐 Sign
+## 10. Sign
 
 To sign with a real distribution identity, add the `CodesignKey` and `CodesignProvision`
 properties, naming the distribution certificate and provisioning profile created in §11:
@@ -143,7 +143,7 @@ not execute this step** — it requires a real Apple Developer Program identity 
 own current documentation, a Mac build host paired to Visual Studio. This is the credentials and
 tooling limitation this guide names plainly, not an unstated one.
 
-## 11. 📦 Package
+## 11. Package
 
 Once signed with a real identity, `dotnet publish` (or Visual Studio's own Archive/Distribute
 flow) produces the `.ipa` uploaded to App Store Connect. **No `.ipa` exists before that point** —
@@ -154,20 +154,20 @@ see the warning in §9. There is no unsigned intermediate package to inspect on 
 Create an app record in **App Store Connect** before uploading: name, primary language, Bundle
 ID, and a unique SKU. This record is what your uploaded build attaches to.
 
-## 13. 🚀 Deploy
+## 13. Deploy
 
 Upload via Visual Studio's Distribute dialog (select **App Store**, then **Upload to Store**,
 authenticating with an app-specific password — not your normal Apple Account password), or via
 Transporter for a `.ipa` already produced. Uploading requires the app record from §12 to already
 exist.
 
-## 14. ✅ Validate
+## 14. Validate
 
 Confirm the build appears in App Store Connect under your app record, in "Processing" then
 "Ready to Submit" status. Transporter reports packaging errors before upload completes, which
 catches most signing mismatches early.
 
-## 15. 🔄 Update
+## 15. Update
 
 Increase both the display version and the build number, repeat §9-§14, and attach the new build
 to the same app record. Apple does not require a new provisioning profile per release unless your
@@ -180,7 +180,7 @@ stops new installs; it does not remove the app from devices that already install
 distribution certificate invalidates every provisioning profile built from it — done only when
 the certificate itself is compromised or no longer needed.
 
-## 17. ⚠️ Troubleshooting
+## 17. Troubleshooting
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
@@ -201,14 +201,14 @@ Microsoft's current documentation, a Mac-paired Visual Studio. Every claim in §
 rests on the sources in §19, not on execution in this environment. App Review timing is not
 guaranteed; do not present any duration as a commitment.
 
-## 19. 📚 Official Sources
+## 19. Official Sources
 
 - [Publish a .NET MAUI iOS app for App Store distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-app-store?view=net-maui-10.0)
 - [Publish a .NET MAUI iOS app using the command line — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-cli?view=net-maui-10.0)
 - [Apple Developer Program — Become a member](https://developer.apple.com/programs/enroll/)
 - [Apple Developer — SDK minimum requirements](https://developer.apple.com/news/upcoming-requirements/)
 
-## 20. ✅ Last Verified
+## 20. Last Verified
 
 2026-08-23 — the §9 build claims were verified by execution against this repository's own sample
 application, including a clean-tree re-run that corrected an earlier, incorrect claim that an

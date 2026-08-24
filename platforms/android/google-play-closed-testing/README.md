@@ -2,15 +2,15 @@
 doc_id: maui-dist-channel-google-play-closed-testing
 title: Google Play Closed Testing
 type: guide
-version: 1.0.0
+version: 1.0.1
 status: active
 created: 2026-08-24
-updated: 2026-08-24
+updated: 2026-08-25
 owner: Brijesh Patel
-change_summary: Initial channel guide, fifth run under ADR 0012. Written using ASD-STE100 principles.
+change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
 ---
 
-# 🤖 Google Play Closed Testing
+# Google Play Closed Testing
 
 Written using ASD-STE100 principles.
 
@@ -93,7 +93,7 @@ for the account and signing key.
   _before_ opting into the test.** Joining afterwards does not grant access retrospectively, and
   this is a common cause of a tester who "cannot see the app".
 
-## 7. 🔐 Security Model
+## 7. Security Model
 
 Identical to [public release §7](../google-play-public-release/README.md#7-security-model) — the
 same upload key and Play App Signing arrangement, and a real signed release artefact.
@@ -120,11 +120,11 @@ dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=fals
 the build fails with `XAGNM7009`. This guide does not re-run the command; the evidence, including
 artefact sizes confirmed on disk, is in that guide's §9.
 
-## 10. 🔐 Sign
+## 10. Sign
 
 Identical to [public release §10](../google-play-public-release/README.md#10-sign).
 
-## 11. 📦 Package
+## 11. Package
 
 The `.aab` is the upload artefact. **Confirm it exists by listing
 `bin/Release/net10.0-android/publish/`.**
@@ -141,7 +141,7 @@ In Play Console, open **Testing > Closed testing**:
 enterprise targeting, device compatibility filtering, or country targeting. If you need any of
 those, use the default closed track.
 
-## 13. 🚀 Deploy
+## 13. Deploy
 
 Create a release on the closed track, upload the `.aab`, and roll it out.
 
@@ -152,7 +152,7 @@ for a quick check.
 Send the opt-in link. Each tester opens it, reads the tester responsibilities, and opts in. If you
 used a Google Group, they must already be a member.
 
-## 14. ✅ Validate
+## 14. Validate
 
 1. Confirm the release reaches an available state on the closed track — allow several hours.
 2. Confirm testers have opted in.
@@ -163,7 +163,7 @@ least 12 testers stay opted in continuously. Play Console shows the opted-in cou
 dips and recovers does not restart at zero for testers who never left, but it does for anyone who
 opted out.
 
-## 15. 🔄 Update
+## 15. Update
 
 Increment the version code, rebuild, and upload a new release to the track. Expect the same
 several-hour delay. Policy review applies to updates as well.
@@ -178,7 +178,7 @@ Removal stops future distribution and updates. **An already-installed build stay
 ⚠️ **Removing testers while working towards production access resets nothing in your favour.**
 Anyone removed stops counting towards the 12-tester, 14-day requirement.
 
-## 17. ⚠️ Troubleshooting
+## 17. Troubleshooting
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
@@ -204,14 +204,14 @@ tester minimum from 20 to 12 in December 2024.
 
 **"Several hours" is Google's own wording**, not a measured figure, and it is not a commitment.
 
-## 19. 📚 Official Sources
+## 19. Official Sources
 
 - [Set up an open, closed, or internal test — Play Console Help](https://support.google.com/googleplay/android-developer/answer/9845334?hl=en)
 - [App testing requirements for new personal developer accounts — Play Console Help](https://support.google.com/googleplay/android-developer/answer/14151465?hl=en)
 - [Prepare and roll out a release — Play Console Help](https://support.google.com/googleplay/android-developer/answer/9859348?hl=en)
 - [Publish a .NET MAUI Android app for Google Play distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-google-play?view=net-maui-10.0)
 
-## 20. ✅ Last Verified
+## 20. Last Verified
 
 2026-08-24 — every claim verified against the sources in §19 on this date. The build step it relies
 on was verified by execution in the public release guide and is not re-executed here. Nothing in
