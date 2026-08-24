@@ -23,6 +23,7 @@ each is documented yet. A channel linked to a folder rather than a `README.md` i
 | Google Play public release | Android | [`platforms/android/google-play-public-release/README.md`](../platforms/android/google-play-public-release/README.md) | Documented |
 | TestFlight | Apple | [`platforms/apple/testflight/README.md`](../platforms/apple/testflight/README.md) | Documented |
 | Ad hoc distribution | Apple | [`platforms/apple/ad-hoc-distribution/README.md`](../platforms/apple/ad-hoc-distribution/README.md) | Documented |
+| Apple Business Manager / enterprise distribution | Apple | [`platforms/apple/business-manager-and-enterprise/README.md`](../platforms/apple/business-manager-and-enterprise/README.md) | Documented |
 
 ## Not yet documented
 
@@ -31,7 +32,6 @@ built in this increment. They are listed so a reader can see they were considere
 
 | Channel | Platform | Status |
 |---|---|---|
-| Apple Business Manager / enterprise distribution | Apple | not yet documented |
 | Google Play internal testing | Android | not yet documented |
 | Google Play closed testing | Android | not yet documented |
 | Google Play open testing | Android | not yet documented |

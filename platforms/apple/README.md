@@ -22,7 +22,7 @@ the guidance shared across them.
 | [App Store public release](app-store-public-release/README.md) | Documented |
 | [TestFlight](testflight/README.md) | Documented |
 | [Ad hoc distribution](ad-hoc-distribution/README.md) | Documented |
-| Apple Business Manager / enterprise distribution | Not yet documented |
+| [Apple Business Manager and enterprise distribution](business-manager-and-enterprise/README.md) | Documented |
 
 ## Signing and provisioning
 
