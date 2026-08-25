@@ -31,7 +31,7 @@ to join.
 A Google Play Console developer account, as described in the
 [Google Play public release guide's §4](../google-play-public-release/README.md#4-eligibility).
 
- **WARNING — for many accounts, closed testing is mandatory before production access.**
+**WARNING — for many accounts, closed testing is mandatory before production access.**
 
 **Personal Play Console accounts created after 13 November 2023** must run a closed test before
 they can apply for production access:
@@ -102,7 +102,7 @@ which is execution-verified from a clean tree:
 dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
 ```
 
- **`-p:AndroidEnableMarshalMethods=false` is not optional on the verified toolchain.** Without it
+**`-p:AndroidEnableMarshalMethods=false` is not optional on the verified toolchain.** Without it
 the build fails with `XAGNM7009`. This guide does not re-run the command; the evidence, including
 artefact sizes confirmed on disk, is in that guide's §9.
 
@@ -123,7 +123,7 @@ In Play Console, open **Testing > Closed testing**:
 2. On the **Testers** tab, add an email list or a Google Group.
 3. Save, and copy the **opt-in link**.
 
- **Additional closed tracks are less capable than the default one.** They do **not** support
+**Additional closed tracks are less capable than the default one.** They do **not** support
 enterprise targeting, device compatibility filtering, or country targeting. If you need any of
 those, use the default closed track.
 
@@ -161,7 +161,7 @@ access. Halting the release stops distribution.
 
 Removal stops future distribution and updates. **An already-installed build stays on the device.**
 
- **Removing testers while working towards production access resets nothing in your favour.**
+**Removing testers while working towards production access resets nothing in your favour.**
 Anyone removed stops counting towards the 12-tester, 14-day requirement.
 
 ## 17. Troubleshooting

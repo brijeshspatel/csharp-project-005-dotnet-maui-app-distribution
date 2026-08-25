@@ -13,13 +13,15 @@ share.
 |---|---|---|---|
 | [Google Play public release](google-play-public-release/README.md) | Anyone | Play Review | You are shipping to the public |
 | [Internal testing](google-play-internal-testing/README.md) | Up to 100 named testers | Often skipped | You want the fastest feedback loop |
-| [Closed testing](google-play-closed-testing/README.md) | Invited testers or lists | Yes | You need a controlled group, or production access |
+| [Closed testing](google-play-closed-testing/README.md) | Invited testers or lists | Yes | You need a controlled group, or are working towards production access |
 | [Open testing](google-play-open-testing/README.md) | Anyone who opts in | Yes | You want a public beta |
 | [Managed Google Play](managed-google-play-enterprise/README.md) | Named organisations only | Yes | Distribution is private to an enterprise |
 | [Direct APK](direct-apk-distribution/README.md) | Anyone you give the file to | None | No store is involved at all |
 
-**Closed and open testing both require production access first.** That makes neither usable as a
-starting point for a brand-new personal account. Internal testing does not.
+**Open testing requires production access first; closed testing does not.** Closed testing is
+the route *to* production access for a personal account created after 2023-11-13: 12 testers,
+opted in continuously for 14 days. Internal testing needs no production access either, but it
+does not satisfy that requirement.
 
 ## Signing and keystores
 
@@ -55,8 +57,9 @@ passphrase never reaches the build log.
 - A **package name**, permanent once you publish with it, and not reusable even after an app is
   unpublished.
 - A target **API level** at or above Google's current floor. **API 36 is required from
-  2026-08-31.** Google raises this floor every year, so confirm the current requirement
-  before you build rather than trusting any fixed number, including this one.
+  2026-08-31**, with an extension available to 2026-11-01 through Play Console. Google raises
+  this floor every year, so confirm the current requirement before you build rather than
+  trusting any fixed number, including this one.
 - An **upload keystore**, for every channel that goes through Play Console.
 
 Each channel guide's §5 lists what it adds to this.

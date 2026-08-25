@@ -39,7 +39,7 @@ enrolment.
 
 **The device limit governs this channel more than anything else.**
 
- **WARNING — two different device limits are published, and the stricter reading is not the
+**WARNING — two different device limits are published, and the stricter reading is not the
 correct one.** Microsoft's .NET MAUI documentation states ad hoc distribution is "limited to 100
 devices per membership year, for both development and distribution". **Apple's own documentation
 states the limit is 100 devices _per product family_, per membership year** — a separate 100 for
@@ -109,7 +109,7 @@ Apple to distribute the app. An ad hoc profile authorises **a specific, enumerat
 to run it. The device list is embedded in the profile at generation time, which has one consequence
 that governs day-to-day use:
 
- **Adding a device later does not update a profile you already generated.** You must regenerate
+**Adding a device later does not update a profile you already generated.** You must regenerate
 the profile with the new device included, then re-sign and redistribute the build. There is no way
 to authorise a new device against an already-distributed ad hoc build.
 
@@ -144,7 +144,7 @@ That is the expected and correct result without a signing identity. It also demo
 essential difference from the App Store guide's §9: **there is no unsigned ad hoc package to
 inspect.** Signing is a prerequisite of producing the artefact, not a step applied afterwards.
 
- **Do not fall back to `dotnet publish -f net10.0-ios -c Release` and assume you have a package.**
+**Do not fall back to `dotnet publish -f net10.0-ios -c Release` and assume you have a package.**
 That command exits 0 and prints `Created the package: ...DistributionSample.ipa` while writing no
 file at all. The cause is documented in the
 [App Store guide's §9](../app-store-public-release/README.md#9-build). **Always list the output
@@ -254,7 +254,7 @@ The available controls are indirect:
 | Letting the provisioning profile expire | Ad hoc profiles expire. The app stops launching on expiry |
 | Disabling a device in the account | Prevents future profile inclusion. **Does not** free a device slot (§4) |
 
- **Certificate revocation is not a targeted tool.** It affects every build signed with that
+**Certificate revocation is not a targeted tool.** It affects every build signed with that
 certificate, across every channel. Do not use it to withdraw one ad hoc build.
 
 ## 17. Troubleshooting

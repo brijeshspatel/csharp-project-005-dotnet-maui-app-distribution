@@ -35,7 +35,7 @@ production access**, which for many accounts means completing a closed test firs
 A Google Play Console developer account, as described in the
 [Google Play public release guide's §4](../google-play-public-release/README.md#4-eligibility).
 
- **Open testing becomes available after you gain production access.** For a personal account
+**Open testing becomes available after you gain production access.** For a personal account
 created after 13 November 2023, that means the closed test described in the
 [closed testing guide's §4](../google-play-closed-testing/README.md#4-eligibility) must be
 completed first. **Open testing is therefore not a starting point**, despite being the most open
@@ -88,7 +88,7 @@ which is execution-verified from a clean tree:
 dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
 ```
 
- **`-p:AndroidEnableMarshalMethods=false` is not optional on the verified toolchain.** Without it
+**`-p:AndroidEnableMarshalMethods=false` is not optional on the verified toolchain.** Without it
 the build fails with `XAGNM7009`. This guide does not re-run the command.
 
 ## 10. Sign
@@ -143,7 +143,7 @@ distribution.
 have no list of who installed it, so plan withdrawal as "stop distributing and ship a replacement",
 never as "remove it from testers".
 
- **Anything shipped to an open test should be treated as permanently public.** Withdrawal limits
+**Anything shipped to an open test should be treated as permanently public.** Withdrawal limits
 future reach only.
 
 ## 17. Troubleshooting

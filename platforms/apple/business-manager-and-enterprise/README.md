@@ -11,7 +11,7 @@ guide keeps them apart deliberately.**
 | **Custom Apps** through Apple Business Manager | A private app record in App Store Connect, made visible only to organisations you name. Apple hosts and delivers it | Apple, through the recipient's Apple Business Manager |
 | **In-house distribution** through the Apple Developer Enterprise Program | A build signed with an in-house distribution certificate, distributed by you to your own employees | You, through your own website or MDM |
 
- **WARNING — these are not interchangeable, and Apple enforces the difference.** Apple states the
+**WARNING — these are not interchangeable, and Apple enforces the difference.** Apple states the
 Apple Developer Enterprise Program is **not permitted** for an app whose need could be met by
 public App Store distribution, Apple Business custom apps, ad hoc distribution, or TestFlight.
 Choosing the Enterprise Program to avoid App Review is a rejected application, not a shortcut.
@@ -66,7 +66,7 @@ executive team member, a senior project lead, or someone with delegated legal au
 
 **Cost: US $299 per membership year**, against US $99 for the standard Apple Developer Program.
 
- **A separate Apple Account is required** if you are already enrolled in the standard Apple
+**A separate Apple Account is required** if you are already enrolled in the standard Apple
 Developer Program. The two memberships cannot share one account.
 
 **Renewal triggers re-verification** of the organisation. Apple may reject an application at its
@@ -113,7 +113,7 @@ what losing the private key costs.
   Anyone who obtains the `.ipa` and the profile can install it. Apple's eligibility criteria
   require you to operate systems that prevent this, which is why §4 asks for them.
 
- **An in-house build has no technical device restriction whatsoever.** Treat the `.ipa` as a
+**An in-house build has no technical device restriction whatsoever.** Treat the `.ipa` as a
 credential. Serve it only over authenticated HTTPS or through MDM, never from an open URL.
 
 ## 8. Application Preparation
@@ -130,7 +130,7 @@ The build command is the same as every other Apple channel; only the provisionin
 See the [App Store guide's §9](../app-store-public-release/README.md#9-build) for what was verified
 by execution, and note its warning in full:
 
- **`dotnet publish -f net10.0-ios -c Release` produces no `.ipa`.** It exits 0 and prints
+**`dotnet publish -f net10.0-ios -c Release` produces no `.ipa`.** It exits 0 and prints
 `Created the package: ...` while writing nothing. Producing a package requires code signing. This
 guide did not produce an `.ipa`; see §18.
 
@@ -171,7 +171,7 @@ Visual Studio's Archive Manager offers **Distribute > Enterprise** for the in-ho
    **Apple Account** instead only for a business still on the legacy Volume Purchase Program.
 4. Submit the build for review.
 
- **WARNING — this choice is close to irreversible.** Once the app is approved, the distribution
+**WARNING — this choice is close to irreversible.** Once the app is approved, the distribution
 method cannot be changed. Moving between private and public requires **creating a new app record
 and resubmitting the binary**, which means a new App Store Connect record and a fresh review. The
 only permitted post-approval change is public to unlisted.
@@ -235,7 +235,7 @@ sale. Apple stops delivering it. Copies already installed are unaffected.
 | Let the provisioning profile expire | The app stops launching everywhere, on a date you do not choose precisely |
 | Revoke the distribution certificate | Invalidates every build signed with it, across every app |
 
- **Without MDM there is no reliable way to remove an in-house app from a device.** Decide this
+**Without MDM there is no reliable way to remove an in-house app from a device.** Decide this
 before distributing, not afterwards.
 
 ## 17. Troubleshooting

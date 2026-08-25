@@ -31,7 +31,7 @@ console. Without one, there is nothing on their side to distribute the app.
 [closed](../google-play-closed-testing/README.md) or
 [open](../google-play-open-testing/README.md) testing tracks.
 
- **Do not use it for an app you may later want to publish publicly.** See the warning in §12 —
+**Do not use it for an app you may later want to publish publicly.** See the warning in §12 —
 that decision is effectively permanent for a given package name.
 
 ## 4. Eligibility
@@ -95,7 +95,7 @@ which is execution-verified from a clean tree:
 dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
 ```
 
- **`-p:AndroidEnableMarshalMethods=false` is not optional on the verified toolchain.** Without it
+**`-p:AndroidEnableMarshalMethods=false` is not optional on the verified toolchain.** Without it
 the build fails with `XAGNM7009`. This guide does not re-run the command.
 
 ## 10. Sign
@@ -117,7 +117,7 @@ In Play Console:
    per app.
 4. Upload the App Bundle and publish to production.
 
- **WARNING — restricting an app to organisations is not reversible for that package name.** Once
+**WARNING — restricting an app to organisations is not reversible for that package name.** Once
 restricted, the app is private and available to those organisations only. **To make it publicly
 available you must publish a new app with a different package name** — which means a new listing,
 a new identity, and no continuity for anyone who already installed the private one. Decide before

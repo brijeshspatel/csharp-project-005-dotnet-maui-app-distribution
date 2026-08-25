@@ -89,7 +89,7 @@ Those checks are maintained separately from this guide, so what is published her
 result rather than the machinery that verifies it. Their findings are what the `Last Verified`
 dates rest on.
 
-** Two build warnings to carry into your own project**, both found here by execution:
+**Two build warnings to carry into your own project**, both found here by execution:
 
 - `dotnet publish -f net10.0-ios -c Release` **writes no `.ipa`** while printing that it did, and
   exiting 0 with 0 warnings. **List the file; never read the log.**
@@ -105,6 +105,11 @@ need.
 Most channels here are **documented, not demonstrated** — each guide says which it is in its own
 section 18. Only Google Play public release and direct APK distribution have execution-verified
 build paths, and no channel has a verified upload, review or installation.
+
+## Changes
+
+See [`CHANGELOG.md`](CHANGELOG.md). Where a claim in this guide was wrong, the changelog says so
+rather than describing the correction as an improvement.
 
 ## Licence
 

@@ -24,7 +24,7 @@ usable very early in a project's life.
 
 **Do not use it for more than 100 testers.** Use closed or open testing.
 
- **Do not enrol a person in internal testing if they also need open or closed testing.** A user
+**Do not enrol a person in internal testing if they also need open or closed testing.** A user
 opted into internal testing is **not eligible** for the open and closed tracks, even when their
 address appears on those tracks' lists. This trap is described in §17.
 
@@ -67,7 +67,7 @@ signed release artefact, not a debug build.
 **What differs is who can obtain it.** Access is controlled by the email list, and by each tester
 opting in through the link. A person not on the list cannot install the app.
 
- **A debug-signed bundle is not acceptable here.** As with public release, Play rejects it. See
+**A debug-signed bundle is not acceptable here.** As with public release, Play rejects it. See
 that guide's [§10](../google-play-public-release/README.md#10-sign).
 
 ## 8. Application Preparation
@@ -87,7 +87,7 @@ which is execution-verified from a clean tree. Use the same command:
 dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
 ```
 
- **The `-p:AndroidEnableMarshalMethods=false` property is not optional on the verified
+**The `-p:AndroidEnableMarshalMethods=false` property is not optional on the verified
 toolchain.** Without it the build fails with `XAGNM7009`. The full evidence, including the produced
 artefacts and their sizes confirmed on disk, is in that guide's §9. This guide does not re-run the
 command.

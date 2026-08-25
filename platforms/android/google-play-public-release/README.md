@@ -39,7 +39,8 @@ your account's creation date and status first. **Last verified: 2026-08-23.**
 - **Your build must target the current required API level.** **API level 36 is required from
   2026-08-31.** Google raises this floor every year, and an app below it cannot be submitted,
   so confirm the current requirement before you build rather than trusting any fixed number,
-  including this one (§17).
+  including this one (§17). Google offers an extension to **2026-11-01** for the API 36
+  deadline, requested through Play Console.
 
 ## 6. How to Obtain the Prerequisites
 
@@ -73,7 +74,7 @@ from a sufficiently long Windows path (AAPT2 "failed to open file"):
 dotnet publish -f net10.0-android -c Release
 ```
 
- **WARNING — that command alone does not complete on this toolchain.** Re-verified from a
+**WARNING — that command alone does not complete on this toolchain.** Re-verified from a
 fully clean tree, with `bin/` and `obj/` both removed, it fails with:
 
 ```

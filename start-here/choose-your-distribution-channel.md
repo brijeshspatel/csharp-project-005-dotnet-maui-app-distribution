@@ -26,8 +26,8 @@ flowchart TD
     TEST --> TA[Apple: TestFlight<br/>100 internal, 10k external]
     TEST --> TG{Android:<br/>how wide?}
     TG -->|Up to 100 named| TG1[Internal testing<br/>no production access needed]
-    TG -->|Invited group| TG2[Closed testing<br/>needs production access]
-    TG -->|Anyone opting in| TG3[Open testing<br/>needs production access]
+    TG -->|Invited group| TG2[Closed testing<br/>the route TO production access]
+    TG -->|Anyone opting in| TG3[Open testing<br/>needs production access first]
 
     ORG --> OA[Apple: Business Manager<br/>or Enterprise Program]
     ORG --> OG[Android: Managed<br/>Google Play]
@@ -36,9 +36,9 @@ flowchart TD
     DEV --> DG[Android: Direct APK<br/>no store, no review, no updates]
 ```
 
-** Two constraints decide more than preference does.** Android closed and open testing both
-require production access first, so neither works as a starting point for a new personal account.
-Apple does not permit the Enterprise Program where another route would serve.
+**Two constraints decide more than preference does.** Android **open** testing requires production
+access first, so it cannot be a starting point; closed testing is how a new personal account
+*earns* that access. Apple does not permit the Enterprise Program where another route would serve.
 
 | Your situation | Read this first |
 |---|---|
@@ -80,7 +80,7 @@ flowchart LR
     M --> N[Plan the<br/>next version]
 ```
 
-** The `Artefact on disk?` gate is not decoration.** On iOS the build prints that it created a
+**The `Artefact on disk?` gate is not decoration.** On iOS the build prints that it created a
 package it did not write. On Android the build fails from a clean tree without one extra property.
 Both checklists make this an explicit step because both have caught people out.
 

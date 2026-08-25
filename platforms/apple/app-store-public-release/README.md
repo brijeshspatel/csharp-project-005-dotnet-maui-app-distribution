@@ -85,7 +85,7 @@ On a Windows machine with no macOS host, this command **exits 0 with 0 warnings 
 compiles the managed and AOT output to `bin/Release/net10.0-ios/ios-arm64/`. **It does not produce
 an `.ipa`.**
 
- **WARNING — the build log claims an `.ipa` that does not exist.** The command prints
+**WARNING — the build log claims an `.ipa` that does not exist.** The command prints
 `Created the package: bin\Release\net10.0-ios\ios-arm64\publish\DistributionSample.ipa` and
 then writes no such file; the `publish` folder is created and left empty. This is a reporting
 defect in the iOS SDK itself. In
