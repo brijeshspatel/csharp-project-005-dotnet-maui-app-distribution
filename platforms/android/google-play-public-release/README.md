@@ -36,9 +36,10 @@ your account's creation date and status first. **Last verified: 2026-08-23.**
 - App icons, a feature graphic and screenshots meeting Google Play's current published sizes.
 - A publicly accessible privacy policy URL.
 - A completed **Data safety** declaration describing what data your app collects and why.
-- **Your build must target the current required API level.** As of this guide's Last Verified
-  date, Google requires API level 35 now, rising to **API level 36 from 2026-08-31** — eight days
-  after this guide was verified. Confirm the current floor before you build (§17).
+- **Your build must target the current required API level.** **API level 36 is required from
+  2026-08-31.** Google raises this floor every year, and an app below it cannot be submitted,
+  so confirm the current requirement before you build rather than trusting any fixed number,
+  including this one (§17).
 
 ## 6. How to Obtain the Prerequisites
 
