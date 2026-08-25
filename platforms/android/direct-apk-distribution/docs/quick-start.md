@@ -28,8 +28,8 @@ STOP — VERIFY BEFORE CONTINUING: `AndroidPackageFormats` is **plural**, and `A
 defaults to **false**. Get either wrong and you ship a debug-signed package, or no `.apk` at all.
 See [§17](../README.md#17-troubleshooting).
 
-⚠️ On Android 8.0 and higher, permitting installation is **per source** — permitting the browser
+ On Android 8.0 and higher, permitting installation is **per source** — permitting the browser
 does not permit a file manager. See [§13](../README.md#13-deploy).
 
-⚠️ Never tell users to disable Google Play Protect. If it blocks your app, reduce the permissions
+ Never tell users to disable Google Play Protect. If it blocks your app, reduce the permissions
 or appeal. See [§7](../README.md#7-security-model).

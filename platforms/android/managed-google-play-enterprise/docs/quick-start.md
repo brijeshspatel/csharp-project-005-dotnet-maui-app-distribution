@@ -28,5 +28,5 @@ STOP — VERIFY BEFORE CONTINUING: check each Organization ID character for char
 fails silently — the app simply never appears for that recipient. See
 [§14](../README.md#14-validate).
 
-⚠️ Removal from devices is done by the recipient's EMM, which is theirs and not yours. Agree it
+ Removal from devices is done by the recipient's EMM, which is theirs and not yours. Agree it
 before distributing if it matters. See [§16](../README.md#16-revoke--withdraw--retire).

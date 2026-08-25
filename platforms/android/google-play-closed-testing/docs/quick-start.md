@@ -26,6 +26,6 @@ STOP — VERIFY BEFORE CONTINUING: a tester who opts out before 14 days have pas
 count towards the production-access requirement, even if they rejoin later. Track the clock per
 tester. See [§14](../README.md#14-validate).
 
-⚠️ Additional closed tracks do not support enterprise targeting, device compatibility filtering or
+ Additional closed tracks do not support enterprise targeting, device compatibility filtering or
 country targeting. Use the default closed track if you need any of them. See
 [§12](../README.md#12-configure-distribution-platform).

@@ -34,7 +34,7 @@ mechanism.
 [testing tracks](../google-play-internal-testing/README.md) handle distribution, opt-in and updates
 for you.
 
-⚠️ **Do not use it if you need to update the app reliably.** See §15. There is no update mechanism.
+ **Do not use it if you need to update the app reliably.** See §15. There is no update mechanism.
 
 ## 4. Eligibility
 
@@ -66,7 +66,7 @@ keytool -genkeypair -v -keystore {filename}.keystore -alias {keyname} -keyalg RS
 state and country code. **That information is embedded in the certificate**, though it is not shown
 in the app.
 
-⚠️ **Back up the keystore and its password, separately and durably.** Losing either ends your
+ **Back up the keystore and its password, separately and durably.** Losing either ends your
 ability to ship an update that existing installations will accept. There is no recovery and no
 reset — unlike Google Play, there is no key-reset process here, because there is no Google Play.
 
@@ -97,7 +97,7 @@ sensitive permissions — access to messages and notifications among them — be
 are used in financial fraud. A legitimate app can be blocked this way. Classification decisions can
 be appealed where the app complies with Google's Mobile Unwanted Software principles.
 
-⚠️ **Do not ask users to disable Play Protect.** It is a signal of malware, users are right to
+ **Do not ask users to disable Play Protect.** It is a signal of malware, users are right to
 refuse, and an app distributed with that instruction should not be trusted by anyone.
 
 **Serve the APK over HTTPS**, from a host whose identity a user can check. An APK served over plain
@@ -162,7 +162,7 @@ repository, and is not committed. See §18.
 | `AndroidKeyStore` | Defaults to `false`. Without `true`, the signing properties are ignored and you get a debug-signed package |
 | `AndroidSigningKeyPass` / `AndroidSigningStorePass` | The default keystore type assumes these are the same value |
 
-⚠️ **`-p:AndroidEnableMarshalMethods=false` is not optional on the verified toolchain.** Without it
+ **`-p:AndroidEnableMarshalMethods=false` is not optional on the verified toolchain.** Without it
 the build fails with `XAGNM7009`, exactly as documented in the
 [public release guide's §9](../google-play-public-release/README.md#9-build).
 
@@ -181,7 +181,7 @@ both accept an `env:` prefix naming an environment variable, or a `file:` prefix
 
 The `env:` form was used for the verification in §9.
 
-⚠️ **The `env:` prefix is not supported when the package format is `aab`.** It works for this
+ **The `env:` prefix is not supported when the package format is `aab`.** It works for this
 channel because this channel produces an `apk`.
 
 **Never commit a keystore or a password.** Set the keystore path and alias in the project file if
@@ -218,7 +218,7 @@ source is permitted to install apps.**
 | **8.0 (API 26) and higher** | Open **Install unknown apps** in system settings and permit **the specific app** doing the installing — usually the browser or file manager. It is per-source, not global |
 | **7.1.1 (API 25) and lower** | Enable the global **Unknown sources** setting, under **Settings > Security** |
 
-⚠️ **The per-source model surprises people.** Permitting a browser once does not permit a file
+ **The per-source model surprises people.** Permitting a browser once does not permit a file
 manager later. A user who transfers the APK and installs it a different way must permit that app
 too.
 
@@ -237,7 +237,7 @@ Expect Play Protect to inspect the app at install (§7).
 
 ## 15. Update
 
-⚠️ **This channel has no update mechanism. Nothing tells the user a new version exists, and nothing
+ **This channel has no update mechanism. Nothing tells the user a new version exists, and nothing
 installs it.**
 
 Your options, in the order most projects should consider them:
@@ -259,7 +259,7 @@ who installed it.
 Withdrawing the download removes future installs only. An installed copy runs indefinitely, at
 whatever version it has, until the user removes it.
 
-⚠️ **A serious defect shipped through this channel cannot be recalled.** If that risk is
+ **A serious defect shipped through this channel cannot be recalled.** If that risk is
 unacceptable, this is the wrong channel — decide before distributing, not after.
 
 ## 17. Troubleshooting

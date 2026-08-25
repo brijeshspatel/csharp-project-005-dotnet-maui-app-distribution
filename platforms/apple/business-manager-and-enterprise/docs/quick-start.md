@@ -41,6 +41,6 @@ approval it **cannot be changed** — switching to public needs a new app record
 5. Serve it over authenticated HTTPS, or push it through MDM. See
    [§13](../README.md#13-deploy).
 
-⚠️ An in-house build has **no device restriction**. Anyone holding the `.ipa` can install it.
+ An in-house build has **no device restriction**. Anyone holding the `.ipa` can install it.
 Treat it as a credential, and prefer MDM — without MDM you cannot remove it from a device later.
 See [§7](../README.md#7-security-model) and [§16](../README.md#16-revoke--withdraw--retire).

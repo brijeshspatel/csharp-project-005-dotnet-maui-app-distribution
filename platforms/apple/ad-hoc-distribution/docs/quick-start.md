@@ -24,6 +24,6 @@ regenerate the profile, re-sign and redistribute.
 STOP — VERIFY BEFORE CONTINUING: at step 4, list the directory. The build log reports a package
 even when it wrote none. See [§9](../README.md#9-build).
 
-⚠️ Device registration slots are limited to 100 per product family per membership year, and
+ Device registration slots are limited to 100 per product family per membership year, and
 **disabling a device does not free its slot**. Plan the device list before you register anything.
 See [§4](../README.md#4-eligibility).

@@ -19,9 +19,9 @@ Get a build to up to 100 testers in minutes, shortest safe path. Links back to t
 STOP — VERIFY BEFORE CONTINUING: being on the email list is not enough. A tester who has not
 opened the opt-in link will not find the app on Google Play.
 
-⚠️ A user opted into **internal** testing is **not eligible** for open or closed testing, even if
+ A user opted into **internal** testing is **not eligible** for open or closed testing, even if
 their address is on those lists. If someone must be in a closed or open test, do not add them
 here. See [§3](../README.md#3-when-not-to-use-it).
 
-⚠️ Internal test releases might not go through standard Play policy or security review. Passing
+ Internal test releases might not go through standard Play policy or security review. Passing
 here is not a signal that production review will pass. See [§18](../README.md#18-limitations).

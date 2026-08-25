@@ -28,5 +28,5 @@ STOP — VERIFY BEFORE CONTINUING: state the private feedback route in the listi
 out. Testers who cannot report a problem privately report it publicly instead. See
 [§8](../README.md#8-application-preparation).
 
-⚠️ You have no list of who installed an open test build, so you cannot withdraw it from testers.
+ You have no list of who installed an open test build, so you cannot withdraw it from testers.
 Withdrawal limits future reach only. See [§16](../README.md#16-revoke--withdraw--retire).
