@@ -20,7 +20,7 @@ usable very early in a project's life.
 
 **Do not use it to satisfy the production-access testing requirement.** That requirement names
 **closed** testing specifically, which is a separate channel in the
-[channel catalogue](../../../docs/maui-distribution-channel-catalogue-v1.0.0.md).
+[channel catalogue](../../../docs/channel-catalogue.md).
 
 **Do not use it for more than 100 testers.** Use closed or open testing.
 
