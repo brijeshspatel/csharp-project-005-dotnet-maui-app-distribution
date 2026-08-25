@@ -1,38 +1,6 @@
----
-
-doc_id: maui-dist-channel-google-play
-
-title: Google Play — Public Release
-
-type: guide
-
-version: 1.2.0
-
-status: active
-
-created: 2026-08-23
-
-updated: 2026-08-25
-
-owner: Brijesh Patel
-
-change_summary: Corrects section 3, which still described the internal, closed and open testing tracks and managed Google Play as undocumented. All four have guides, now linked directly.
-
----
-
-
-
 # Google Play — Public Release
 
-
-
-Written using ASD-STE100 principles.
-
-
-
 ## 1. What This Channel Is
-
-
 
 Google Play is Android's primary public application marketplace. A public release through this
 
@@ -40,21 +8,13 @@ channel makes your app discoverable and installable by any user with a Google Ac
 
 countries and device categories you select. Google reviews every submission.
 
-
-
 ## 2. When to Use It
-
-
 
 Use this channel when your app is ready for the general public, and you want the widest possible
 
 reach on Android.
 
-
-
 ## 3. When Not to Use It
-
-
 
 Do not use this channel for testing — use Google Play's internal, closed or open testing tracks
 
@@ -68,11 +28,7 @@ organisation's devices — that is
 
 [managed Google Play](../managed-google-play-enterprise/README.md).
 
-
-
 ## 4. Eligibility
-
-
 
 You need a **Google Play Console developer account**: a **one-time, non-refundable US $25**
 
@@ -84,11 +40,7 @@ granting production access** — this applies before you can use this channel at
 
 your account's creation date and status first. **Last verified: 2026-08-23.**
 
-
-
 ## 5. Prerequisites
-
-
 
 - A verified Google Play Console developer account (§4), including the closed-test requirement
 
@@ -108,11 +60,7 @@ your account's creation date and status first. **Last verified: 2026-08-23.**
 
   after this guide was verified. Confirm the current floor before you build (§17).
 
-
-
 ## 6. How to Obtain the Prerequisites
-
-
 
 Register at Google Play Console, pay the one-time fee, and complete identity verification before
 
@@ -120,11 +68,7 @@ creating your first app listing. If the closed-test requirement in §4 applies t
 
 plan for at least 14 days between your first internal build and requesting production access.
 
-
-
 ## 7. Security Model
-
-
 
 Google Play distinguishes an **upload key** (signs the App Bundle you upload) from an **app
 
@@ -138,11 +82,7 @@ Signing means you alone hold the signing key permanently, with no Google-side re
 
 lost.
 
-
-
 ## 8. Application Preparation
-
-
 
 Set your package name as the **Application ID** property in your .NET MAUI project. Set your
 
@@ -150,11 +90,7 @@ version name and version code; both must increase on every release. Confirm your
 
 against §5's current requirement before building for release.
 
-
-
 ## 9. Build
-
-
 
 **Verified by execution against this repository's own sample application**
 
@@ -164,21 +100,15 @@ scratch fixture, because an earlier specification-review test found this exact c
 
 from a sufficiently long Windows path (AAPT2 "failed to open file"):
 
-
-
 ```
 
 dotnet publish -f net10.0-android -c Release
 
 ```
 
-
-
 ⚠️ **WARNING — that command alone does not complete on this toolchain.** Re-verified from a
 
 fully clean tree, with `bin/` and `obj/` both removed, it fails with:
-
-
 
 ```
 
@@ -188,19 +118,13 @@ state for architecture 'Arm64'
 
 ```
 
-
-
 and writes no `.aab`. This was reproduced on two consecutive clean attempts, run sequentially and
 
 **not** under concurrent load, which rules out resource contention as the cause.
 
-
-
 **The command that completes here disables marshal methods**, which .NET 10 enables by default and
 
 which Microsoft documents as the mitigation when marshal methods misbehave:
-
-
 
 ```
 
@@ -208,11 +132,7 @@ dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=fals
 
 ```
 
-
-
 This exits 0 and writes these artefacts to `bin/Release/net10.0-android/publish/`:
-
-
 
 | Artefact | Size | Use |
 
@@ -224,8 +144,6 @@ This exits 0 and writes these artefacts to `bin/Release/net10.0-android/publish/
 
 | `com.companyname.distributionsample-Signed.apk` | 29,058,372 bytes | debug-signed APK, local testing only |
 
-
-
 **The sizes are quoted because each file was confirmed on disk, not because a log said so.** A
 
 .NET publish can report success and name an artefact it never wrote — this repository's iOS guide
@@ -236,11 +154,7 @@ documents exactly that behaviour for the same sample application, in its
 
 message.**
 
-
-
 **Google Play requires the App Bundle (`.aab`) format**, not the `.apk`, for new app submissions.
-
-
 
 **Disabling marshal methods is a mitigation, not a default to adopt blindly.** Marshal methods are
 
@@ -252,8 +166,6 @@ whose build already succeeds without it. Retest with the property removed after 
 
 workload update.
 
-
-
 **One further trap, observed here.** Setting `AndroidEnableMarshalMethods=false` against a `obj/`
 
 directory produced with marshal methods **enabled** fails differently again, with R8 reporting
@@ -262,11 +174,7 @@ directory produced with marshal methods **enabled** fails differently again, wit
 
 state, not a property fault. Clean `obj/` when you change this property.
 
-
-
 ## 10. Sign
-
-
 
 The build in §9 produces a debug-signed package alongside the unsigned one when no explicit
 
@@ -275,8 +183,6 @@ signing configuration is supplied. **A debug-signed bundle is for local testing 
 Play will reject it.** For a real release, configure signing explicitly, referencing your own
 
 upload keystore:
-
-
 
 ```
 
@@ -292,27 +198,17 @@ dotnet publish -f net10.0-android -c Release ^
 
 ```
 
-
-
 **Never commit a keystore or its passwords to source control.** Use a secrets manager or a CI
 
 secret store; this repository's own `.gitignore` excludes common keystore file extensions.
 
-
-
 ## 11. Package
-
-
 
 The `.aab` produced in §9-§10 is the artefact uploaded to Google Play Console. Keep the matching
 
 `.apk` only for local device testing — it is not the upload artefact for this channel.
 
-
-
 ## 12. Configure Distribution Platform
-
-
 
 Create an app listing in Google Play Console: app name, default language, app or game category,
 
@@ -322,11 +218,7 @@ declaration before your first release can reach production — Play Console will
 
 publishing to production with these incomplete.
 
-
-
 ## 13. Deploy
-
-
 
 For a brand-new app, the first `.aab` **must be uploaded manually** through Play Console's own
 
@@ -336,11 +228,7 @@ Subsequent releases may use `dotnet publish` plus Play Console's upload, or the 
 
 Developer API for automation (not covered by this guide's manual-first scope).
 
-
-
 ## 14. Validate
-
-
 
 Play Console runs automated pre-launch checks after upload (crash detection, basic
 
@@ -348,21 +236,13 @@ compatibility). Confirm the release reaches "Ready to publish" before submitting
 
 resolve any pre-launch warnings first.
 
-
-
 ## 15. Update
-
-
 
 Increase the version code (and version name) and repeat §9-§14. Google Play rejects an upload
 
 whose version code does not exceed the previous release.
 
-
-
 ## 16. Revoke / Withdraw / Retire
-
-
 
 Unpublish an app from its Play Console listing (**Grow > Store presence > Main store listing**
 
@@ -372,11 +252,7 @@ the app from devices that already installed it. There is no equivalent to revoki
 
 here unless you manage your own signing key outside Play App Signing.
 
-
-
 ## 17. Troubleshooting
-
-
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 
@@ -396,11 +272,7 @@ here unless you manage your own signing key outside Play App Signing.
 
 | Upload rejected: signing key mismatch | Uploaded `.aab` was signed with a different key than the app's first release | Confirm which upload key Play Console expects for this app | Use the correct upload key, or use Play Console's key-reset process if it was lost |
 
-
-
 ## 18. Limitations
-
-
 
 This guide's build step (§9) was verified by execution at this repository's own real path, on
 
@@ -418,11 +290,7 @@ published schedule (§ Requirements & Freshness Register) and must be re-checked
 
 current, after 2026-08-31.
 
-
-
 ## 19. Official Sources
-
-
 
 - [Publish a .NET MAUI Android app for Google Play distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/publish-google-play?view=net-maui-10.0)
 
@@ -432,11 +300,7 @@ current, after 2026-08-31.
 
 - [Target API level requirements for Google Play apps — Play Console Help](https://support.google.com/googleplay/android-developer/answer/11926878)
 
-
-
 ## 20. Last Verified
-
-
 
 2026-08-23 — build claims verified by execution against this repository's own sample application,
 

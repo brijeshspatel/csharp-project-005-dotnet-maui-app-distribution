@@ -1,4 +1,0 @@
-{
-  "_note": "Deliberate exception to the default status-emoji vocabulary, per operator instruction 2026-08-23: a small, fixed, consistent set of navigation markers is used throughout this project's guides, in addition to the standard status vocabulary (✅ ❌ ⚠️ ℹ️). Meaning is fixed per emoji and must not drift: 🔐 signing/security, 🧪 testing, 📦 packaging, 🚀 release/deploy, 🔄 update/lifecycle, 📚 authoritative reference, 🍎 iOS/Apple platform marker, 🤖 Android/Google platform marker.",
-  "allow_emoji": ["🔐", "🧪", "📦", "🚀", "🔄", "📚", "🍎", "🤖"]
-}

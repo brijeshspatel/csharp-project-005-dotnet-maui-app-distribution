@@ -1,15 +1,3 @@
----
-doc_id: maui-dist-apple-app-store-quick-start
-title: Apple App Store — Quick Start
-type: guide
-version: 1.0.0
-status: active
-created: 2026-08-23
-updated: 2026-08-23
-owner: Brijesh Patel
-change_summary: Initial quick-start card. Written using ASD-STE100 principles.
----
-
 # Apple App Store — Quick Start
 
 First-ever Apple App Store release, shortest safe path. This card simplifies navigation; it does

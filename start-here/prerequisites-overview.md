@@ -1,15 +1,3 @@
----
-doc_id: maui-dist-prerequisites-overview
-title: Prerequisites Overview
-type: guide
-version: 1.1.0
-status: active
-created: 2026-08-23
-updated: 2026-08-25
-owner: Brijesh Patel
-change_summary: Rewrites the document for ten channels across two platforms rather than two channels. Separates the prerequisites that every channel needs from those only the public store listings require, because ad hoc and direct APK distribution have no listing and no reviewer.
----
-
 # Prerequisites Overview
 
 These prerequisites apply before you start **any** of the ten channels this repository documents.

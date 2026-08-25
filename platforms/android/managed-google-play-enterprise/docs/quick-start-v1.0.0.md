@@ -1,15 +1,3 @@
----
-doc_id: maui-dist-managed-play-quick-start
-title: Managed Google Play — Quick Start
-type: guide
-version: 1.0.0
-status: active
-created: 2026-08-24
-updated: 2026-08-24
-owner: Brijesh Patel
-change_summary: Initial quick-start card. Written using ASD-STE100 principles.
----
-
 # Managed Google Play — Quick Start
 
 Distribute privately to named organisations, shortest safe path. Links back to the

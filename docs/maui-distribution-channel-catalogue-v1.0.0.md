@@ -1,15 +1,3 @@
----
-doc_id: maui-dist-channel-catalogue
-title: .NET MAUI Distribution Channel Catalogue
-type: index
-version: 1.0.0
-status: active
-created: 2026-08-23
-updated: 2026-08-23
-owner: Brijesh Patel
-change_summary: Initial catalogue. Two channels documented (Apple App Store, Google Play). Every other channel this repository's scope discusses is marked explicitly, not silently absent.
----
-
 # .NET MAUI Distribution Channel Catalogue
 
 This catalogue lists every distribution channel this repository's scope discusses, and whether

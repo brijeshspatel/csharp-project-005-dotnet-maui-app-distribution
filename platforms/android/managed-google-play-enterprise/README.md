@@ -1,18 +1,4 @@
----
-doc_id: maui-dist-channel-managed-google-play
-title: Managed Google Play and Android Enterprise Distribution
-type: guide
-version: 1.0.1
-status: active
-created: 2026-08-24
-updated: 2026-08-25
-owner: Brijesh Patel
-change_summary: Removes emoji from the section headings so every internal anchor resolves. An emoji in a heading is dropped by the anchor rule and leaves the space beside it, which turned every #7-security-model style link into a broken one. No procedural content, section name or ordering changed.
----
-
 # Managed Google Play and Android Enterprise Distribution
-
-Written using ASD-STE100 principles.
 
 ## 1. What This Channel Is
 

@@ -1,15 +1,3 @@
----
-doc_id: maui-dist-ad-hoc-quick-start
-title: Ad Hoc Distribution — Quick Start
-type: guide
-version: 1.0.0
-status: active
-created: 2026-08-24
-updated: 2026-08-24
-owner: Brijesh Patel
-change_summary: Initial quick-start card. Written using ASD-STE100 principles.
----
-
 # Ad Hoc Distribution — Quick Start
 
 Install a signed build on a fixed list of registered devices, shortest safe path. Links back to

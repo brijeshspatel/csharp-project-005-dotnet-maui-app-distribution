@@ -1,15 +1,3 @@
----
-doc_id: maui-dist-choose-channel
-title: Choose Your Distribution Channel
-type: guide
-version: 1.1.0
-status: active
-created: 2026-08-23
-updated: 2026-08-25
-owner: Brijesh Patel
-change_summary: Corrects the claim that this repository documents two channels; it documents ten. Replaces two rows that read 'Not yet documented' for Android beta testing and for organisation-internal distribution, both of which have had guides for some time, and adds rows for ad hoc and direct APK distribution.
----
-
 # Choose Your Distribution Channel
 
 This repository documents **ten channels**: four Apple and six Android. Most .NET MAUI apps that

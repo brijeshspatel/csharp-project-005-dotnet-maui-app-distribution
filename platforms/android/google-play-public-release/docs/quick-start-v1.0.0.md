@@ -1,15 +1,3 @@
----
-doc_id: maui-dist-google-play-quick-start
-title: Google Play — Quick Start
-type: guide
-version: 1.0.0
-status: active
-created: 2026-08-23
-updated: 2026-08-23
-owner: Brijesh Patel
-change_summary: Initial quick-start card. Written using ASD-STE100 principles.
----
-
 # Google Play — Quick Start
 
 First-ever Google Play release, shortest safe path. This card simplifies navigation; it does not

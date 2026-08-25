@@ -1,15 +1,3 @@
----
-doc_id: maui-dist-platform-android
-title: Android / Google Distribution
-type: index
-version: 1.1.0
-status: active
-created: 2026-08-23
-updated: 2026-08-25
-owner: Brijesh Patel
-change_summary: Corrects the channel count from one to six, and rewrites the shared-material paragraph. ADR 0013's condition for extracting shared Android material into this hub has now been met; the paragraph now records that as outstanding work for increment B rather than claiming the condition has not yet fired.
----
-
 # Android / Google Distribution
 
 This is the entry point for every Android distribution channel this repository documents, and

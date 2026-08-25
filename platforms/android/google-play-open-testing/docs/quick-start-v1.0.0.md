@@ -1,15 +1,3 @@
----
-doc_id: maui-dist-play-open-testing-quick-start
-title: Google Play Open Testing — Quick Start
-type: guide
-version: 1.0.0
-status: active
-created: 2026-08-24
-updated: 2026-08-24
-owner: Brijesh Patel
-change_summary: Initial quick-start card. Written using ASD-STE100 principles.
----
-
 # Google Play Open Testing — Quick Start
 
 Publish a test version anyone can join, shortest safe path. Links back to the

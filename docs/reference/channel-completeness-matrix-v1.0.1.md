@@ -1,36 +1,8 @@
----
-
-doc_id: maui-dist-channel-completeness-matrix
-
-title: Channel Completeness Matrix
-
-type: reference
-
-version: 1.0.1
-
-status: active
-
-created: 2026-08-23
-
-updated: 2026-08-25
-
-owner: Brijesh Patel
-
-change_summary: Corrects one cell that described the store-side testing tracks as not yet documented; each has its own guide. Renamed from v1.0.0 because mdgs_check compares the filename version token to the frontmatter.
-
----
-
-
-
 # Channel Completeness Matrix
-
-
 
 One row per distribution channel this repository documents. Every column is filled or marked
 
 `N/A — <reason>`; a blank cell is a defect, not an omission.
-
-
 
 | Channel | Selection Guidance | Prerequisites | Setup | 🔐 Signing | Build | 🧪 Test | 🚀 Deploy | Update | Revoke | Troubleshoot | Official Sources |
 

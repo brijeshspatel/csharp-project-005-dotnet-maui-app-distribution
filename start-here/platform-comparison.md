@@ -1,18 +1,6 @@
----
-doc_id: maui-dist-platform-comparison
-title: iOS vs Android — Platform Comparison
-type: guide
-version: 1.2.0
-status: active
-created: 2026-08-23
-updated: 2026-08-25
-owner: Brijesh Patel
-change_summary: Corrects two rows that still described the Android testing tracks and both enterprise channels as undocumented. Every one of them has a guide, now linked from the row.
----
-
 # iOS vs Android — Platform Comparison
 
-Written using ASD-STE100 principles. Every claim here traces to a documented channel guide —
+Every claim here traces to a documented channel guide —
 follow the link in the last column for the full detail and its official sources.
 
 | Area | 🍎 iOS (Apple) | 🤖 Android (Google) |

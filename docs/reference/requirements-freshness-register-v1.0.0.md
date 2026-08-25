@@ -1,15 +1,3 @@
----
-doc_id: maui-dist-requirements-freshness-register
-title: Requirements & Freshness Register
-type: reference
-version: 1.0.0
-status: active
-created: 2026-08-23
-updated: 2026-08-23
-owner: Brijesh Patel
-change_summary: Adds the Apple device-registration entries the ad hoc channel depends on, and the enterprise programme and custom app entries the private distribution channel depends on.
----
-
 # Requirements & Freshness Register
 
 Every time-sensitive external requirement this repository depends on is recorded here, with the

@@ -1,38 +1,6 @@
----
-
-doc_id: maui-dist-channel-apple-app-store
-
-title: Apple App Store — Public Release
-
-type: guide
-
-version: 1.2.0
-
-status: active
-
-created: 2026-08-23
-
-updated: 2026-08-25
-
-owner: Brijesh Patel
-
-change_summary: Corrects section 3, which still described TestFlight, enterprise and ad hoc distribution as undocumented. All three have guides, now linked directly.
-
----
-
-
-
 # Apple App Store — Public Release
 
-
-
-Written using ASD-STE100 principles.
-
-
-
 ## 1. What This Channel Is
-
-
 
 The Apple App Store is Apple's public application marketplace for iOS and iPadOS. A public
 
@@ -40,21 +8,13 @@ release through this channel makes your app discoverable and installable by any 
 
 Apple Account, in the countries you select. Apple reviews every submission before it appears.
 
-
-
 ## 2. When to Use It
-
-
 
 Use this channel when your app is ready for the general public, and you want the widest possible
 
 reach on iOS without restricting who can install it.
 
-
-
 ## 3. When Not to Use It
-
-
 
 Do not use this channel for an app still under active internal or external testing — use
 
@@ -68,11 +28,7 @@ or [ad hoc distribution](../ad-hoc-distribution/README.md) for a fixed list of r
 
 devices.
 
-
-
 ## 4. Eligibility
-
-
 
 You need an active **Apple Developer Program** membership. Individual and organisation
 
@@ -84,11 +40,7 @@ pricing varies); nonprofit, educational and government entities may qualify for 
 
 **Last verified: 2026-08-23.**
 
-
-
 ## 5. Prerequisites
-
-
 
 - An enrolled Apple Developer Program membership (§4).
 
@@ -116,11 +68,7 @@ pricing varies); nonprofit, educational and government entities may qualify for 
 
   installed .NET MAUI iOS workload version supports this before you rely on it (§9).
 
-
-
 ## 6. How to Obtain the Prerequisites
-
-
 
 Enrol at the Apple Developer Program's own enrolment page. Individual enrolment typically takes
 
@@ -130,11 +78,7 @@ Enrol at the Apple Developer Program's own enrolment page. Individual enrolment 
 
 advance.
 
-
-
 ## 7. Security Model
-
-
 
 Three things must agree before Apple accepts a build: a **distribution certificate** (proves who
 
@@ -148,19 +92,13 @@ your provisioning profile, which does not lose your existing App Store listing b
 
 re-signing every future build with a new identity.
 
-
-
 **Ad hoc signing is not the same as this.** Running `dotnet publish` for iOS without specifying a
 
 real distribution certificate produces a package .NET signs itself, for local verification only.
 
 It is not accepted by App Store Connect. See §9 for exactly what this repository verified.
 
-
-
 ## 8. Application Preparation
-
-
 
 Set your Bundle ID as the **Application ID** property in your .NET MAUI project — Visual Studio
 
@@ -170,11 +108,7 @@ number; both must increase on every submission. Confirm your target framework is
 
 to satisfy §5's SDK requirement.
 
-
-
 ## 9. Build
-
-
 
 **Verified by execution against this repository's own sample application**
 
@@ -182,23 +116,17 @@ to satisfy §5's SDK requirement.
 
 with `bin/` and `obj/` both removed:
 
-
-
 ```
 
 dotnet publish -f net10.0-ios -c Release
 
 ```
 
-
-
 On a Windows machine with no macOS host, this command **exits 0 with 0 warnings and 0 errors** and
 
 compiles the managed and AOT output to `bin/Release/net10.0-ios/ios-arm64/`. **It does not produce
 
 an `.ipa`.**
-
-
 
 ⚠️ **WARNING — the build log claims an `.ipa` that does not exist.** The command prints
 
@@ -218,13 +146,9 @@ archive. **Never accept that line, or exit code 0, as evidence that an `.ipa` ex
 
 file is on disk.**
 
-
-
 **Producing a real `.ipa` requires code signing.** Adding the archive properties Microsoft
 
 documents for command-line publishing makes the requirement explicit instead of silent:
-
-
 
 ```
 
@@ -232,19 +156,13 @@ dotnet publish -f net10.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdenti
 
 ```
 
-
-
 This fails immediately, and correctly, with:
-
-
 
 ```
 
 error : Code signing must be enabled to create an Xcode archive.
 
 ```
-
-
 
 **What this proves, and what it does not.** The managed compilation and AOT steps of an iOS Release
 
@@ -254,17 +172,11 @@ a real signing identity (§10) and Apple's archiving tools. Treat §10-§11 as p
 
 package, not as refinements of one you already have.
 
-
-
 ## 10. Sign
-
-
 
 To sign with a real distribution identity, add the `CodesignKey` and `CodesignProvision`
 
 properties, naming the distribution certificate and provisioning profile created in §11:
-
-
 
 ```
 
@@ -275,8 +187,6 @@ dotnet publish -f net10.0-ios -c Release ^
   -p:CodesignProvision="<Provisioning Profile Name>"
 
 ```
-
-
 
 Creating the distribution certificate itself is documented by Microsoft as a Visual-Studio-driven
 
@@ -290,11 +200,7 @@ own current documentation, a Mac build host paired to Visual Studio. This is the
 
 tooling limitation this guide names plainly, not an unstated one.
 
-
-
 ## 11. Package
-
-
 
 Once signed with a real identity, `dotnet publish` (or Visual Studio's own Archive/Distribute
 
@@ -302,21 +208,13 @@ flow) produces the `.ipa` uploaded to App Store Connect. **No `.ipa` exists befo
 
 see the warning in §9. There is no unsigned intermediate package to inspect on this platform.
 
-
-
 ## 12. Configure Distribution Platform
-
-
 
 Create an app record in **App Store Connect** before uploading: name, primary language, Bundle
 
 ID, and a unique SKU. This record is what your uploaded build attaches to.
 
-
-
 ## 13. Deploy
-
-
 
 Upload via Visual Studio's Distribute dialog (select **App Store**, then **Upload to Store**,
 
@@ -326,11 +224,7 @@ Transporter for a `.ipa` already produced. Uploading requires the app record fro
 
 exist.
 
-
-
 ## 14. Validate
-
-
 
 Confirm the build appears in App Store Connect under your app record, in "Processing" then
 
@@ -338,11 +232,7 @@ Confirm the build appears in App Store Connect under your app record, in "Proces
 
 catches most signing mismatches early.
 
-
-
 ## 15. Update
-
-
 
 Increase both the display version and the build number, repeat §9-§14, and attach the new build
 
@@ -350,11 +240,7 @@ to the same app record. Apple does not require a new provisioning profile per re
 
 certificate has expired or capabilities changed.
 
-
-
 ## 16. Revoke / Withdraw / Retire
-
-
 
 Remove an app from sale from its App Store Connect record (**Pricing and Availability**). This
 
@@ -364,11 +250,7 @@ distribution certificate invalidates every provisioning profile built from it �
 
 the certificate itself is compromised or no longer needed.
 
-
-
 ## 17. Troubleshooting
-
-
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 
@@ -384,11 +266,7 @@ the certificate itself is compromised or no longer needed.
 
 | `error : Code signing must be enabled to create an Xcode archive.` | `ArchiveOnBuild=true` was set with no signing identity | Confirm whether `CodesignKey` and `CodesignProvision` are supplied | Supply a real distribution identity per §10, or drop `ArchiveOnBuild` and accept that no `.ipa` is produced |
 
-
-
 ## 18. Limitations
-
-
 
 **This guide's packaging step is documented, not demonstrated.** Execution on Windows without a
 
@@ -406,11 +284,7 @@ rests on the sources in §19, not on execution in this environment. App Review t
 
 guaranteed; do not present any duration as a commitment.
 
-
-
 ## 19. Official Sources
-
-
 
 - [Publish a .NET MAUI iOS app for App Store distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-app-store?view=net-maui-10.0)
 
@@ -420,11 +294,7 @@ guaranteed; do not present any duration as a commitment.
 
 - [Apple Developer — SDK minimum requirements](https://developer.apple.com/news/upcoming-requirements/)
 
-
-
 ## 20. Last Verified
-
-
 
 2026-08-23 — the §9 build claims were verified by execution against this repository's own sample
 

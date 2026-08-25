@@ -480,3 +480,9 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# The governance machinery stays on disk so the workspace checkers can read it,
+# and out of git so a cloner receives the guide rather than the tooling that
+# verifies it. Recorded in ADR 0015; project 003 set the precedent.
+config/
+.aia-conventions.json

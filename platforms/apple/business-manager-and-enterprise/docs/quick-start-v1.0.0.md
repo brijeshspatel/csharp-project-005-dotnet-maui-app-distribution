@@ -1,15 +1,3 @@
----
-doc_id: maui-dist-business-enterprise-quick-start
-title: Apple Business Manager and Enterprise — Quick Start
-type: guide
-version: 1.0.0
-status: active
-created: 2026-08-24
-updated: 2026-08-24
-owner: Brijesh Patel
-change_summary: Initial quick-start card. Written using ASD-STE100 principles.
----
-
 # Apple Business Manager and Enterprise — Quick Start
 
 Distribute privately to an organisation, shortest safe path. Links back to the
