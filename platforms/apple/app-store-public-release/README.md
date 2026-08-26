@@ -22,33 +22,41 @@ devices.
 
 ## 4. Eligibility
 
-You need an active **Apple Developer Program** membership. Individual and organisation
-enrolment both require an Apple Account with two-factor authentication; an organisation also
-needs a D-U-N-S number for its legal entity. Membership costs **US $99 per year** (regional
-pricing varies); nonprofit, educational and government entities may qualify for a fee waiver.
-**Last verified: 2026-08-23.**
+You need an active **Apple Developer Program** membership. Individual and organisation enrolment
+both require an Apple Account with two-factor authentication; an organisation also needs a
+D-U-N-S Number for its legal entity — **except government organisations, for which Apple does not
+require one**. Membership costs **US $99 per year** (regional pricing varies). Nonprofits,
+accredited educational institutions and government entities may qualify for a **fee waiver**,
+provided the organisation is a legal entity, has not signed the Paid Applications Agreement, and
+does not sell digital goods or services through its apps. **Last verified: 2026-08-26.**
 
 ## 5. Prerequisites
 
 - An enrolled Apple Developer Program membership (§4).
 - A macOS build host, or Visual Studio paired to one, for creating a distribution certificate and
-  for producing an App-Store-ready signed archive. See §7 for exactly which step this applies to.
+  for producing an App-Store-ready signed archive. See **§9** for what a Windows-only build does
+  and does not do, and **§10** for the signing step itself.
 - A stable Bundle ID in reverse-DNS form (for example `com.example.app`), matching your .NET MAUI
   project's **Application ID** property.
 - App icons and a launch image meeting Apple's current published sizes.
 - A publicly accessible privacy policy URL.
-- A **privacy manifest** file declaring any required-reason APIs and third-party SDK data
-  collection your app uses — omitting a used API from this file can cause App Review to reject
-  the build.
-- **Your build tooling must target the iOS 26 SDK (Xcode 26 or later)** for any submission made
-  on or after 2026-04-28 — this is a hard Apple requirement, not a recommendation. Confirm your
-  installed .NET MAUI iOS workload version supports this before you rely on it (§9).
+- A **privacy manifest** declaring approved reasons for any of Apple's **required-reason APIs**
+  your code uses — mandatory for all apps since 2024-05-01 — and required for any SDK on Apple's
+  **published list** of commonly used third-party SDKs, which also need a valid signature when
+  used as binary dependencies. It is **not** required for every third-party SDK, only those on
+  that list. A missing declaration blocks upload to App Store Connect.
+- **Your build tooling must use Xcode 26 or later with an SDK for iOS 26** for anything
+  **uploaded to App Store Connect** on or after 2026-04-28. Apple frames this as an *upload*
+  requirement rather than a submission one, and accepts an SDK for any of iOS 26, iPadOS 26,
+  tvOS 26,
+  visionOS 26 and watchOS 26. It is a hard requirement, not a recommendation. Confirm your
+  installed .NET MAUI iOS workload supports it before you rely on it (§9).
 
 ## 6. How to Obtain the Prerequisites
 
 Enrol at the Apple Developer Program's own enrolment page. Individual enrolment typically takes
 24 hours to two weeks to verify. Create your Bundle ID and distribution certificate as part of
-§10-§11 below — they are obtained together with the provisioning profile, not separately in
+**§10 Sign** below — they are obtained together with the provisioning profile, not separately in
 advance.
 
 ## 7. Security Model
@@ -60,16 +68,29 @@ it (or wherever it was exported to) — losing it means revoking the certificate
 your provisioning profile, which does not lose your existing App Store listing but does require
 re-signing every future build with a new identity.
 
-**Ad hoc signing is not the same as this.** Running `dotnet publish` for iOS without specifying a
-real distribution certificate produces a package .NET signs itself, for local verification only.
-It is not accepted by App Store Connect. See §9 for exactly what this repository verified.
+**There is no self-signed fallback, and this guide previously said otherwise.** Running
+`dotnet publish` for iOS without a real distribution certificate does **not** produce a package
+.NET signs itself. Device builds require a genuine signing identity: the SDK's archive target
+errors outright when no code-signing key is set, and the target that writes the `.ipa` depends on
+`Codesign`. Apple's *ad hoc code signing* — the placeholder identity `-` — is applied by the SDK
+**only to simulator builds** and never yields a distributable package.
+
+Do not confuse that with **ad hoc distribution** (§3), which is a genuine Apple channel using a
+real distribution certificate and a device-limited provisioning profile. The two share an
+adjective and nothing else; see the [controlled terminology](../../../docs/reference/terminology.md).
+§9 records what this repository actually observed: **no package at all**, which is the absence of a
+signed artefact rather than the presence of a self-signed one.
 
 ## 8. Application Preparation
 
-Set your Bundle ID as the **Application ID** property in your .NET MAUI project — Visual Studio
-keeps this synchronised with `Info.plist` automatically. Set your display version and build
-number; both must increase on every submission. Confirm your target framework is current enough
-to satisfy §5's SDK requirement.
+Set your Bundle ID as the **`<ApplicationId>`** property in your .NET MAUI project file. **In the
+single-project model that property is the single source of truth** — `Platforms/iOS/Info.plist`
+carries no `CFBundleIdentifier`, and the build generates one from `<ApplicationId>`. Do not expect
+to find a Bundle ID in `Info.plist` to cross-check, and do not add one by hand: two sources would
+be one more than this model has.
+
+Set your display version and build number; both must increase on every submission. Confirm your
+target framework is current enough to satisfy §5's SDK requirement.
 
 ## 9. Build
 
@@ -87,13 +108,29 @@ an `.ipa`.**
 
 **WARNING — the build log claims an `.ipa` that does not exist.** The command prints
 `Created the package: bin\Release\net10.0-ios\ios-arm64\publish\DistributionSample.ipa` and
-then writes no such file; the `publish` folder is created and left empty. This is a reporting
-defect in the iOS SDK itself. In
-`Microsoft.iOS.Sdk.net10.0_26.5/26.5.10301/targets/Xamarin.Shared.Sdk.Publish.targets`, the
-`Publish` target emits that message whenever `BuildIpa` is true, but `Publish` depends only on
-`_PrePublish;Build` and never invokes `CreateIpa`, which is the target that would write the
-archive. **Never accept that line, or exit code 0, as evidence that an `.ipa` exists. Confirm the
-file is on disk.**
+then writes no such file; the `publish` folder is created and left empty.
+
+**The mechanism matches a still-open SDK issue,
+[dotnet/macios#20958](https://github.com/dotnet/macios/issues/20958)**, whose diagnosis is the one
+below. Note the issue's own reproduction runs `build` and `publish` as separate ordered steps
+rather than the single bare command used here, so treat this as the same underlying fault rather
+than as a report of this exact invocation.
+
+The mechanism, read from the SDK's own targets files: in `Xamarin.Shared.Sdk.Publish.targets` the
+`Publish` target emits that message whenever `$(BuildIpa)` is true, **with no check that the
+package was written**. The target that actually writes the archive is `_CoreCreateIpa` (in
+`Xamarin.iOS.Common.targets`), which **depends on `Codesign`** and is reached through `CreateIpa`.
+
+**For the unsigned run recorded above, the operative cause is that `Codesign` dependency** — with
+no signing identity there is nothing for `_CoreCreateIpa` to produce, so it does not run, while
+`Publish` prints its success line regardless. Issue #20958 describes a second, separate route to
+the same symptom, where `Build` executing first leaves `_CoreCreateIpa` skipped even though signing
+is configured; that issue notes a bare `publish` is unaffected by *its* ordering fault. Both routes
+share the same root defect — an unconditional success message — which is why the issue is cited
+here, but do not read the ordering explanation as the cause of this repository's observation.
+
+**Never accept that line, or exit code 0, as evidence that an `.ipa` exists. Confirm the file is
+on disk.**
 
 **Producing a real `.ipa` requires code signing.** Adding the archive properties Microsoft
 documents for command-line publishing makes the requirement explicit instead of silent:
@@ -109,20 +146,37 @@ error : Code signing must be enabled to create an Xcode archive.
 ```
 
 **What this proves, and what it does not.** The managed compilation and AOT steps of an iOS Release
-build run on Windows with no Mac. Producing an installable, distributable `.ipa` does not: it needs
-a real signing identity (§10) and Apple's archiving tools. Treat §10-§11 as prerequisites of a
-package, not as refinements of one you already have.
+build ran here on Windows with no Mac. Producing an installable, distributable `.ipa` does not: it
+needs a real signing identity (§10) and Apple's archiving tools. Treat §10-§11 as prerequisites of
+a package, not as refinements of one you already have.
+
+**Do not read the above as an endorsement of Windows-only iOS work.** Microsoft's own command-line
+guidance documents **Pair to Mac** (`-p:ServerAddress`, `-p:ServerUser` and related properties) as
+the supported route for building iOS from Windows, and its documented flow always supplies
+`-p:CodesignKey` and `-p:CodesignProvision`. What this repository observed is the behaviour of the
+unsigned, unpaired command — useful because it is the command people reach for first and the one
+whose log misleads, not because it is a supported path to a shippable artefact.
 
 ## 10. Sign
 
-To sign with a real distribution identity, add the `CodesignKey` and `CodesignProvision`
-properties, naming the distribution certificate and provisioning profile created in §11:
+To sign with a real distribution identity, supply `CodesignKey` and `CodesignProvision`, naming the
+distribution certificate and provisioning profile you created for this app — **together with the
+archive properties**:
 
 ```
 dotnet publish -f net10.0-ios -c Release ^
+  -p:ArchiveOnBuild=true ^
+  -p:RuntimeIdentifier=ios-arm64 ^
   -p:CodesignKey="Apple Distribution: <Your Name or Org> (<Team ID>)" ^
   -p:CodesignProvision="<Provisioning Profile Name>"
 ```
+
+**`ArchiveOnBuild=true` is not optional, and an earlier revision of this guide omitted it.**
+Microsoft documents that property as the one that produces the `.ipa`. Without it the SDK never
+reaches the target that writes the package, so the command signs a build and still leaves you with
+no artefact — the same empty-publish-folder outcome §9 documents, reached by a longer route. The
+ad hoc and enterprise guides in this repository have always carried both properties; this guide
+now matches them.
 
 Creating the distribution certificate itself is documented by Microsoft as a Visual-Studio-driven
 step (**Tools > Options > Xamarin > Apple Accounts > Create Certificate > iOS Distribution**),
@@ -133,9 +187,14 @@ tooling limitation this guide names plainly, not an unstated one.
 
 ## 11. Package
 
-Once signed with a real identity, `dotnet publish` (or Visual Studio's own Archive/Distribute
-flow) produces the `.ipa` uploaded to App Store Connect. **No `.ipa` exists before that point** —
-see the warning in §9. There is no unsigned intermediate package to inspect on this platform.
+Run with **both** a real signing identity **and** the archive properties — the full command is in
+§10 — and `dotnet publish` (or Visual Studio's own Archive/Distribute flow) produces the `.ipa`
+uploaded to App Store Connect.
+
+**Two conditions, not one.** Signing alone does not yield a package, and `ArchiveOnBuild` alone
+fails with `Code signing must be enabled to create an Xcode archive.` **No `.ipa` exists until
+both are satisfied** — see the warning in §9. There is no unsigned intermediate package to inspect
+on this platform, so the only proof is the file on disk.
 
 ## 12. Configure Distribution Platform
 
@@ -173,9 +232,9 @@ the certificate itself is compromised or no longer needed.
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
 | Build rejected: privacy manifest missing a declaration | A required-reason API or third-party SDK is used but not declared | Check App Review's rejection message for the named API | Add the declaration to the privacy manifest, per §5, and resubmit |
-| Signing mismatch on upload | Provisioning profile does not match the certificate or Bundle ID used to sign | Compare the profile's App ID and certificate against `CodesignProvision`/`CodesignKey` | Regenerate or select the correct profile in §11 |
+| Signing mismatch on upload | Provisioning profile does not match the certificate or Bundle ID used to sign | Compare the profile's App ID and certificate against `CodesignProvision`/`CodesignKey` | Regenerate or select the correct profile, per §10 |
 | Build built on the wrong SDK | Tooling predates the iOS 26 SDK requirement (effective 2026-04-28) | Check the installed `ios` workload version | Update the .NET MAUI iOS workload before building |
-| Build reports `Created the package: ...DistributionSample.ipa` but no `.ipa` exists | The SDK's `Publish` target prints this message unconditionally when `BuildIpa` is true, without running `CreateIpa` | List the `publish` folder; it is empty | Expected without signing. Supply `CodesignKey`/`CodesignProvision` per §10, or use the Archive/Distribute flow. See §9 |
+| Build reports `Created the package: ...DistributionSample.ipa` but no `.ipa` exists | The SDK's `Publish` target prints this message unconditionally when `BuildIpa` is true, without running the target that writes the package | List the `publish` folder; it is empty | Supply `CodesignKey`/`CodesignProvision` **together with `ArchiveOnBuild=true`**, per §10 — signing alone is not enough — or use the Archive/Distribute flow. See §9 |
 | `error : Code signing must be enabled to create an Xcode archive.` | `ArchiveOnBuild=true` was set with no signing identity | Confirm whether `CodesignKey` and `CodesignProvision` are supplied | Supply a real distribution identity per §10, or drop `ArchiveOnBuild` and accept that no `.ipa` is produced |
 
 ## 18. Limitations
@@ -194,11 +253,22 @@ guaranteed; do not present any duration as a commitment.
 - [Publish a .NET MAUI iOS app for App Store distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-app-store?view=net-maui-10.0)
 - [Publish a .NET MAUI iOS app using the command line — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-cli?view=net-maui-10.0)
 - [Apple Developer Program — Become a member](https://developer.apple.com/programs/enroll/)
+- [Apple Developer Program membership fee waivers](https://developer.apple.com/help/account/membership/fee-waivers/) — the source for §4's waiver conditions
+- [D-U-N-S Number requirement](https://developer.apple.com/support/D-U-N-S/) — the source for §4's government-organisation exception
 - [Apple Developer — SDK minimum requirements](https://developer.apple.com/news/upcoming-requirements/)
 
 ## 20. Last Verified
 
-2026-08-23 — the §9 build claims were verified by execution against this repository's own sample
-application, including a clean-tree re-run that corrected an earlier, incorrect claim that an
-`.ipa` had been produced. Packaging and signing (§10-§11) are **not** execution-verified. All other
-claims were verified against the sources in §19 on the same date.
+This section separates two different dates, because they mean different things and only one of
+them can advance.
+
+**Sources last verified: 2026-08-26.** Every claim resting on §19's sources was re-checked on that
+date. That pass corrected §4's D-U-N-S and fee-waiver conditions, narrowed §5's privacy-manifest
+scope to Apple's published SDK list, restated §5's SDK floor as an *upload* requirement, and
+replaced §7's incorrect description of unsigned builds.
+
+**Execution evidence: 2026-08-23.** The §9 build claims were verified by execution against this
+repository's own sample application, including a clean-tree re-run that corrected an earlier,
+incorrect claim that an `.ipa` had been produced. **That date does not advance when sources are
+re-verified** — the run happened when it happened. Packaging and signing (§10-§11) are **not**
+execution-verified.

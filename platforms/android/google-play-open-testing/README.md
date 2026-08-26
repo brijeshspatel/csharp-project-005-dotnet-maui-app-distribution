@@ -41,8 +41,9 @@ created after 13 November 2023, that means the closed test described in the
 completed first. **Open testing is therefore not a starting point**, despite being the most open
 track.
 
-**Tester capacity: unlimited by default.** You may instead specify a target with a minimum of
-1,000 testers.
+**Tester capacity: unlimited by default.** You may instead set a limited number, which Google
+requires to be **at least 1,000**. That figure is the smallest cap you are allowed to set — **not**
+a number of testers you must recruit. A capped track with nine testers in it is perfectly normal.
 
 ## 5. Prerequisites
 
@@ -102,10 +103,11 @@ The `.aab` is the upload artefact. **Confirm it exists by listing
 
 ## 12. Configure Distribution Platform
 
-In Play Console, open **Testing > Open testing**:
+In Play Console, open **Test and release > Testing > Open testing**:
 
 1. Select the track.
-2. Choose the tester capacity: unlimited, or a target with a minimum of 1,000.
+2. Choose the tester capacity: unlimited, or a limited number set to at least 1,000 — the minimum
+   permitted cap, not a recruitment target.
 3. Save, and copy the **opt-in link** for sharing directly.
 
 No email list and no Google Group are required.
@@ -179,6 +181,11 @@ for your own account rather than assuming this guide's applies.
 
 ## 20. Last Verified
 
-2026-08-24 — every claim verified against the sources in §19 on this date. The build step it relies
-on was verified by execution in the public release guide and is not re-executed here. Nothing in
+**Sources last verified: 2026-08-26.** Every claim was re-checked against the sources in §19 on
+that date. That pass clarified that the 1,000 figure is the minimum permitted value of a tester
+*cap*, not a number of testers you must recruit.
+
+**Execution evidence: 2026-08-23.** The build step this channel relies on was verified by execution
+in the [public release guide](../google-play-public-release/README.md#9-build) on that date and is
+not re-executed here; **that date does not advance when sources are re-verified**. Nothing in
 §12-§16 is execution-verified; see §18.

@@ -105,7 +105,7 @@ is not sufficient evidence.
 
 ## 12. Configure Distribution Platform
 
-In Play Console, open **Testing > Internal testing**:
+In Play Console, open **Test and release > Testing > Internal testing**:
 
 1. On the **Testers** tab, create or select an email list, and add tester addresses. Enter them
    comma-separated, or upload a CSV.
@@ -177,6 +177,11 @@ read it as pre-approval.
 
 ## 20. Last Verified
 
-2026-08-24 — every claim verified against the sources in §19 on this date. The build step it relies
-on was verified by execution in the public release guide and is not re-executed here. Nothing in
+**Sources last verified: 2026-08-26.** Every claim was re-checked against the sources in §19 on
+that date, including the 100-tester ceiling and the rule that a tester opted into internal testing
+is excluded from the open and closed tracks until they opt out.
+
+**Execution evidence: 2026-08-23.** The build step this channel relies on was verified by execution
+in the [public release guide](../google-play-public-release/README.md#9-build) on that date and is
+not re-executed here; **that date does not advance when sources are re-verified**. Nothing in
 §12-§16 is execution-verified; see §18.

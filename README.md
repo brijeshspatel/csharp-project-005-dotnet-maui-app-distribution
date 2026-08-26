@@ -70,13 +70,13 @@ platform.
 |---|---|
 | [Channel catalogue](docs/channel-catalogue.md) | Every channel in scope, and the twenty-section contract each guide follows |
 | [Controlled terminology](docs/reference/terminology.md) | One term per concept, using each vendor's own official term |
-| [Channel completeness matrix](docs/reference/channel-completeness-matrix.md) | Which sections each channel guide actually completed |
+| [Channel completeness matrix](docs/reference/channel-completeness-matrix.md) | Per-channel coverage across eleven review areas, and what each area rests on — documentation, or execution |
 | [Requirements and freshness register](docs/reference/requirements-freshness-register.md) | Every time-sensitive requirement, its source, and when to re-check it |
 
 ## How this guide is kept true
 
 Nothing here is reported as correct because it was written. Before each release of this guide,
-automated checks confirm that:
+checks are run to confirm that:
 
 - every internal heading anchor resolves, so no cross-reference is silently broken;
 - every page has exactly one title, and the table of contents above lists every channel in the
@@ -89,12 +89,23 @@ Those checks are maintained separately from this guide, so what is published her
 result rather than the machinery that verifies it. Their findings are what the `Last Verified`
 dates rest on.
 
+**Be aware of what that costs you as a reader.** Because the tooling is not in this repository,
+you cannot re-run it, and these five statements are not independently falsifiable from what you
+have in front of you. The claims you *can* check yourself are the ones each guide makes in its own
+§9 and §18 — the commands, their exact output, and what was explicitly not executed. Weigh those
+more heavily than this section.
+
 **Two build warnings to carry into your own project**, both found here by execution:
 
 - `dotnet publish -f net10.0-ios -c Release` **writes no `.ipa`** while printing that it did, and
-  exiting 0 with 0 warnings. **List the file; never read the log.**
+  exiting 0 with 0 warnings. The mechanism matches the still-open
+  [dotnet/macios#20958](https://github.com/dotnet/macios/issues/20958), though that issue's repro
+  differs from the command run here. **List the file; never read the log.** There is no
+  self-signed fallback: an `.ipa` needs a real Apple identity.
 - `dotnet publish -f net10.0-android -c Release` **fails from a clean tree** with `XAGNM7009`.
-  Adding `-p:AndroidEnableMarshalMethods=false` makes it succeed.
+  Adding `-p:AndroidEnableMarshalMethods=false` makes it succeed. The failure and the fix were both
+  observed here; Microsoft does not document that property as the remedy for that error, so treat
+  the link as inference and the property as a mitigation, not a default.
 
 ## Scope
 
@@ -103,8 +114,10 @@ is mobile application distribution; Windows distribution may be added later if t
 need.
 
 Most channels here are **documented, not demonstrated** — each guide says which it is in its own
-section 18. Only Google Play public release and direct APK distribution have execution-verified
-build paths, and no channel has a verified upload, review or installation.
+section 18. Only Google Play public release and direct APK distribution have build paths that were
+executed **successfully**, producing an artefact confirmed on disk. The two Apple builds were also
+executed, but what they demonstrate is their *failure* modes, recorded exactly. **No channel has a
+verified upload, review or installation.**
 
 ## Changes
 

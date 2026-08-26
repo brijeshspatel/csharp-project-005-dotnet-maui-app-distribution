@@ -4,7 +4,7 @@ Publish to TestFlight, shortest safe path. Links back to the [full guide](../REA
 step.
 
 1. Complete Apple App Store prerequisites and signing — same identity, same steps. See
-   [§4-§11](../README.md#4-eligibility).
+   [§4 Eligibility](../README.md#4-eligibility) through [§11 Package](../README.md#11-package).
 2. Add a beta app description and beta app review information in App Store Connect. See
    [§12](../README.md#12-configure-distribution-platform).
 3. Upload the build. Internal testers get it in minutes; external testers need Apple's beta

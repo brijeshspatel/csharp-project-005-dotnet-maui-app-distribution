@@ -32,6 +32,7 @@ its guide exists.
 | Channel | Platform | Status |
 |---|---|---|
 | Microsoft Store / Windows application distribution | Microsoft | excluded from this phase — the objective is mobile application distribution; may be added later if there is a clear need |
+| Mac App Store / macOS application distribution | Apple | excluded from this phase, for the same reason. Note that the sample application still **builds** `net10.0-maccatalyst`, because it is retained as stock template output — a build target is not a documented distribution channel, and no guide here covers shipping it |
 
 ## Section contract every documented channel follows
 

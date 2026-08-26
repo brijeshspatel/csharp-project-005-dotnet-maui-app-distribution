@@ -256,6 +256,18 @@ orleans.codegen.cs
 # (https://github.com/github/gitignore/pull/1529#issuecomment-104372622)
 #bower_components/
 
+# Android and Apple signing material.
+# Losing one of these ends your ability to update a published listing; committing one hands that
+# ability to anyone who can read the repository. The Google Play guide's §10 tells readers this
+# file excludes them, so these patterns must stay for that statement to remain true.
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+*.cer
+*.certSigningRequest
+keystore.properties
+
 # RIA/Silverlight projects
 Generated_Code/
 
@@ -481,8 +493,11 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
-# The governance machinery stays on disk so the workspace checkers can read it,
-# and out of git so a cloner receives the guide rather than the tooling that
-# verifies it. Recorded in ADR 0015; project 003 set the precedent.
+# Governance machinery, ignored so a cloner receives the guide rather than the
+# tooling that verifies it. These paths may or may not be present in any given
+# working copy - the patterns are kept either way so the tooling can never be
+# committed by accident. The root README's "How this guide is kept true"
+# section states the consequence for readers: these checks cannot be re-run
+# from a clone.
 config/
 .aia-conventions.json

@@ -278,5 +278,10 @@ application at its sole discretion.
 
 ## 20. Last Verified
 
-2026-08-24 — every claim verified against the sources in §19 on this date. No step was executed;
-see §18.
+**Sources last verified: 2026-08-26.** Every claim was re-checked against the sources in §19 on
+that date. That pass confirmed the App Store Connect distribution-method rule in §12 verbatim
+against Apple's own wording, and confirmed the Enterprise Program's fee, eligibility criteria and
+permitted-use statement.
+
+**Execution evidence: none.** No step in this guide was executed in this repository; every claim
+rests on §19's sources. See §18.

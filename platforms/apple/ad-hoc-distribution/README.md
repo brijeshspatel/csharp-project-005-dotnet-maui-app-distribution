@@ -69,8 +69,8 @@ with is a slot you cannot recover until renewal.
 | An App ID | May be the same App ID used for development and for App Store release |
 | The UDID of every target device | Collected per device, before the provisioning profile is created |
 | An **ad hoc** distribution provisioning profile | Distinct from the App Store profile. It embeds the device list |
-| A Mac, or a Mac build host paired to Visual Studio | Required to produce a signed `.ipa`. See §9 |
-| Apple Configurator, on a Mac | Required for the installation route this guide verifies. See §13 |
+| A Mac, or a Mac build host paired to Visual Studio | Required to produce a signed `.ipa`. See §10 |
+| Apple Configurator, on a Mac | Required for the installation route this guide **documents** — no installation was executed here, see §18. See §13 |
 
 ## 6. How to Obtain the Prerequisites
 
@@ -113,8 +113,11 @@ that governs day-to-day use:
 the profile with the new device included, then re-sign and redistribute the build. There is no way
 to authorise a new device against an already-distributed ad hoc build.
 
-An ad hoc build is signed with a real distribution identity. It is not the self-signed output
-described in the App Store guide's §9, and the two must not be confused.
+An ad hoc build is signed with a **real distribution identity**. Despite the shared adjective, it
+has nothing to do with *ad hoc code signing* (`codesign -s -`), which the .NET SDK applies only to
+simulator builds and which never produces a distributable package. The App Store guide's
+[§9](../app-store-public-release/README.md#9-build) records a build that produced **no package at
+all** — the absence of a signed artefact, not the presence of a self-signed one.
 
 ## 8. Application Preparation
 
@@ -133,8 +136,10 @@ Producing an ad hoc `.ipa` requires the archive form of the publish command:
 dotnet publish -f net10.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64
 ```
 
-**Verified by execution, 2026-08-24**, against this repository's own sample application: this
-command **fails**, correctly and immediately, with:
+**Verified by execution, 2026-08-24**, against this repository's own sample application — a re-run
+of the same command the [App Store guide](../app-store-public-release/README.md#9-build) executed
+on 2026-08-23, repeated here because this channel depends on it rather than merely referencing it.
+Both runs produced the same result. This command **fails**, correctly and immediately, with:
 
 ```
 error : Code signing must be enabled to create an Xcode archive.
@@ -291,12 +296,17 @@ planning around it.
 
 - [Publish a .NET MAUI iOS app for ad-hoc distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-ad-hoc?view=net-maui-10.0)
 - [Publish a .NET MAUI iOS app using the command line — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-cli?view=net-maui-10.0)
-- [Devices overview — Apple Developer Account Help](https://developer.apple.com/help/account/register-devices/devices-overview/)
-- [Register a single device — Apple Developer Account Help](https://developer.apple.com/help/account/register-devices/register-a-single-device/)
+- [Devices overview — Apple Developer Account Help](https://developer.apple.com/help/account/devices/devices-overview/)
+- [Register a single device — Apple Developer Account Help](https://developer.apple.com/help/account/devices/register-a-single-device/)
 - [Add apps to a device in Apple Configurator for Mac — Apple Support](https://support.apple.com/guide/apple-configurator-mac/add-apps-to-a-device-cad4cd08c03/mac)
 
 ## 20. Last Verified
 
-2026-08-24 — every claim verified against the sources in §19 on this date. The §9 build failure was
-verified by execution against this repository's own sample application on the same date. Signing,
-packaging, device registration and installation are **not** execution-verified; see §18.
+**Sources last verified: 2026-08-26.** Every claim was re-checked against the sources in §19 on
+that date. That pass updated two §19 URLs to Apple's canonical `/help/account/devices/` locations
+after Apple reorganised those pages, and corrected §7's description of ad hoc *code signing*.
+
+**Execution evidence: 2026-08-24.** The §9 build failure was verified by execution against this
+repository's own sample application on that date; **that date does not advance when sources are
+re-verified**. Signing, packaging, device registration and installation are **not**
+execution-verified; see §18.

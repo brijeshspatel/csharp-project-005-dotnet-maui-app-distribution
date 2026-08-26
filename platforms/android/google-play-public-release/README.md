@@ -26,7 +26,7 @@ You need a **Google Play Console developer account**: a **one-time, non-refundab
 registration fee, plus identity verification. **If your personal account was created after
 2023-11-13, Google requires a 14-day closed test with at least 12 opted-in testers before
 granting production access** — this applies before you can use this channel at all, so confirm
-your account's creation date and status first. **Last verified: 2026-08-23.**
+your account's creation date and status first. **Last verified: 2026-08-26.**
 
 ## 5. Prerequisites
 
@@ -36,17 +36,21 @@ your account's creation date and status first. **Last verified: 2026-08-23.**
 - App icons, a feature graphic and screenshots meeting Google Play's current published sizes.
 - A publicly accessible privacy policy URL.
 - A completed **Data safety** declaration describing what data your app collects and why.
-- **Your build must target the current required API level.** **API level 36 is required from
-  2026-08-31.** Google raises this floor every year, and an app below it cannot be submitted,
-  so confirm the current requirement before you build rather than trusting any fixed number,
-  including this one (§17). Google offers an extension to **2026-11-01** for the API 36
-  deadline, requested through Play Console.
+- **Your build must target the current required API level.** As of this guide's verification date,
+  **API 35 is the binding floor, and API 36 is required for new apps and updates from
+  2026-08-31.** An extension to **2026-11-01** can be requested through Play Console's **Policy
+  status** page. Google raises this floor every year and an app below it cannot be submitted, so
+  confirm the current requirement before you build rather than trusting any fixed number,
+  including this one (§17). Wear OS and Android Automotive sit at API 35; Android TV and Android
+  XR at API 34.
 
 ## 6. How to Obtain the Prerequisites
 
 Register at Google Play Console, pay the one-time fee, and complete identity verification before
 creating your first app listing. If the closed-test requirement in §4 applies to your account,
-plan for at least 14 days between your first internal build and requesting production access.
+plan for at least 14 days between **starting the closed test** and requesting production access.
+The clock runs on the closed track specifically — an internal test, however early you start one,
+does not count towards it.
 
 ## 7. Security Model
 
@@ -67,8 +71,10 @@ against §5's current requirement before building for release.
 
 **Verified by execution against this repository's own sample application**
 (`sample/DistributionSample`), 2026-08-23, **at this repository's own real path** — not only a
-scratch fixture, because an earlier specification-review test found this exact command can fail
-from a sufficiently long Windows path (AAPT2 "failed to open file"):
+scratch fixture, because an earlier specification-review test saw this exact command fail from a
+sufficiently long Windows path, reporting an AAPT2 "failed to open file". That symptom has several
+possible causes and path length is only one of them (§17) — the reason to build at the real path
+is that a short scratch path cannot reproduce the condition either way:
 
 ```
 dotnet publish -f net10.0-android -c Release
@@ -85,8 +91,20 @@ state for architecture 'Arm64'
 and writes no `.aab`. This was reproduced on two consecutive clean attempts, run sequentially and
 **not** under concurrent load, which rules out resource contention as the cause.
 
-**The command that completes here disables marshal methods**, which .NET 10 enables by default and
-which Microsoft documents as the mitigation when marshal methods misbehave:
+**What `XAGNM7009` appears to be.** .NET for Android composes unhandled-exception codes as
+`XA<TaskPrefix><Number>`, where `7009` denotes an `InvalidOperationException` — the same pattern is
+visible in the documented `XAGJS7009` from the `GenerateJavaStubs` task. On that reading `GNM`
+points to the marshal-methods source generator, which matches both the failing step and the
+"missing native code generation state" text quoted above.
+
+**Treat that as a decode, not a citation.** `XAGNM7009` is absent from Microsoft's published
+error-message index, so there is no reference page to check it against, and the `GNM` prefix
+expansion is inferred from the naming scheme rather than read off a first-party prefix table.
+
+**The command that completes here disables marshal methods.** Microsoft's .NET 10 release notes
+say marshal methods are enabled by default in .NET 10, having been off by default in .NET 9 — note
+that the build-properties reference page still says "False by default", and is stale against those
+notes:
 
 ```
 dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
@@ -100,6 +118,12 @@ This exits 0 and writes these artefacts to `bin/Release/net10.0-android/publish/
 | `com.companyname.distributionsample-Signed.aab` | 28,478,415 bytes | debug-signed App Bundle |
 | `com.companyname.distributionsample-Signed.apk` | 29,058,372 bytes | debug-signed APK, local testing only |
 
+**This table lists the App Bundle artefacts, which are what this channel uploads.** The command
+carried no `AndroidPackageFormats`, and a Release build defaults to `aab;apk`, so APK artefacts
+were written alongside these and are simply not reproduced here — the direct APK guide's §9 covers
+that output in full. Nothing is being hidden: the omission is by relevance, not by selection of
+convenient evidence.
+
 **The sizes are quoted because each file was confirmed on disk, not because a log said so.** A
 .NET publish can report success and name an artefact it never wrote — this repository's iOS guide
 documents exactly that behaviour for the same sample application, in its
@@ -108,11 +132,17 @@ message.**
 
 **Google Play requires the App Bundle (`.aab`) format**, not the `.apk`, for new app submissions.
 
-**Disabling marshal methods is a mitigation, not a default to adopt blindly.** Marshal methods are
-a startup-performance optimisation. Disabling them is the documented response to a marshal-method
-fault, and it is what makes this build complete here; it is not a recommendation for a project
-whose build already succeeds without it. Retest with the property removed after any Android
-workload update.
+**Disabling marshal methods is a mitigation, not a default to adopt blindly.** Microsoft describes
+marshal methods as "an app startup optimization which uses native entry points for Java `native`
+method registration", so turning them off is a genuine performance trade, not a free switch.
+
+**Be clear about what is established here and what is inferred.** That this build fails with
+`XAGNM7009` and succeeds with `-p:AndroidEnableMarshalMethods=false` was observed by execution.
+That the property is *the* prescribed remedy for this error is **inference** — reasonable, because
+the failing task is the marshal-methods generator and the property stops it running, but Microsoft
+does not document that link. Treat it as a working mitigation for this toolchain, not a
+recommendation for a project whose build already succeeds without it, and retest with the property
+removed after any Android workload update.
 
 **One further trap, observed here.** Setting `AndroidEnableMarshalMethods=false` against a `obj/`
 directory produced with marshal methods **enabled** fails differently again, with R8 reporting
@@ -124,18 +154,36 @@ state, not a property fault. Clean `obj/` when you change this property.
 The build in §9 produces a debug-signed package alongside the unsigned one when no explicit
 signing configuration is supplied. **A debug-signed bundle is for local testing only and Google
 Play will reject it.** For a real release, configure signing explicitly, referencing your own
-upload keystore:
+upload keystore.
+
+**`AndroidKeyStore=true` is the property that switches custom signing on, and it defaults to
+`false`.** Supplying the keystore path, alias and passwords *without* it does not error — the
+properties are simply ignored, and you get the same debug-signed package this section is warning
+you about. An earlier revision of this command omitted it. The marshal-methods property from §9 is
+also carried here, because this build is subject to the same clean-tree failure:
 
 ```
 dotnet publish -f net10.0-android -c Release ^
+  -p:AndroidEnableMarshalMethods=false ^
+  -p:AndroidKeyStore=true ^
   -p:AndroidSigningKeyStore=<path-to-keystore> ^
   -p:AndroidSigningKeyAlias=<key-alias> ^
-  -p:AndroidSigningKeyPass=<key-password> ^
-  -p:AndroidSigningStorePass=<store-password>
+  -p:AndroidSigningKeyPass=file:<file-holding-key-password> ^
+  -p:AndroidSigningStorePass=file:<file-holding-store-password>
 ```
 
+**The `file:` prefix is used here rather than `env:`, deliberately.** Both keep the passphrase out
+of the build log, but Microsoft documents that **`env:` is not supported when the package format is
+`aab`** — which is exactly what this channel uploads. The direct APK guide, whose output is an
+`.apk`, uses `env:` for that reason and
+[explains the restriction's exact scope](../direct-apk-distribution/README.md#10-sign). Where your
+output includes an App Bundle, prefer `file:`.
+
 **Never commit a keystore or its passwords to source control.** Use a secrets manager or a CI
-secret store; this repository's own `.gitignore` excludes common keystore file extensions.
+secret store. This repository's own [`.gitignore`](../../../.gitignore) excludes `*.keystore`,
+`*.jks`, `*.p12`, `*.pfx` and `keystore.properties`, along with the Apple equivalents — but treat
+that as a backstop, not a control. **The reliable answer is to keep signing material outside the
+repository entirely**, where no ignore rule has to be correct for it to stay out.
 
 ## 11. Package
 
@@ -151,10 +199,18 @@ publishing to production with these incomplete.
 
 ## 13. Deploy
 
-For a brand-new app, the first `.aab` **must be uploaded manually** through Play Console's own
-release flow — this is what establishes the signing key relationship for every future release.
-Subsequent releases may use `dotnet publish` plus Play Console's upload, or the Google Play
-Developer API for automation (not covered by this guide's manual-first scope).
+**Make the first release deliberately — but not because a rule forces you to.** An earlier revision
+of this guide said the first `.aab` "must be uploaded manually" through Play Console. **Google
+documents no such requirement.** The Play Developer API supports uploading a bundle and creating a
+draft release, and no first-party page restricts the first upload to the console.
+
+What *is* true is why the first release matters: it configures **Play App Signing**, and the key
+you sign it with becomes your **upload key** for every release afterwards. That is an
+effectively irreversible step, so many teams do the first one by hand to slow themselves down at
+it. Treat that as sound practice, not as a platform constraint.
+
+Later releases may use `dotnet publish` plus a Play Console upload, or the Play Developer API for
+automation. Automating that pipeline is outside this guide's scope.
 
 ## 14. Validate
 
@@ -169,32 +225,40 @@ whose version code does not exceed the previous release.
 
 ## 16. Revoke / Withdraw / Retire
 
-Unpublish an app from its Play Console listing (**Grow > Store presence > Main store listing**
-status controls, or the dedicated unpublish action). This stops new installs; it does not remove
-the app from devices that already installed it. There is no equivalent to revoking a certificate
-here unless you manage your own signing key outside Play App Signing.
+Unpublish an app from **Test and release > Setup > Advanced settings > App availability**. (This
+is not under *Grow > Store presence*, where the listing content is edited — an earlier revision of
+this guide sent readers there.) Unpublishing stops new installs; **it does not remove the app from
+devices that already installed it.**
+
+**There is no certificate-revocation equivalent on this platform.** Revoking a signing certificate
+is an Apple concept; with Play App Signing, Google holds the app signing key and you cannot
+invalidate previously installed copies. If you manage your own signing key outside Play App
+Signing you control that key, but that still does not retract installed builds — it only affects
+what you can sign in future. Plan withdrawal as "stop distributing and ship a replacement".
 
 ## 17. Troubleshooting
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
-| `dotnet publish -f net10.0-android -c Release` fails with `APT2098`/`APT2261` "failed to open file" | Project path is too long for the Android resource compiler on Windows | Compare your project's full path length against a known-short path | Move the project closer to a drive root, or enable Windows long-path support |
+| `dotnet publish -f net10.0-android -c Release` fails with `APT2264`, or with `APT2098` "failed to open file" / `APT2261` "file failed to compile" | Project path is too long for the Android resource compiler on Windows. **`APT2264` is the only one of these Microsoft ties to path length**, and even there the wording is "generally caused by", not exclusively; `APT2098` and `APT2261` are generic open/compile failures with many possible causes, of which a long path is one | Compare your project's full path length against a known-short path | Move the project closer to a drive root, enable Windows long-path support, or redirect `$(BaseIntermediateOutputPath)` nearer the drive root via `Directory.Build.props` |
 | Same command fails with `javac.exe exited with code 1` and no further detail | May be transient resource contention from concurrent processes | Re-run with `-v:detailed` and inspect the actual javac output | Retry; if it recurs identically, inspect the detailed log for a real compiler error |
 | `error XAGNM7009: ... missing native code generation state for architecture 'Arm64'` | Marshal methods, enabled by default in .NET 10, fail during native code generation | Re-run from a clean tree; it reproduces | Add `-p:AndroidEnableMarshalMethods=false`, per §9 |
 | R8 reports `Type android.runtime.JavaProxyThrowable is defined multiple times` | `AndroidEnableMarshalMethods` was changed against a stale `obj/` | Check whether the property changed since the last build | Delete `obj/` and rebuild, per §9 |
 | Publish reports success but no `.aab` is on disk | The artefact was never written; the message is not proof | List `bin/Release/net10.0-android/publish/` | Treat as a failure and read the full log. See the iOS guide's §9 for the same class of defect |
-| Upload rejected for target API level | Build targets an API level below Google Play's current floor | Check the current floor in the register (§ Requirements & Freshness Register) | Update `TargetFramework`/Android API level and rebuild |
+| Upload rejected for target API level | Build targets an API level below Google Play's current floor | Check the current floor in the [Requirements & Freshness Register](../../../docs/reference/requirements-freshness-register.md) | Update `TargetFramework`/Android API level and rebuild |
 | Upload rejected: signing key mismatch | Uploaded `.aab` was signed with a different key than the app's first release | Confirm which upload key Play Console expects for this app | Use the correct upload key, or use Play Console's key-reset process if it was lost |
 
 ## 18. Limitations
 
 This guide's build step (§9) was verified by execution at this repository's own real path, on
-Windows, from a clean tree, confirming Risk R-8 (path length) does not affect this specific path.
+Windows, from a clean tree, confirming that path length does not affect this specific path.
 **It required `-p:AndroidEnableMarshalMethods=false`; the command without that property does not
 complete on this toolchain.** The artefacts were confirmed on disk by listing them, not inferred
 from the build log. Real upload key generation and the actual Play Console submission flow were
 not executed in this run — they require a real, verified Google Play Console account. The API-level floor in §5 changes on a
-published schedule (§ Requirements & Freshness Register) and must be re-checked, not assumed
+published schedule (see the
+[Requirements & Freshness Register](../../../docs/reference/requirements-freshness-register.md))
+and must be re-checked, not assumed
 current, after 2026-08-31.
 
 ## 19. Official Sources
@@ -206,7 +270,17 @@ current, after 2026-08-31.
 
 ## 20. Last Verified
 
-2026-08-23 — build claims verified by execution against this repository's own sample application,
-at its real repository path, from a clean tree, with the produced artefacts confirmed on disk.
-Signing with a real upload key and the Play Console submission flow are **not** execution-verified.
-All other claims were verified against the sources in §19 on the same date.
+This section separates two different dates, because they mean different things and only one of
+them can advance.
+
+**Sources last verified: 2026-08-26.** Every claim resting on §19's sources was re-checked on that
+date. That pass restated §5's target API level (API 35 is the currently binding floor; API 36
+applies from 2026-08-31, extendable to 2026-11-01 via Play Console's Policy status page),
+corrected §17's AAPT2 error-code guidance, and marked the marshal-methods workaround in §9 as
+**observed but not documented** by Microsoft as the remedy for `XAGNM7009`.
+
+**Execution evidence: 2026-08-23.** Build claims verified by execution against this repository's
+own sample application, at its real repository path, from a clean tree, with the produced
+artefacts confirmed on disk. **That date does not advance when sources are re-verified** — the run
+happened when it happened. Signing with a real upload key and the Play Console submission flow are
+**not** execution-verified.

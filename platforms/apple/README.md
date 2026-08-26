@@ -53,9 +53,12 @@ anything you intend to ship.
 
 - An active **Apple Developer Program** membership. The Enterprise Program is a separate
   programme with its own eligibility, covered in the enterprise guide.
-- A **Bundle ID**, registered in your Apple Developer account, matching the Application ID in the
-  project and the value in `Info.plist`. It is permanent once you publish with it.
-- The **iOS 26 SDK / Xcode 26** toolchain, required for submissions from 2026-04-28.
+- A **Bundle ID**, registered in your Apple Developer account, matching `<ApplicationId>` in the
+  project file. **That property is the only place it lives** — single-project MAUI generates the
+  bundle identifier from it, and `Platforms/iOS/Info.plist` carries no `CFBundleIdentifier` to
+  cross-check or keep in step. It is permanent once you publish with it.
+- **Xcode 26 with an iOS 26 SDK**, required for anything **uploaded** to App Store Connect from
+  2026-04-28. Apple frames this as an upload requirement, not a submission one.
 - A **Mac** for the signing and packaging steps.
 
 Each channel guide's §5 lists what it adds to this.
@@ -64,8 +67,13 @@ Each channel guide's §5 lists what it adds to this.
 
 `dotnet publish -f net10.0-ios -c Release` **exits 0, reports 0 warnings, prints
 `Created the package: ...ipa`, and writes no file.** The SDK's `Publish` target emits that line
-whenever `BuildIpa` is set and never invokes the target that creates the package. A real `.ipa`
-needs a genuine Apple signing identity.
+whenever `BuildIpa` is set, without ever reaching the target that writes the package.
+
+**A real `.ipa` needs two things, not one:** a genuine Apple signing identity **and** the archive
+properties (`-p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64`). Signing without archiving
+still produces no file; archiving without signing fails with `Code signing must be enabled to
+create an Xcode archive.` See
+[App Store public release §10](app-store-public-release/README.md#10-sign) for the full command.
 
 **List the file. Never read the log.** This cost one wrong claim in this guide before it was
 caught, and it is why every Apple channel's packaging step says to check the filesystem.
