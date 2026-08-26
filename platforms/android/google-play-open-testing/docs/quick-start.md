@@ -13,7 +13,7 @@ first. See [§4](../README.md#4-eligibility).
    `dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
    -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=<keystore> -p:AndroidSigningKeyAlias=<alias>
    -p:AndroidSigningKeyPass=file:<file> -p:AndroidSigningStorePass=file:<file>`. See
-   [§9](../README.md#9-build).
+   [§9 Build](../README.md#9-build) and [§10 Sign](../README.md#10-sign).
 2. Confirm the `.aab` exists by **listing** `bin/Release/net10.0-android/publish/`. See
    [§11](../README.md#11-package).
 3. Finish the store listing to a public standard — the app becomes publicly visible, and review
@@ -33,5 +33,5 @@ STOP — VERIFY BEFORE CONTINUING: state the private feedback route in the listi
 out. Testers who cannot report a problem privately report it publicly instead. See
 [§8](../README.md#8-application-preparation).
 
- You have no list of who installed an open test build, so you cannot withdraw it from testers.
+You have no list of who installed an open test build, so you cannot withdraw it from testers.
 Withdrawal limits future reach only. See [§16](../README.md#16-revoke--withdraw--retire).

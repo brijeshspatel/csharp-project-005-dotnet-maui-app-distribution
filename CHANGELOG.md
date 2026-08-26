@@ -15,10 +15,19 @@ and named as errors, not as improvements.
 
 **Each pass found what the previous one missed, and the pattern is the finding.** A correction
 applied to five files but not the sixth is not a correction; it is a contradiction with better
-coverage. That happened *six separate times* in this release: with the manual-upload claim,
+coverage. That happened *nine separate times* in this release: the manual-upload claim,
 `ArchiveOnBuild`, `AndroidKeyStore=true`, the Play Console **Test and release** rename, the
-"upload, not submission" restatement, and the `env:`/`file:` password prefix. Every time the fix
+"upload, not submission" restatement, the `env:`/`file:` password prefix, the Bundle ID's location,
+the `keytool → apksigner` replacement, and the APK upload-format qualification. Every time the fix
 itself was right and its propagation was not.
+
+**The last two are worth reading closely, because they are the subtler form of the fault.** They
+were not fixes that stopped short — they were fixes that travelled *too far*. `apksigner` genuinely
+is the right tool to read an APK signature, and it was copied into a checklist step whose artefact
+is an App Bundle, which Google documents it as unable to read. The APK terminology row was
+correctly told that no Play *track* accepts an APK today, and restated that as though it had always
+been so for every app. A correction carried into a context it does not fit is still a defect, and
+it is harder to grep for than one that was simply missed.
 
 **So the rule this release leaves behind is procedural, not factual.** A claim in this repository
 typically appears in five or six places — the channel guide, its quick start, the platform hub, the
@@ -164,6 +173,26 @@ this repository failing at precisely the thing it claims to be for.
   2026-08-23 in the App Store guide, 2026-08-24 in the ad hoc guide. The ad hoc guide now says
   explicitly that it re-ran the App Store guide's command a day later and got the same result,
   rather than leaving two dates for one observation.
+- **Found by a seventh pass: the Bundle ID was still said to live in `Info.plist` in the Apple
+  hub.** The correction had reached the App Store guide's §8 and the iOS checklist but not the hub,
+  which is where a reader arrives first. The claim is also false about this repository's own
+  sample, whose `Platforms/iOS/Info.plist` contains no `CFBundleIdentifier`.
+- **Found by an eighth pass: `apksigner` was prescribed for verifying an App Bundle.** Google
+  documents `apksigner` as APK-only and states plainly that it cannot sign or read an App Bundle.
+  The `keytool → apksigner` correction was right for the direct APK channel and was copied
+  verbatim into the Android release checklist, where the artefact is an `.aab`. That step now uses
+  `jarsigner -verify -certs`, and says why `apksigner` does not apply there.
+- **Found by an eighth pass: the terminology table over-corrected the APK entry.** It stated in
+  bold that the APK "is not the Google Play upload format for any track", contradicting the
+  freshness register, the Android hub and the comparison table, which all correctly scope the App
+  Bundle mandate to apps published new since August 2021. Legacy apps may still upload APKs. The
+  reference table now carries the same qualification as everything else.
+- **Found by an eighth pass:** four Play-track quick starts cited only §9 Build beside a *signing*
+  command whose properties are documented in §10; the direct APK guide's identical citation is
+  correct because its §9 does carry signing. Both sections are now cited. Also corrected an
+  evidence line attributing output to `keytool -printcert` when the command run was
+  `keytool -printcert -jarfile`, and removed nine stray leading spaces left in quick-start callouts
+  by the emoji removal in 1.2.0.
 - **Found by a sixth pass: `env:` was prescribed for App Bundle builds, contradicting this
   repository's own direct APK guide.** Microsoft documents the `env:` password prefix as
   unsupported when the package format is `aab`, and the direct APK guide explains exactly that —

@@ -12,7 +12,7 @@ disagree on case, the **Official term** column governs.
 | Term used here | Official term | Platform | Meaning |
 |---|---|---|---|
 | App Bundle | Android App Bundle (`.aab`) | Android | The publishing format Google Play requires for new apps; Google Play generates per-device APKs from it. Google's full term is "Android App Bundle"; "App Bundle" is the accepted short form and is what this repository uses after first mention. |
-| APK | Android Package (`.apk`) | Android | The installable Android package format. Used for direct install and local testing. **It is not the Google Play upload format for any track** — internal, closed and open testing all take an App Bundle, exactly as production does. |
+| APK | Android Package (`.apk`) | Android | The installable Android package format, and what a device ultimately runs. Used directly for install outside a store and for local testing. **For any app published new since August 2021, the App Bundle is the upload format on every Play track** — internal, closed and open testing included, exactly as production. Apps that predate that requirement may still upload APKs, so this is a rule about new apps, not a blanket ban. |
 | App Signing Key | App signing key | Android | The private key that signs the final APK a device installs. Managed by Play App Signing unless the developer opts out. |
 | Upload Key | Upload key | Android | The private key that signs the App Bundle uploaded to Play Console. Distinct from the app signing key when Play App Signing is enabled. |
 | Package Name | Application ID / package name | Android | The unique, permanent identifier for an Android app (for example `com.example.app`). Cannot change after publication. |

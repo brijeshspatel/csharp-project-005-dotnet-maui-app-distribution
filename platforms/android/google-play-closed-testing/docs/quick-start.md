@@ -14,7 +14,7 @@ can apply for production access. Internal and open testing do not satisfy it. Se
    `dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
    -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=<keystore> -p:AndroidSigningKeyAlias=<alias>
    -p:AndroidSigningKeyPass=file:<file> -p:AndroidSigningStorePass=file:<file>`. See
-   [§9](../README.md#9-build).
+   [§9 Build](../README.md#9-build) and [§10 Sign](../README.md#10-sign).
 2. Confirm the `.aab` exists by **listing** `bin/Release/net10.0-android/publish/`. See
    [§11](../README.md#11-package).
 3. In Play Console, open **Test and release > Testing > Closed testing**, and add an email list or a Google Group.
@@ -30,6 +30,6 @@ STOP — VERIFY BEFORE CONTINUING: a tester who opts out before 14 days have pas
 count towards the production-access requirement, even if they rejoin later. Track the clock per
 tester. See [§14](../README.md#14-validate).
 
- Additional closed tracks do not support enterprise targeting, device compatibility filtering or
+Additional closed tracks do not support enterprise targeting, device compatibility filtering or
 country targeting. Use the default closed track if you need any of them. See
 [§12](../README.md#12-configure-distribution-platform).

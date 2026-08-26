@@ -143,7 +143,7 @@ This exits 0 and writes to `bin/Release/net10.0-android/publish/`:
 
 | Artefact | Size | Signed? |
 |---|---|---|
-| `com.companyname.distributionsample.apk` | 28,945,466 bytes | No v1 signature — `keytool -printcert` reports `Not a signed jar file`. See the caveat below |
+| `com.companyname.distributionsample.apk` | 28,945,466 bytes | No v1 signature — `keytool -printcert -jarfile` reports `Not a signed jar file`. See the caveat below |
 | `com.companyname.distributionsample-Signed.apk` | 29,070,595 bytes | Yes |
 
 **Four things were confirmed, each by inspecting the result rather than reading the log:**

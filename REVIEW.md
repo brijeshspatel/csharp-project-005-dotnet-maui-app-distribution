@@ -4,8 +4,9 @@ This document records an audit of this repository, the remediation that followed
 independent re-grading used to check that remediation. It is written to be read by someone who was
 not present for any of it.
 
-> **Status:** six review rounds complete; a seventh confirming grade was in flight when this
-> revision was written. Grades below are what independent reviewers actually returned, not targets.
+> **Status:** eight review rounds complete. **Final independent grade: B+.** The A target was not
+> reached. §8 sets out precisely what is still required and why another manual round will not get
+> there. Grades below are what independent reviewers actually returned, not targets.
 
 ---
 
@@ -36,7 +37,12 @@ throughout — not against the repository's own assertions.
 | Independent re-grade #2 | **B−** | ArchiveOnBuild fix incomplete; wrong `keytool` command; unverifiable claims |
 | Independent re-grade #3 | **B** | Four quick-starts still shipped unsigned build commands |
 | Independent re-grade #4 | **B+** | `env:`/`file:` prefix contradiction; three propagation gaps |
-| Confirming grade | *pending at time of writing* | — |
+| Independent re-grade #5 | **B+** | Bundle ID still said to live in `Info.plist` in the Apple hub |
+| Independent re-grade #6 (final) | **B+** | `apksigner` prescribed for an App Bundle; APK terminology over-corrected |
+
+**Every grade from #1 onward awarded A on structure, cross-referencing, terminology and writing.**
+The grade was held down each time by one or two defects of a single class — a claim repeated across
+files where one copy disagreed. That is the whole story of this remediation.
 
 **The dip from B+ to C+ is the most important line in this table.** The initial audit was too
 generous. It graded structure, links and terminology thoroughly but did not check whether the
@@ -138,10 +144,18 @@ The most serious category, because this repository exists to make these commands
 
 ## 4. The pattern worth naming
 
-**Six times in this remediation, a correct fix was applied to the main guide and not to every file
-repeating the same claim.** It happened with the manual-upload claim, `ArchiveOnBuild`,
-`AndroidKeyStore=true`, the Play Console rename, the "upload not submission" restatement, and the
-`env:`/`file:` prefix.
+**Nine times in this remediation, a correction and its copies fell out of step.** It happened with
+the manual-upload claim, `ArchiveOnBuild`, `AndroidKeyStore=true`, the Play Console rename, the
+"upload not submission" restatement, the `env:`/`file:` prefix, the Bundle ID's location, the
+`keytool → apksigner` replacement, and the APK upload-format qualification.
+
+**The last two are the subtler form.** They were not fixes that stopped short — they were fixes
+that travelled *too far*. `apksigner` is genuinely the right tool to read an APK signature, and it
+was copied into a checklist step whose artefact is an App Bundle, which Google documents it as
+unable to read. The APK terminology row was correctly told that no Play *track* accepts an APK
+today, and restated that as though it had always been true for every app. **A correction carried
+into a context it does not fit is still a defect, and it is harder to grep for than one that was
+simply missed.**
 
 This is why six review rounds were needed for what looked like a short defect list. The errors were
 not hard to fix; they were hard to *finish* fixing. A claim in this repository typically appears in
@@ -167,6 +181,10 @@ Reported plainly, because an audit that hides its own errors is worth less than 
   work, which is where the two most serious defects were.
 - Two items the original audit listed as "worth double-checking" resolved as **correct**: the
   App Store Connect distribution-method rule, and the `env:` prefix restriction.
+- **Two defects were introduced by the remediation itself**, and found by later rounds:
+  `apksigner` was prescribed for verifying an App Bundle, which Google documents it cannot read;
+  and the APK terminology row was over-corrected into contradicting the freshness register. Both
+  are recorded in `CHANGELOG.md` alongside the errors they were meant to fix, not separately.
 
 ## 6. What changed, and why
 
@@ -178,7 +196,9 @@ Every change, with its reason. Six commits on the `Review` branch.
 | `08fe837` | Added `ArchiveOnBuild` to the App Store signing command; made `.gitignore` actually exclude signing material; fixed TestFlight §18, three §11→§10 references, the completeness matrix and the terminology APK row | The flagship command could not produce an `.ipa`. The `.gitignore` claim was false, so the file was changed rather than the claim softened |
 | `f297469` | Added `AndroidKeyStore=true` to the Android signing command and checklist; replaced `keytool` with `apksigner`; removed references to a nonexistent risk register and ADR; corrected the root README's execution-coverage claim | Without `AndroidKeyStore=true` the signing properties are silently ignored. `keytool` cannot read a modern APK signature |
 | `cb3e59e` | Added signing properties to four quick-start cards; corrected the Play Protect claim; reconciled two execution dates; fixed the IPA terminology row | The quick-starts told readers to "build and sign" with a command that did neither |
-| `3906fac` | Switched six App Bundle commands from `env:` to `file:`; closed the last three propagation gaps; corrected the unpublish path; recorded the Mac Catalyst exclusion | Microsoft documents `env:` as unsupported for `.aab`, which this repository's own direct APK guide already explained |
+| `3906fac` | Switched six App Bundle commands from `env:` to `file:`; closed three propagation gaps; corrected the unpublish path; recorded the Mac Catalyst exclusion | Microsoft documents `env:` as unsupported for `.aab`, which this repository's own direct APK guide already explained |
+| `350ceec` | Corrected the Apple hub's Bundle ID / `Info.plist` claim; scoped the `macios#20958` attribution to the ordering fault it actually describes; removed a false "JDK ships with the workload" claim | The hub is where a reader arrives first, and it contradicted the guide, the checklist and the sample |
+| `HEAD` | Replaced `apksigner` with `jarsigner -verify -certs` for App Bundle verification; restored the "new apps since August 2021" qualification to the APK terminology row; cited §10 alongside §9 in four quick-starts; removed nine stray leading spaces | Two corrections had been carried into contexts they do not fit — the subtler half of the propagation pattern |
 
 **Two things were deliberately *not* changed**, and the reasons are recorded in the files:
 
@@ -202,6 +222,61 @@ Run against the whole repository, mechanically, after every commit:
 - Every signing command in every file carries its required properties (checked per-file, not by
   sampling — this is the check that would have caught the propagation failures earlier).
 - No residual instance of any corrected term, path, URL or command.
+
+## 8. What reaching grade A requires
+
+**Not another manual round.** Eight have been run. Each awarded A on structure, links, terminology
+and writing, and each was held down by one or two instances of the same defect class. The yield per
+round is falling — five instances, then three, then two — but it has not reached zero, and the last
+two instances were *introduced* by the previous round's fixes. Manual review is converging slowly
+and generating new defects while it does so.
+
+### The root cause
+
+A claim in this repository typically lives in five or six places: the channel guide, its
+quick-start, the platform hub, the comparison table, a checklist, and often the completeness matrix
+or freshness register. **There is no mechanical way to assert that those copies agree.** Every fix
+so far has been propagated by hand and checked by grep, and grep only finds what you already know
+to look for. That is exactly why over-propagation — `apksigner` into an App Bundle context — slipped
+through: nothing was missing, so nothing was missed.
+
+### What would close it
+
+**1. A committed claim-consistency checker.** The invariant classes that have actually broken, each
+expressible as an assertion over the file set:
+
+| Invariant | Assertion |
+|---|---|
+| Command properties | Every Apple signing command carries `ArchiveOnBuild` + `RuntimeIdentifier`; every Android signing command carries `AndroidKeyStore=true`; every Android build command carries `AndroidEnableMarshalMethods=false` |
+| Tool per artefact | `apksigner` appears only where the artefact is an `.apk`; `jarsigner` where it is an `.aab`; `keytool -list` only against a keystore |
+| Password prefix | `env:` never appears in a command whose output includes an App Bundle |
+| Navigation paths | Play Console paths begin with the current top-level section name |
+| Vendor qualifications | "new apps" / "upload not submission" / "generally caused by" phrasings match the register's wording wherever the claim appears |
+| Section references | Every `§n` in prose resolves to a section whose heading matches the referenced topic |
+| Self-claims | Every statement about `.gitignore`, the sample, or produced artefacts is checked against the file |
+
+This is roughly a day's work and it is the only thing that makes an A *stay* an A. Note it sits in
+tension with the deliberate decision recorded in 1.1.0 to keep tooling out of the repository — that
+decision would need revisiting, or the checker would live beside it as the existing machinery does.
+
+**2. One exhaustive sweep by enumeration, not sampling.** For each of the seven invariants above,
+list every file asserting the claim and diff them. Prior rounds sampled; sampling is what left the
+eighth and ninth instances.
+
+**3. Two judgement calls the graders raised more than once**, neither strictly a defect:
+   - Whether the root README's five verification claims should stay at all, given the tooling that
+     backs them is not in the repository. They currently carry an explicit "you cannot falsify this
+     from a clone" caveat, which one grader accepted and another still called an overreach.
+   - Whether the sample app should keep its stock template residue. Documented as deliberate, but it
+     costs a mark on the sample dimension every time a grader meets it fresh.
+
+### Honest expectation
+
+Items 1 and 2 would very likely produce an A on the next cold grade: nothing outside the propagation
+class has been flagged as a material defect since round three, and every grader has explicitly said
+the underlying work is A-grade. But this document should not predict a grade it has not received —
+eight rounds have shown that this repository's defects are found by looking, not by reasoning about
+whether any remain.
 
 ---
 
