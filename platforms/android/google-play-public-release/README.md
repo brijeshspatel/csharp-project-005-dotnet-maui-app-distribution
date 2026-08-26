@@ -48,7 +48,9 @@ your account's creation date and status first. **Last verified: 2026-08-26.**
 
 Register at Google Play Console, pay the one-time fee, and complete identity verification before
 creating your first app listing. If the closed-test requirement in §4 applies to your account,
-plan for at least 14 days between your first internal build and requesting production access.
+plan for at least 14 days between **starting the closed test** and requesting production access.
+The clock runs on the closed track specifically — an internal test, however early you start one,
+does not count towards it.
 
 ## 7. Security Model
 

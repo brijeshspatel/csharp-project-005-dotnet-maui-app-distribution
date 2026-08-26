@@ -112,9 +112,9 @@ The `.aab` is the upload artefact. **Confirm it exists by listing
 In Play Console:
 
 1. Go to **Test and release > Setup > Advanced settings**, and select the **Managed Google Play**
-   tab. (Play Console renamed its former top-level **Release** section to **Test and release**;
-   if this path does not match what you see, check the current label before assuming the setting
-   has moved.)
+   tab. (Google's current documentation gives this path. Play Console's own labels change from
+   time to time without an announcement to point at, so if it does not match what you see, check
+   the current label before assuming the setting itself has moved.)
 2. Select **Add organization**.
 3. For each recipient, enter the **Organization ID** and a description. Up to 1,000 organisations
    per app.
@@ -204,9 +204,10 @@ guide stops at the boundary where your control ends.
 ## 20. Last Verified
 
 **Sources last verified: 2026-08-26.** Every claim was re-checked against the sources in §19 on
-that date. That pass corrected the Play Console navigation path in §12 — Google renamed the former
-top-level **Release** section to **Test and release** — and reconfirmed the 1,000-organisation cap
-and the permanence of restricting a package name to organisations.
+that date. That pass corrected the Play Console navigation path in §12 to the one Google's current
+documentation gives — **Test and release > Setup > Advanced settings**, where an earlier revision
+said **Release >** — and reconfirmed the 1,000-organisation cap and the permanence of restricting a
+package name to organisations.
 
 **Execution evidence: 2026-08-23.** The build step this channel relies on was verified by execution
 in the [public release guide](../google-play-public-release/README.md#9-build) on that date and is

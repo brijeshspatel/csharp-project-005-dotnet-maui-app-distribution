@@ -173,6 +173,24 @@ this repository failing at precisely the thing it claims to be for.
   2026-08-23 in the App Store guide, 2026-08-24 in the ad hoc guide. The ad hoc guide now says
   explicitly that it re-ran the App Store guide's command a day later and got the same result,
   rather than leaving two dates for one observation.
+- **Found by a ninth pass: the terminology table gave a non-Apple term for the `.ipa`, again.** The
+  IPA row's Official-term cell read `".ipa file" / app archive`. "App archive" is Microsoft's
+  phrase; in Apple's vocabulary an archive is the `.xcarchive` an `.ipa` is exported *from*, a
+  different artefact — and the cell's own prose said Apple "calls it simply an '.ipa file'",
+  contradicting the column beside it. This is the same defect the row was rewritten to fix when
+  "iOS App Store Package" was removed: one non-vendor expansion replaced by another.
+- **Found by a ninth pass: the legacy-APK exemption was over-broad.** Both the terminology table
+  and the register said apps predating August 2021 may still upload APKs, without qualification.
+  Google requires App Bundles for **private apps on managed Google Play regardless of age**, and
+  managed Google Play is one of this repository's own channels. Both now carry that exception.
+- **Found by a ninth pass: an unsourced historical claim.** Two places asserted that Google
+  "renamed" Play Console's top-level **Release** section to **Test and release**. The current path
+  is correct and documented; the rename itself is not something Google publishes. Both now say the
+  path is what Google's current documentation gives, which is the claim that can actually be
+  checked.
+- **Found by a ninth pass:** §6 told readers to allow 14 days "between your first **internal**
+  build and requesting production access". The requirement runs on the **closed** track — a
+  distinction this guide insists on everywhere else.
 - **Found by a seventh pass: the Bundle ID was still said to live in `Info.plist` in the Apple
   hub.** The correction had reached the App Store guide's §8 and the iOS checklist but not the hub,
   which is where a reader arrives first. The claim is also false about this repository's own

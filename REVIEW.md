@@ -4,9 +4,11 @@ This document records an audit of this repository, the remediation that followed
 independent re-grading used to check that remediation. It is written to be read by someone who was
 not present for any of it.
 
-> **Status:** eight review rounds complete. **Final independent grade: B+.** The A target was not
-> reached. §8 sets out precisely what is still required and why another manual round will not get
-> there. Grades below are what independent reviewers actually returned, not targets.
+> **Status:** nine review rounds complete. **Latest independent grade: A−**, awarded after the
+> nine propagation invariants were verified by enumeration rather than sampling. That grade named
+> four single-line defects blocking an A; all four are now fixed, and a further cold grade on that
+> state has not yet been run. §8 sets out what holding an A would require. Grades below are what
+> independent reviewers actually returned, not targets.
 
 ---
 
@@ -38,7 +40,8 @@ throughout — not against the repository's own assertions.
 | Independent re-grade #3 | **B** | Four quick-starts still shipped unsigned build commands |
 | Independent re-grade #4 | **B+** | `env:`/`file:` prefix contradiction; three propagation gaps |
 | Independent re-grade #5 | **B+** | Bundle ID still said to live in `Info.plist` in the Apple hub |
-| Independent re-grade #6 (final) | **B+** | `apksigner` prescribed for an App Bundle; APK terminology over-corrected |
+| Independent re-grade #6 | **B+** | `apksigner` prescribed for an App Bundle; APK terminology over-corrected |
+| Independent re-grade #7 | **A−** | **Bar met.** All nine propagation invariants verified by enumeration; four single-line defects named, all in reference files |
 
 **Every grade from #1 onward awarded A on structure, cross-referencing, terminology and writing.**
 The grade was held down each time by one or two defects of a single class — a claim repeated across
@@ -320,12 +323,16 @@ the underlying work is A-grade. But this document should not predict a grade it 
 eight rounds have shown that this repository's defects are found by looking, not by reasoning about
 whether any remain.
 
-**A− is a different question from A**, and a closer one. The grader who returned B− stated that
-fixing the five items it listed "would support an A− comfortably"; all five were fixed two rounds
-later, and the two defects that held the most recent grade at B+ — `apksigner` on an App Bundle,
-and the over-corrected APK terminology row — are now fixed as well. On the evidence, A− turns on
-whether a tenth instance of the propagation class exists, and nothing else. The checker is what an
-**A** requires; **A−** may only require that no tenth instance is found.
+**A− was reached at round seven**, and the reasoning above held: the grader enumerated all nine
+propagation invariants across every file asserting them, found no tenth instance, and awarded A−.
+Its four blocking defects were all single-line, all in **reference** files rather than guides —
+`terminology.md` twice, the freshness register once, and one loose word in a prerequisites
+paragraph. That is a telling distribution: the reference documents carry the most authority per
+line and get the least scrutiny per line, because reviewers read them as the source of truth rather
+than as claims to check.
+
+All four are now fixed. **Whether that reaches A is unmeasured** — no cold grade has run against
+the fixed state, and this document does not award grades to itself.
 
 ### Status of the checker
 
