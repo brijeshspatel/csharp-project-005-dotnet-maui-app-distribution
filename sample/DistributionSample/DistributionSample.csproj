@@ -10,7 +10,16 @@
 		     compile that platform folder. They are kept so this sample stays directly diffable
 		     against unmodified `dotnet new maui` output, which is what lets a reader see exactly
 		     which properties this distribution guide changed and which it did not. Retained, not
-		     overlooked. -->
+		     overlooked.
+
+		     The same rule covers the rest of the template's residue — the default counter page,
+		     the unused using in App.xaml.cs, the single "Windows Machine" launch profile. This
+		     sample exists to demonstrate DISTRIBUTION, not application code, and its evidential
+		     value comes from being recognisably stock. Tidying it would make the guide's build
+		     claims harder to reproduce, not easier, so none of it is cleaned up. No global.json
+		     is pinned here either: the guide's build claims are dated and recorded per run in
+		     each channel guide's Last Verified section, which is where toolchain drift is meant
+		     to be caught. -->
 		<TargetFrameworks>net10.0-android</TargetFrameworks>
 		<TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux'))">$(TargetFrameworks);net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
 

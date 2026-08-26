@@ -56,11 +56,11 @@ passphrase never reaches the build log.
   complete. Direct APK distribution is the one exception: it needs no account at all.
 - A **package name**, permanent once you publish with it, and not reusable even after an app is
   unpublished.
-- A target **API level** at or above Google's current floor. **API 35 is the currently binding
-  floor; API 36 (Android 16) is required for new apps and updates from 2026-08-31**, with an
-  extension to 2026-11-01 available on request through Play Console's **Policy status** page.
-  Google raises this floor every year, so confirm the current requirement before you build rather
-  than trusting any fixed number, including this one.
+- A target **API level** at or above Google's current floor. **API 36 (Android 16) is required for
+  new apps and updates from 2026-08-31; API 35 is the floor until that date**, and an extension to
+  2026-11-01 can be requested through Play Console's **Policy status** page. Google raises this
+  floor every year, so confirm the current requirement before you build rather than trusting any
+  fixed number, including this one.
 - An **upload keystore**, for every channel that goes through Play Console.
 
 Each channel guide's §5 lists what it adds to this.

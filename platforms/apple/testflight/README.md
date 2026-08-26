@@ -122,9 +122,10 @@ force-removed from tester devices.
 
 ## 18. Limitations
 
-Beta review timing for external testers is not guaranteed — this guide states ranges reported
-publicly, not a commitment. This guide did not execute an upload to a real App Store Connect
-account. The build step it relies on was verified by execution in the public App Store release
+**Beta review timing for external testers is unknown, not merely unguaranteed.** Apple publishes
+no turnaround figure for it, so this guide gives none — an earlier revision quoted publicly
+reported ranges, which are removed because they had no first-party source. Plan for a review of
+unknown duration. This guide did not execute an upload to a real App Store Connect account. The build step it relies on was verified by execution in the public App Store release
 guide, which this guide deliberately does not duplicate; **the signing and packaging steps were
 not**, and no `.ipa` was produced in any run of this repository. See that guide's §9 and §18.
 

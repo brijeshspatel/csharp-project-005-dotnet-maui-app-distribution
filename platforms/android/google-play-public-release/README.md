@@ -36,11 +36,13 @@ your account's creation date and status first. **Last verified: 2026-08-26.**
 - App icons, a feature graphic and screenshots meeting Google Play's current published sizes.
 - A publicly accessible privacy policy URL.
 - A completed **Data safety** declaration describing what data your app collects and why.
-- **Your build must target the current required API level.** **API level 36 is required from
-  2026-08-31.** Google raises this floor every year, and an app below it cannot be submitted,
-  so confirm the current requirement before you build rather than trusting any fixed number,
-  including this one (§17). Google offers an extension to **2026-11-01** for the API 36
-  deadline, requested through Play Console.
+- **Your build must target the current required API level.** As of this guide's verification date,
+  **API 35 is the binding floor, and API 36 is required for new apps and updates from
+  2026-08-31.** An extension to **2026-11-01** can be requested through Play Console's **Policy
+  status** page. Google raises this floor every year and an app below it cannot be submitted, so
+  confirm the current requirement before you build rather than trusting any fixed number,
+  including this one (§17). Wear OS and Android Automotive sit at API 35; Android TV and Android
+  XR at API 34.
 
 ## 6. How to Obtain the Prerequisites
 
@@ -85,17 +87,20 @@ state for architecture 'Arm64'
 and writes no `.aab`. This was reproduced on two consecutive clean attempts, run sequentially and
 **not** under concurrent load, which rules out resource contention as the cause.
 
-**What `XAGNM7009` is.** .NET for Android composes unhandled-exception codes as
-`XA<TaskPrefix>7<NNN>`. `GNM` is the prefix of the `GenerateNativeMarshalMethodSources` task and
-`7009` denotes an `InvalidOperationException` — and that task throws exactly one such exception,
-with exactly the "missing native code generation state" text quoted above. So the code decodes
-cleanly to the marshal-methods generator. **Microsoft publishes no reference page for
-`XAGNM7009`**, and it appears in no tracked issue; the decode above comes from the SDK's own
-error-code scheme and task source, not from documentation of this specific failure.
+**What `XAGNM7009` appears to be.** .NET for Android composes unhandled-exception codes as
+`XA<TaskPrefix><Number>`, where `7009` denotes an `InvalidOperationException` — the same pattern is
+visible in the documented `XAGJS7009` from the `GenerateJavaStubs` task. On that reading `GNM`
+points to the marshal-methods source generator, which matches both the failing step and the
+"missing native code generation state" text quoted above.
 
-**The command that completes here disables marshal methods.** .NET 10 enables them by default on
-the MonoVM runtime — note that the published build-properties page still says "False by default",
-which is stale against the SDK's own targets:
+**Treat that as a decode, not a citation.** `XAGNM7009` is absent from Microsoft's published
+error-message index, so there is no reference page to check it against, and the `GNM` prefix
+expansion is inferred from the naming scheme rather than read off a first-party prefix table.
+
+**The command that completes here disables marshal methods.** Microsoft's .NET 10 release notes
+say marshal methods are enabled by default in .NET 10, having been off by default in .NET 9 — note
+that the build-properties reference page still says "False by default", and is stale against those
+notes:
 
 ```
 dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
@@ -150,7 +155,10 @@ dotnet publish -f net10.0-android -c Release ^
 ```
 
 **Never commit a keystore or its passwords to source control.** Use a secrets manager or a CI
-secret store; this repository's own `.gitignore` excludes common keystore file extensions.
+secret store. This repository's own [`.gitignore`](../../../.gitignore) excludes `*.keystore`,
+`*.jks`, `*.p12`, `*.pfx` and `keystore.properties`, along with the Apple equivalents — but treat
+that as a backstop, not a control. **The reliable answer is to keep signing material outside the
+repository entirely**, where no ignore rule has to be correct for it to stay out.
 
 ## 11. Package
 
@@ -166,10 +174,18 @@ publishing to production with these incomplete.
 
 ## 13. Deploy
 
-For a brand-new app, the first `.aab` **must be uploaded manually** through Play Console's own
-release flow — this is what establishes the signing key relationship for every future release.
-Subsequent releases may use `dotnet publish` plus Play Console's upload, or the Google Play
-Developer API for automation (not covered by this guide's manual-first scope).
+**Make the first release deliberately — but not because a rule forces you to.** An earlier revision
+of this guide said the first `.aab` "must be uploaded manually" through Play Console. **Google
+documents no such requirement.** The Play Developer API supports uploading a bundle and creating a
+draft release, and no first-party page restricts the first upload to the console.
+
+What *is* true is why the first release matters: it configures **Play App Signing**, and the key
+you sign it with becomes your **upload key** for every release afterwards. That is an
+effectively irreversible step, so many teams do the first one by hand to slow themselves down at
+it. Treat that as sound practice, not as a platform constraint.
+
+Later releases may use `dotnet publish` plus a Play Console upload, or the Play Developer API for
+automation. Automating that pipeline is outside this guide's scope.
 
 ## 14. Validate
 
@@ -198,7 +214,7 @@ here unless you manage your own signing key outside Play App Signing.
 | `error XAGNM7009: ... missing native code generation state for architecture 'Arm64'` | Marshal methods, enabled by default in .NET 10, fail during native code generation | Re-run from a clean tree; it reproduces | Add `-p:AndroidEnableMarshalMethods=false`, per §9 |
 | R8 reports `Type android.runtime.JavaProxyThrowable is defined multiple times` | `AndroidEnableMarshalMethods` was changed against a stale `obj/` | Check whether the property changed since the last build | Delete `obj/` and rebuild, per §9 |
 | Publish reports success but no `.aab` is on disk | The artefact was never written; the message is not proof | List `bin/Release/net10.0-android/publish/` | Treat as a failure and read the full log. See the iOS guide's §9 for the same class of defect |
-| Upload rejected for target API level | Build targets an API level below Google Play's current floor | Check the current floor in the register (§ Requirements & Freshness Register) | Update `TargetFramework`/Android API level and rebuild |
+| Upload rejected for target API level | Build targets an API level below Google Play's current floor | Check the current floor in the [Requirements & Freshness Register](../../../docs/reference/requirements-freshness-register.md) | Update `TargetFramework`/Android API level and rebuild |
 | Upload rejected: signing key mismatch | Uploaded `.aab` was signed with a different key than the app's first release | Confirm which upload key Play Console expects for this app | Use the correct upload key, or use Play Console's key-reset process if it was lost |
 
 ## 18. Limitations
@@ -209,7 +225,9 @@ Windows, from a clean tree, confirming Risk R-8 (path length) does not affect th
 complete on this toolchain.** The artefacts were confirmed on disk by listing them, not inferred
 from the build log. Real upload key generation and the actual Play Console submission flow were
 not executed in this run — they require a real, verified Google Play Console account. The API-level floor in §5 changes on a
-published schedule (§ Requirements & Freshness Register) and must be re-checked, not assumed
+published schedule (see the
+[Requirements & Freshness Register](../../../docs/reference/requirements-freshness-register.md))
+and must be re-checked, not assumed
 current, after 2026-08-31.
 
 ## 19. Official Sources

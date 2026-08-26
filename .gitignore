@@ -256,6 +256,18 @@ orleans.codegen.cs
 # (https://github.com/github/gitignore/pull/1529#issuecomment-104372622)
 #bower_components/
 
+# Android and Apple signing material.
+# Losing one of these ends your ability to update a published listing; committing one hands that
+# ability to anyone who can read the repository. The Google Play guide's §10 tells readers this
+# file excludes them, so these patterns must stay for that statement to remain true.
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+*.cer
+*.certSigningRequest
+keystore.properties
+
 # RIA/Silverlight projects
 Generated_Code/
 

@@ -6,7 +6,7 @@ official platform term exists, that term is used, not a paraphrase.
 | Term used here | Official term | Platform | Meaning |
 |---|---|---|---|
 | App Bundle | App Bundle (`.aab`) | Android | The publishing format Google Play requires; Google Play generates per-device APKs from it. |
-| APK | Android Package (`.apk`) | Android | The installable Android package format. Used for direct install and internal testing; not the Google Play upload format. |
+| APK | Android Package (`.apk`) | Android | The installable Android package format. Used for direct install and local testing. **It is not the Google Play upload format for any track** — internal, closed and open testing all take an App Bundle, exactly as production does. |
 | App Signing Key | App signing key | Android | The private key that signs the final APK a device installs. Managed by Play App Signing unless the developer opts out. |
 | Upload Key | Upload key | Android | The private key that signs the App Bundle uploaded to Play Console. Distinct from the app signing key when Play App Signing is enabled. |
 | Package Name | Application ID / package name | Android | The unique, permanent identifier for an Android app (for example `com.example.app`). Cannot change after publication. |

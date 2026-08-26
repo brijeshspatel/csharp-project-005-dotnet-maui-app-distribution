@@ -54,7 +54,7 @@ does not sell digital goods or services through its apps. **Last verified: 2026-
 
 Enrol at the Apple Developer Program's own enrolment page. Individual enrolment typically takes
 24 hours to two weeks to verify. Create your Bundle ID and distribution certificate as part of
-§10-§11 below — they are obtained together with the provisioning profile, not separately in
+**§10 Sign** below — they are obtained together with the provisioning profile, not separately in
 advance.
 
 ## 7. Security Model
@@ -104,10 +104,15 @@ an `.ipa`.**
 `Created the package: bin\Release\net10.0-ios\ios-arm64\publish\DistributionSample.ipa` and
 then writes no such file; the `publish` folder is created and left empty.
 
-This is a **known, still-open defect in the iOS SDK**, reported as
-[dotnet/macios#20958](https://github.com/dotnet/macios/issues/20958). The mechanism, confirmed
-against the SDK's own targets files: in `Xamarin.Shared.Sdk.Publish.targets` the `Publish` target
-emits that message whenever `$(BuildIpa)` is true, with no check that the package was written.
+**The mechanism matches a still-open SDK issue,
+[dotnet/macios#20958](https://github.com/dotnet/macios/issues/20958)**, whose diagnosis is the one
+below. Note the issue's own reproduction runs `build` and `publish` as separate ordered steps
+rather than the single bare command used here, so treat this as the same underlying fault rather
+than as a report of this exact invocation.
+
+The mechanism, read from the SDK's own targets files: in `Xamarin.Shared.Sdk.Publish.targets` the
+`Publish` target emits that message whenever `$(BuildIpa)` is true, with no check that the package
+was written.
 The target that actually writes the archive is `_CoreCreateIpa` (in `Xamarin.iOS.Common.targets`),
 which depends on `Codesign` and is reached through `CreateIpa`. Because `$(BuildIpa)` is set by
 `_PrePublish`, a run in which `Build` executes first leaves `_CoreCreateIpa` skipped while
@@ -143,14 +148,24 @@ whose log misleads, not because it is a supported path to a shippable artefact.
 
 ## 10. Sign
 
-To sign with a real distribution identity, add the `CodesignKey` and `CodesignProvision`
-properties, naming the distribution certificate and provisioning profile created in §11:
+To sign with a real distribution identity, supply `CodesignKey` and `CodesignProvision`, naming the
+distribution certificate and provisioning profile you created for this app — **together with the
+archive properties**:
 
 ```
 dotnet publish -f net10.0-ios -c Release ^
+  -p:ArchiveOnBuild=true ^
+  -p:RuntimeIdentifier=ios-arm64 ^
   -p:CodesignKey="Apple Distribution: <Your Name or Org> (<Team ID>)" ^
   -p:CodesignProvision="<Provisioning Profile Name>"
 ```
+
+**`ArchiveOnBuild=true` is not optional, and an earlier revision of this guide omitted it.**
+Microsoft documents that property as the one that produces the `.ipa`. Without it the SDK never
+reaches the target that writes the package, so the command signs a build and still leaves you with
+no artefact — the same empty-publish-folder outcome §9 documents, reached by a longer route. The
+ad hoc and enterprise guides in this repository have always carried both properties; this guide
+now matches them.
 
 Creating the distribution certificate itself is documented by Microsoft as a Visual-Studio-driven
 step (**Tools > Options > Xamarin > Apple Accounts > Create Certificate > iOS Distribution**),
@@ -161,9 +176,14 @@ tooling limitation this guide names plainly, not an unstated one.
 
 ## 11. Package
 
-Once signed with a real identity, `dotnet publish` (or Visual Studio's own Archive/Distribute
-flow) produces the `.ipa` uploaded to App Store Connect. **No `.ipa` exists before that point** —
-see the warning in §9. There is no unsigned intermediate package to inspect on this platform.
+Run with **both** a real signing identity **and** the archive properties — the full command is in
+§10 — and `dotnet publish` (or Visual Studio's own Archive/Distribute flow) produces the `.ipa`
+uploaded to App Store Connect.
+
+**Two conditions, not one.** Signing alone does not yield a package, and `ArchiveOnBuild` alone
+fails with `Code signing must be enabled to create an Xcode archive.` **No `.ipa` exists until
+both are satisfied** — see the warning in §9. There is no unsigned intermediate package to inspect
+on this platform, so the only proof is the file on disk.
 
 ## 12. Configure Distribution Platform
 
@@ -201,7 +221,7 @@ the certificate itself is compromised or no longer needed.
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
 | Build rejected: privacy manifest missing a declaration | A required-reason API or third-party SDK is used but not declared | Check App Review's rejection message for the named API | Add the declaration to the privacy manifest, per §5, and resubmit |
-| Signing mismatch on upload | Provisioning profile does not match the certificate or Bundle ID used to sign | Compare the profile's App ID and certificate against `CodesignProvision`/`CodesignKey` | Regenerate or select the correct profile in §11 |
+| Signing mismatch on upload | Provisioning profile does not match the certificate or Bundle ID used to sign | Compare the profile's App ID and certificate against `CodesignProvision`/`CodesignKey` | Regenerate or select the correct profile, per §10 |
 | Build built on the wrong SDK | Tooling predates the iOS 26 SDK requirement (effective 2026-04-28) | Check the installed `ios` workload version | Update the .NET MAUI iOS workload before building |
 | Build reports `Created the package: ...DistributionSample.ipa` but no `.ipa` exists | The SDK's `Publish` target prints this message unconditionally when `BuildIpa` is true, without running `CreateIpa` | List the `publish` folder; it is empty | Expected without signing. Supply `CodesignKey`/`CodesignProvision` per §10, or use the Archive/Distribute flow. See §9 |
 | `error : Code signing must be enabled to create an Xcode archive.` | `ArchiveOnBuild=true` was set with no signing identity | Confirm whether `CodesignKey` and `CodesignProvision` are supplied | Supply a real distribution identity per §10, or drop `ArchiveOnBuild` and accept that no `.ipa` is produced |

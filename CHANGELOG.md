@@ -8,8 +8,16 @@ describing the correction as an improvement.
 
 ## [1.3.0] — 2026-08-26
 
-An external audit of this guide found eight wrong or unsupported claims. All eight are corrected
-below and named as errors, not as improvements.
+Three successive audits — an external review, an adversarial fact-check of the resulting
+corrections, and an independent re-grade of the whole repository — found faults at every stage,
+including several the earlier rounds had introduced or left behind. All are listed below and named
+as errors, not as improvements.
+
+**Each pass found what the previous one missed, which is the point.** A correction applied to five
+files but not the sixth is not a correction; it is a contradiction with better coverage. That is
+exactly what happened with the manual-upload claim below. The most serious finding came last, from
+the pass that graded the repository cold rather than checking the corrections: the flagship App
+Store guide's signing command had never been able to produce the `.ipa` its own §11 promised.
 
 ### Fixed
 
@@ -47,6 +55,53 @@ below and named as errors, not as improvements.
   upload "must be made manually through Play Console". Google documents no such rule — the Play
   Developer API can upload and create a draft release. What is true, and is now what the guide
   says, is that the first release configures Play App Signing and fixes your upload key.
+- **Found by the adversarial pass: that withdrawal initially missed §13** — the very section every
+  other page cited as its authority. Five files said Google documents no manual-only rule while
+  the section they all linked to still said the upload "must be uploaded manually". Now corrected.
+- **Found by the adversarial pass: a `Last Verified` note described an edit that had not been
+  made.** The Google Play guide's §20 claimed the verification pass had restated §5's target API
+  level. §5 still carried the old wording. §5 is now actually corrected, rather than merely
+  reported as corrected — a failure mode this project is specifically supposed to guard against.
+- **Found by the adversarial pass: two freshness-register rows cited the wrong source.** The
+  12-tester production-access rule was cited to Google's registration-fee page, and the
+  open-testing production-access rule to a page that does not contain the phrase. Both now cite
+  Google's app-testing-requirements page, which does.
+- **Found by the adversarial pass: three new claims were overstated** and have been pulled back to
+  what the sources support — the missing-`.ipa` defect now says it *matches the mechanism* of
+  dotnet/macios#20958 rather than *is* that report (the issue's reproduction differs); the
+  marshal-methods default is attributed to Microsoft's .NET 10 release notes without the
+  unsourced "on the MonoVM runtime" qualifier; and the `XAGNM7009` decode is presented as a decode,
+  dropping two universal negatives that could not be established.
+
+- **Found by the independent re-grade: the App Store guide's signing command could not produce an
+  `.ipa`.** §10 gave `dotnet publish` with `CodesignKey` and `CodesignProvision` but **without**
+  `ArchiveOnBuild=true` and `RuntimeIdentifier`, while §11 stated that command produces the package
+  uploaded to App Store Connect. Microsoft documents `ArchiveOnBuild` as the property that produces
+  the `.ipa`, and this repository's own ad hoc and enterprise guides had carried it all along. A
+  reader following the flagship guide would have run a command that signs a build and writes no
+  artefact — the exact trap the guide is written to warn about. Corrected in §10, §11 and the
+  quick start.
+- **Found by the independent re-grade: a false statement about this repository's own files.** The
+  Google Play guide said this repository's `.gitignore` "excludes common keystore file extensions".
+  It excluded `*.pfx` and nothing else relevant. Rather than soften the claim, `.gitignore` now
+  actually excludes `*.keystore`, `*.jks`, `*.p12`, `*.mobileprovision`, `*.cer` and
+  `keystore.properties`, and the guide now names them and adds that keeping signing material
+  outside the repository is the real control.
+- **Found by the independent re-grade: TestFlight's §18 still advertised the removed review
+  timings**, contradicting the §13 correction made earlier in this same release.
+- **Found by the independent re-grade: three section cross-references pointed at the wrong
+  section.** The App Store guide sent readers to §11 (*Package*) for certificate and profile
+  creation, which happens in §10 (*Sign*).
+- **Found by the independent re-grade: the completeness matrix still said the Google Play testing
+  tracks were undocumented**, in a table whose own rows document all three.
+- **Found by the independent re-grade: the terminology table contradicted the guides.** It said the
+  APK is used for "direct install and internal testing"; internal testing takes an App Bundle, as
+  every Play track does.
+- **Found by the independent re-grade: an evidence figure that the documented command would not
+  produce.** The direct APK guide reported its verification certificate as `SHA384withRSA`, but the
+  `keytool` command it prescribes generates a 2048-bit RSA key, which signs with `SHA256withRSA` on
+  current JDKs. The guide no longer names an expected algorithm, because the useful check is that
+  the certificate is yours, not which digest it names.
 
 ### Changed
 
@@ -84,7 +139,11 @@ below and named as errors, not as improvements.
   from the verification date. It is 5.
 - Documented, in the sample project file, that the retained `Platforms/Windows/` scaffolding is
   deliberate — kept so the sample stays diffable against unmodified `dotnet new maui` output —
-  rather than an oversight contradicting the project's mobile-only scope.
+  rather than an oversight contradicting the project's mobile-only scope. The same note now covers
+  the rest of the template residue and records why no `global.json` is pinned.
+- Replaced two bare `(§ Requirements & Freshness Register)` references with real links, and
+  corrected the root README's description of the completeness matrix, which described it as
+  tracking the twenty contracted sections when its eleven columns are review areas.
 
 ## [1.2.0] — 2026-08-26
 

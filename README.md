@@ -70,7 +70,7 @@ platform.
 |---|---|
 | [Channel catalogue](docs/channel-catalogue.md) | Every channel in scope, and the twenty-section contract each guide follows |
 | [Controlled terminology](docs/reference/terminology.md) | One term per concept, using each vendor's own official term |
-| [Channel completeness matrix](docs/reference/channel-completeness-matrix.md) | Which sections each channel guide actually completed |
+| [Channel completeness matrix](docs/reference/channel-completeness-matrix.md) | Per-channel coverage across eleven review areas, and what each area rests on — documentation, or execution |
 | [Requirements and freshness register](docs/reference/requirements-freshness-register.md) | Every time-sensitive requirement, its source, and when to re-check it |
 
 ## How this guide is kept true
@@ -92,9 +92,10 @@ dates rest on.
 **Two build warnings to carry into your own project**, both found here by execution:
 
 - `dotnet publish -f net10.0-ios -c Release` **writes no `.ipa`** while printing that it did, and
-  exiting 0 with 0 warnings. This is a known, still-open SDK defect
-  ([dotnet/macios#20958](https://github.com/dotnet/macios/issues/20958)). **List the file; never
-  read the log.** There is no self-signed fallback: an `.ipa` needs a real Apple identity.
+  exiting 0 with 0 warnings. The mechanism matches the still-open
+  [dotnet/macios#20958](https://github.com/dotnet/macios/issues/20958), though that issue's repro
+  differs from the command run here. **List the file; never read the log.** There is no
+  self-signed fallback: an `.ipa` needs a real Apple identity.
 - `dotnet publish -f net10.0-android -c Release` **fails from a clean tree** with `XAGNM7009`.
   Adding `-p:AndroidEnableMarshalMethods=false` makes it succeed. The failure and the fix were both
   observed here; Microsoft does not document that property as the remedy for that error, so treat

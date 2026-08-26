@@ -8,8 +8,9 @@ not replace the [full guide](../README.md), which it links back to at every step
 3. Build: `dotnet publish -f net10.0-ios -c Release`. This compiles, but writes **no `.ipa`** —
    while printing a line that claims it did. There is no self-signed fallback. See
    [§9 Build](../README.md#9-build).
-4. Re-run with `-p:CodesignKey`/`-p:CodesignProvision` for a real, App-Store-ready signature. See
-   [§10 Sign](../README.md#10-sign).
+4. Re-run with `-p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64` **and**
+   `-p:CodesignKey`/`-p:CodesignProvision` for a real, App-Store-ready `.ipa`. Without the archive
+   properties you get a signed build and still no package. See [§10 Sign](../README.md#10-sign).
 5. Create an app record in App Store Connect. See [§12 Configure Distribution Platform](../README.md#12-configure-distribution-platform).
 6. Upload and submit for review. See [§13 Deploy](../README.md#13-deploy).
 
