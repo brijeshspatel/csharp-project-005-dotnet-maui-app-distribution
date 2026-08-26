@@ -1,228 +1,209 @@
-# .NET MAUI App Distribution Guide — Audit
+# .NET MAUI App Distribution Guide — Audit & Remediation Record
 
-**Overall grade: B+**
+This document records an audit of this repository, the remediation that followed, and the
+independent re-grading used to check that remediation. It is written to be read by someone who was
+not present for any of it.
 
-## What this project is
-
-A documentation-only repository that walks a .NET MAUI developer through ten
-distribution channels — four on Apple (App Store public release, TestFlight,
-ad hoc, Business Manager/Enterprise) and six on Android (Google Play public
-release, internal/closed/open testing, managed Google Play, direct APK).
-Every channel guide follows the same fixed twenty-section contract, backed by
-a channel catalogue, a controlled-terminology glossary, a completeness
-matrix, and a dated requirements-freshness register. A minimal sample MAUI
-app exists to back two specific, unusually concrete claims: that
-`dotnet publish -f net10.0-ios` reports success while writing no `.ipa`, and
-that `dotnet publish -f net10.0-android` fails on a clean tree without
-`-p:AndroidEnableMarshalMethods=false`.
-
-The project's stated discipline is unusual for documentation: claims are
-labelled by whether they were execution-verified or sourced, a changelog
-records corrected mistakes as mistakes rather than "improvements," and a
-register tracks exactly when each time-sensitive figure was last checked.
-That discipline is also the yardstick this audit holds it to — most of the
-findings below are places where the guide didn't quite live up to its own
-stated standard, not places where it invented facts.
-
-## Grade by dimension
-
-| Dimension | Grade | Why |
-|---|---|---|
-| Structural contract (20-section rule) | A | All 10 guides carry all 20 sections, correctly numbered and ordered, matching the catalogue exactly. No exceptions found. |
-| Cross-referencing & link integrity | A | Every relative link and heading anchor across the whole repository resolves, including awkward slugs like the double-hyphen anchor for "§16. Revoke / Withdraw / Retire." |
-| Technical accuracy | B | Fees, limits, and dates check out almost everywhere against the freshness register — but one channel guide directly contradicts its own execution-verified findings, and a real tool's error code is misspelled in two places. |
-| Self-consistency of the "verified" claim | B- | The changelog asserts a repo-wide re-verification that the individual channel guides' own dates and one of their own source links don't actually reflect. |
-| Terminology discipline | B- | The controlled-terminology page is followed almost everywhere, but the mandated term for Google's review process is missing from five of six Android guides. |
-| Sample app & supporting code | A- | A coherent, standard, buildable MAUI template that doesn't contradict any claim made about it. One inert leftover (Windows platform scaffolding in an explicitly non-Windows project). |
-| Writing, navigation & honesty of framing | A | Exceptionally well organised: consistent voice, mermaid diagrams that earn their place, checklists with real dependency columns, and forthright "documented, not demonstrated" labelling. |
-
-## Confirmed errors
-
-Verified directly against the repository's own files — not inferred, not a
-matter of interpretation.
-
-### 1. A core claim about ad-hoc signing contradicts the guide's own tested result
-
-**File:** `platforms/apple/app-store-public-release/README.md` — §7 vs §9,
-propagated into its quick-start and into
-`platforms/apple/ad-hoc-distribution/README.md` §7
-
-§7 (Security Model) says running `dotnet publish` without a real
-distribution certificate "produces a package .NET signs itself, for local
-verification only" — describing an actual, installable, ad-hoc-signed
-`.ipa`. But §9 (Build), the guide's own execution-verified section run
-against this repo's sample app, proves the *same command* writes no package
-at all: an empty publish folder, on a Windows host. One section of the
-document contradicts a claim the very next section disproves by execution.
-The quick-start and the ad-hoc-distribution guide's own §7 repeat the same
-framing.
-
-**Fix:** rewrite §7 to match §9 — plain `dotnet publish` on Windows with no
-`CodesignKey`/`CodesignProvision` produces **no** package, ad hoc-signed or
-otherwise. If "ad hoc signing" (per the terminology page) genuinely does
-produce a local `.ipa` on a Mac host, say that explicitly and stop implying
-it applies to the tested Windows path.
-
-### 2. A real tool's error code is misspelled — twice
-
-**File:** `platforms/android/google-play-public-release/README.md:71` vs
-`:181`, and `platforms/android/README.md:74`
-
-Line 71 correctly names the tool **AAPT2**. But the troubleshooting table
-two headings later, and the Android platform hub, both cite the failure
-code as `APT2098`/`APT2261` — missing the tool's own leading "A". `APT2…`
-isn't a real AAPT2 code prefix, which makes it read as a transcription error
-at best and a fabricated code at worst — exactly the kind of unverifiable
-specific the rest of this guide is careful to avoid.
-
-**Fix:** correct both to `AAPT2098`/`AAPT2261`, and confirm the exact codes
-against a real failing build before publishing them as evidence.
-
-### 3. The guide's own controlled term for Google's review is missing from five of six Android guides
-
-**File:** `docs/reference/terminology.md:20` vs closed-testing,
-open-testing, internal-testing, managed-google-play-enterprise,
-direct-apk-distribution READMEs
-
-The terminology page mandates **"Play Review"** as the one term for
-Google's review of a submitted app, and states "every guide in this
-repository uses these terms consistently." The Android platform hub uses it
-correctly. Five of the six channel guides instead say "policy review" or
-"standard Play policy review" — a paraphrase the terminology page exists
-specifically to rule out.
-
-**Fix:** replace "policy review" with "Play Review" throughout, or — if the
-two terms are meant to describe genuinely different things — add "Policy
-Review" to the terminology page as its own defined concept.
-
-### 4. A "corrected" source URL was only corrected in the register, not in the guide that also cites it
-
-**File:** `CHANGELOG.md:18-19` vs
-`platforms/apple/ad-hoc-distribution/README.md:294-295`
-
-CHANGELOG v1.2.0 states a source URL was updated after Apple moved the page,
-from `/help/account/register-devices/…` to `/help/account/devices/…`. The
-freshness register does use the new path. But the ad-hoc-distribution
-guide's own §19 Official Sources still links the old, superseded
-`register-devices` URLs in two places — the exact page the changelog claims
-was fixed.
-
-**Fix:** update both links in `ad-hoc-distribution/README.md` §19 to the
-`/help/account/devices/…` path.
-
-### 5. Channel guides' own "Last Verified" dates weren't advanced with the register
-
-**File:** `CHANGELOG.md:13-14` vs every `platforms/*/README.md` §20 (and
-inline dates in §4)
-
-The changelog says all 25 freshness-register requirements were re-verified
-and their date "advanced to 2026-08-26" — and the register itself does show
-2026-08-26 throughout. But every individual channel guide's own §20 Last
-Verified section (and inline dates such as the Eligibility section's "Last
-verified: 2026-08-23") still reads 2026-08-23 or 2026-08-24. The register
-and the guides that depend on it are now out of step by two or three days,
-on a project whose entire premise is that a verification date means
-something.
-
-**Fix:** either advance each guide's own §20 (and any inline verification
-date) to match the register, or narrow the changelog's wording so it's
-clearly scoped to the register alone.
-
-## Worth double-checking
-
-Plausible and not contradicted by anything else in the repo, but not
-independently confirmed against a primary source in this pass — worth a
-source check before treating as settled.
-
-- **A quick-start link's label promises more than its target.**
-  `platforms/apple/testflight/docs/quick-start.md` — the "§4–§11" link spans
-  §4 through §11 in its label, but the anchor only resolves to §4
-  (Eligibility). Not broken, just misleading. *Fix:* split into two links,
-  or narrow the label to "§4".
-
-- **The "public → unlisted only" post-approval rule is stated very
-  precisely.** `platforms/apple/business-manager-and-enterprise/README.md` —
-  §12 and §17. Plausible and matches the general shape of Apple's Custom
-  Apps rules, but wasn't independently re-verified word-for-word against the
-  cited Apple Support page in this pass.
-
-- **A narrow claim about the `env:` keystore-password prefix and `.aab`.**
-  `platforms/android/direct-apk-distribution/README.md:184` states the
-  `env:` prefix for signing passwords isn't supported when the package
-  format is `.aab`. Specific and plausible, but not independently confirmed
-  against Microsoft's signing-task source in this pass.
-
-- **An exact Play Console navigation path may drift.**
-  `platforms/android/managed-google-play-enterprise/README.md:114` —
-  "Release > Setup > Advanced settings" as the path to the Managed Google
-  Play tab is the kind of UI detail Google reshuffles without notice. Worth
-  a click-through re-confirmation before each release.
-
-## Repository hygiene
-
-**Windows platform scaffolding survives in an explicitly non-Windows
-project.** `sample/DistributionSample/Platforms/Windows/*` vs
-`DistributionSample.csproj:4-7`. The `.csproj` targets only
-`net10.0-android`, and conditionally `net10.0-ios`/`net10.0-maccatalyst`,
-with a comment stating Windows is "deliberately omitted" for this phase.
-`Platforms/Windows/` still contains a full set of template files, including
-a `Package.appxmanifest` with unfilled `$placeholder$` values. Harmless —
-MSBuild won't compile an untargeted platform folder — but it's dead weight
-that contradicts the project's own stated scope line.
-
-**Fix:** delete `Platforms/Windows/`, or add a one-line note saying it's
-kept intentionally for a future in-scope phase.
-
-## What holds up
-
-- All ten channel guides contain exactly the twenty required sections,
-  correctly numbered and in the mandated order — no gaps, no reordering, no
-  duplicates.
-- Every relative link and heading anchor in the repository resolves
-  correctly under GitHub's actual slugging rules, including the
-  double-hyphen anchor produced by "§16. Revoke / Withdraw / Retire."
-- The historical "blank line between a table's header and separator row"
-  rendering bug, named in the changelog as fixed, does not recur anywhere in
-  the current files.
-- Decorative emoji are genuinely gone; the ☐ ballot-box glyph is the sole,
-  deliberate survivor, exactly as the changelog describes.
-- Fees, tester limits, API-level floors, closed-testing quotas and
-  organisation caps are consistent everywhere they're cited against the
-  freshness register — this was checked figure-by-figure, not spot-checked.
-- The sample MAUI app is a coherent, standard, buildable single-project
-  template with no internal contradictions, and nothing in it undercuts the
-  specific build-warning claims the guide's credibility rests on.
-- The project is candid about its own limits: most channels are labelled
-  "documented, not demonstrated," and only two build paths carry an
-  execution-verified artefact on disk.
-
-## Overall assessment
-
-This is unusually rigorous documentation for what it is — a project that
-runs the commands it describes, keeps a dated register of exactly when
-every time-sensitive figure was last checked, and writes its own changelog
-in terms of "this was wrong" rather than "this improved." That rigor is
-visible in the structure (a genuinely enforced twenty-section contract
-across ten guides) and in the writing (honest labelling of what was
-executed versus sourced).
-
-The grade sits at **B+** rather than higher because the errors found are not
-random noise — they cluster exactly where the project's own standard is
-hardest to meet: keeping a global "everything re-verified" claim true across
-every file that depends on it, and keeping a section's prose in step with
-the guide's own execution results one section later. A misspelled tool
-error code and a missing controlled term round out a short but concrete
-list. None of it is severe on its own; together it's a reminder that the
-last-mile propagation of a fix — from register to guide, from build log to
-prose — needs the same checklist discipline the project already applies to
-everything else.
-
-> "Nothing here is reported as correct because it was written." — README.md.
-> The standard the project sets for itself is the right one; five findings
-> above are places it didn't quite clear its own bar.
+> **Status:** six review rounds complete; a seventh confirming grade was in flight when this
+> revision was written. Grades below are what independent reviewers actually returned, not targets.
 
 ---
 
-*Audit performed against this repository as of 2026-08-26. Findings are
-file- and line-referenced above; re-check each against the current working
-tree before acting, in case the repository has changed since.*
+## 1. How this audit was run
+
+Seven independent review passes, each conducted by a reviewer with no knowledge of the previous
+round's fixes and instructed not to read this file:
+
+| # | Pass | Purpose |
+|--:|---|---|
+| 1 | Initial audit (three parallel reviewers) | Apple guides, Android guides, sample app + repo-wide link/consistency |
+| 2 | Adversarial fact-check | Verify the round-1 corrections against first-party sources; hunt for errors they introduced |
+| 3 | Independent re-grade | Grade the whole repository cold, against a fixed seven-dimension rubric |
+| 4 | Independent re-grade | Same rubric, after round-3 fixes |
+| 5 | Defect hunt | Target the newly changed material specifically |
+| 6 | Propagation-pattern hunt | Target one specific recurring failure mode (see §4) |
+| 7 | Confirming grade | Final verification against the same rubric |
+
+Factual claims were verified against first-party Apple, Google and Microsoft documentation
+throughout — not against the repository's own assertions.
+
+## 2. Grade trajectory
+
+| Round | Overall grade | What moved it |
+|---|---|---|
+| Initial audit | **B+** | Five confirmed errors, mostly self-consistency |
+| Independent re-grade #1 | **C+** | *Lower.* Cold grading found defects the initial audit missed — including a flagship command that could not work |
+| Independent re-grade #2 | **B−** | ArchiveOnBuild fix incomplete; wrong `keytool` command; unverifiable claims |
+| Independent re-grade #3 | **B** | Four quick-starts still shipped unsigned build commands |
+| Independent re-grade #4 | **B+** | `env:`/`file:` prefix contradiction; three propagation gaps |
+| Confirming grade | *pending at time of writing* | — |
+
+**The dip from B+ to C+ is the most important line in this table.** The initial audit was too
+generous. It graded structure, links and terminology thoroughly but did not check whether the
+repository's *commands actually work*. A cold independent grader did, and found that the flagship
+App Store guide's signing command omitted `ArchiveOnBuild=true` and therefore could never produce
+the `.ipa` its own §11 promised. The first grade was not wrong about what it examined; it examined
+the wrong things.
+
+## 3. Defects found and corrected
+
+Grouped by kind. Every item below was corrected, and every correction was verified against a
+first-party source or the repository's own files.
+
+### 3.1 Commands that could not do what the guide said
+
+The most serious category, because this repository exists to make these commands trustworthy.
+
+| Defect | Effect on a reader following the guide |
+|---|---|
+| App Store §10 signing command omitted `ArchiveOnBuild=true` / `RuntimeIdentifier` | Signs a build and writes **no package** — the exact trap the guide is written to warn about. Both sibling Apple guides carried the properties all along |
+| Google Play §10 signing command omitted `AndroidKeyStore=true` | The property defaults to `false`; without it the signing properties are **silently ignored** and the output is the debug-signed bundle that same section says Play will reject |
+| Four Android quick-starts said "**build and sign** the `.aab`" above a command with no signing properties at all | Same as above, reached faster — quick-starts are what a hurried reader follows |
+| The Google Play quick-start gave the *failing* build command as "verified working" | §9 records that exact command failing from a clean tree with `XAGNM7009` |
+| `env:` password prefix prescribed in six files that all upload App Bundles | Microsoft documents `env:` as unsupported when the package format is `aab` — and this repository's own direct APK guide explains that restriction |
+| `keytool -list`, then `keytool -printcert -jarfile`, prescribed as the APK signature check | `keytool -list` reads a keystore, not a package. `-jarfile` reads only v1 signatures, so a v2/v3-only APK returns the same string the guide uses as proof of an *unsigned* file. Now `apksigner verify --print-certs` |
+
+### 3.2 Claims contradicted by the guide's own evidence
+
+- **§7 said an unsigned `dotnet publish` produces a self-signed `.ipa`.** Its own execution-verified
+  §9, one section later, records that no package is produced at all. The SDK never emits one:
+  device builds require a real identity, the archive target errors without a signing key, and the
+  target that writes the package depends on `Codesign`.
+- **"Ad hoc code signing" and "ad hoc distribution" were conflated.** They are unrelated. The first
+  is the placeholder identity `-`, which .NET applies only to simulator builds; the second is an
+  Apple distribution channel using a real certificate and a device-limited profile. Both are now
+  defined separately in the terminology.
+- **The platform comparison still said closed testing requires production access first** — the
+  precise error the previous release's changelog claimed to have fixed. Only *open* testing does;
+  closed testing is the route *to* production access.
+- **TestFlight §18 still advertised review timings** that §13 had removed in the same release.
+
+### 3.3 Facts wrong, unsourced, or overstated
+
+- **TestFlight beta review "commonly 24 hours, reported as ranging 4–48 hours"** — Apple publishes
+  no beta review turnaround time. The figures traced to no first-party source and are gone.
+- **"The first production upload must be made manually through Play Console"** — Google documents no
+  such rule; the Play Developer API can upload and create a draft release. What is true, and what
+  the guide now says, is that the first release configures Play App Signing and fixes the upload key.
+- **`APT2098`/`APT2261` cited as the long-path errors** — Microsoft documents **`APT2264`** for
+  exceeding the Windows maximum path length, and even there says "generally caused by", not
+  exclusively. (All three *are* real `APT2`-prefixed .NET for Android codes; the prefix is
+  Microsoft's own namespace, not a misspelling of AAPT2. An earlier draft of this audit wrongly
+  called them fabricated — see §5.)
+- **Privacy manifest over-scoped** to all third-party SDKs; Apple requires it only for SDKs on its
+  published list, plus required-reason APIs for all apps since 2024-05-01.
+- **SDK floor framed as a submission requirement**; Apple frames it as an **upload** requirement.
+- **"Play Review" used as a proper noun** — Google does not use that term. Its documentation says
+  "app review"; Play Console shows the status "In review".
+- **Play Protect described as "automatically blocking" named permission categories** — Google says
+  "may prevent", and names no categories.
+- **Target API level, App Bundle requirement, open-testing capacity, D-U-N-S, 180-day device
+  removal** — each stated more absolutely than its source supports; all now carry the vendor's
+  actual qualifications.
+- **Three inference-as-fact claims softened**: the `dotnet/macios#20958` attribution (the issue's
+  repro differs from the command run here), the marshal-methods workaround (observed, but not
+  documented by Microsoft as the remedy), and the `XAGNM7009` decode (read off the SDK's error-code
+  scheme, not from documentation).
+
+### 3.4 Claims about the repository's own files that were untrue
+
+- **"This repository's own `.gitignore` excludes common keystore file extensions."** It excluded
+  `*.pfx` and nothing else relevant. Rather than soften the claim, `.gitignore` now actually
+  excludes `*.keystore`, `*.jks`, `*.p12`, `*.mobileprovision`, `*.cer` and `keystore.properties`.
+- **A §20 claimed it had restated §5's target API level.** §5 was unchanged. Now actually corrected.
+- **An open-testing §20 claimed a "minimum permitted cap" clarification** that existed only in that
+  note. Now made in §4, §12 and the quick-start.
+- **The Bundle ID was said to live in `Info.plist`.** In single-project MAUI it does not —
+  `<ApplicationId>` is the only source. A checklist step told readers to grep a file for a value it
+  cannot contain.
+- **References to a "Risk R-8", an "ADR 0015" and a JDK path "verified below"** — none exist here.
+- **Two `start-here` prerequisites pointed at information the repository does not hold**: a
+  freshness-register entry for supported .NET versions, and per-channel icon dimension "values".
+
+### 3.5 Consistency and hygiene
+
+- Verification dates: every channel guide still read 2026-08-23/24 while the register had advanced
+  to 2026-08-26. Each §20 now separates **sources last verified** (which advances) from **execution
+  evidence** (which does not — a run happened when it happened).
+- The same iOS archive failure carried two different execution dates in two guides.
+- Play Console's **Release → Test and release** rename reached only the managed-Play files; six
+  testing paths and the unpublish path still used the old names.
+- The completeness matrix still called the Google Play testing tracks undocumented, in a table
+  whose own rows document them.
+- The terminology table contradicted the guides on APK usage, and gave two terms vendors do not use
+  ("iOS App Store Package", "Release Track").
+- The root README overstated execution coverage and described the completeness matrix incorrectly.
+- The sample project's retained Windows scaffolding contradicted its own scope comment; the
+  Mac Catalyst target was built but recorded nowhere.
+
+## 4. The pattern worth naming
+
+**Six times in this remediation, a correct fix was applied to the main guide and not to every file
+repeating the same claim.** It happened with the manual-upload claim, `ArchiveOnBuild`,
+`AndroidKeyStore=true`, the Play Console rename, the "upload not submission" restatement, and the
+`env:`/`file:` prefix.
+
+This is why six review rounds were needed for what looked like a short defect list. The errors were
+not hard to fix; they were hard to *finish* fixing. A claim in this repository typically appears in
+five or six places — the channel guide, its quick-start, the platform hub, the comparison table, a
+checklist, and often the matrix or register.
+
+The rule the remediation leaves behind is procedural: **verifying the set, not the fix, is what
+"corrected" has to mean here**, and the grep that proves it belongs in the same commit as the fix.
+That rule is now recorded in `CHANGELOG.md` for future maintenance.
+
+## 5. Corrections to the original audit
+
+Reported plainly, because an audit that hides its own errors is worth less than one that does not.
+
+- **The original audit called `APT2098`/`APT2261` fabricated codes**, on the grounds that the `APT2`
+  prefix looked like a misspelling of AAPT2. It is not — `APT2` is .NET for Android's own error
+  namespace and all three codes are real. The genuine defect was narrower: `APT2264` is the code
+  Microsoft actually ties to path length.
+- **The original audit said "Play Review" should be propagated to five Android guides.** The
+  opposite was correct: "Play Review" is not a term Google uses, so the terminology page itself was
+  wrong and the guides were closer to right.
+- **The original audit's B+ was too generous.** It did not test whether the documented commands
+  work, which is where the two most serious defects were.
+- Two items the original audit listed as "worth double-checking" resolved as **correct**: the
+  App Store Connect distribution-method rule, and the `env:` prefix restriction.
+
+## 6. What changed, and why
+
+Every change, with its reason. Six commits on the `Review` branch.
+
+| Commit | What changed | Why |
+|---|---|---|
+| `8ab2668` | Corrected eight unsupported claims; split every §20 into "sources last verified" and "execution evidence" | The claims were wrong or unsourced. The date split exists because re-checking a source was silently re-dating builds that had not been re-run |
+| `08fe837` | Added `ArchiveOnBuild` to the App Store signing command; made `.gitignore` actually exclude signing material; fixed TestFlight §18, three §11→§10 references, the completeness matrix and the terminology APK row | The flagship command could not produce an `.ipa`. The `.gitignore` claim was false, so the file was changed rather than the claim softened |
+| `f297469` | Added `AndroidKeyStore=true` to the Android signing command and checklist; replaced `keytool` with `apksigner`; removed references to a nonexistent risk register and ADR; corrected the root README's execution-coverage claim | Without `AndroidKeyStore=true` the signing properties are silently ignored. `keytool` cannot read a modern APK signature |
+| `cb3e59e` | Added signing properties to four quick-start cards; corrected the Play Protect claim; reconciled two execution dates; fixed the IPA terminology row | The quick-starts told readers to "build and sign" with a command that did neither |
+| `3906fac` | Switched six App Bundle commands from `env:` to `file:`; closed the last three propagation gaps; corrected the unpublish path; recorded the Mac Catalyst exclusion | Microsoft documents `env:` as unsupported for `.aab`, which this repository's own direct APK guide already explained |
+
+**Two things were deliberately *not* changed**, and the reasons are recorded in the files:
+
+- **The sample app's stock template residue** — the retained `Platforms/Windows/` scaffolding, the
+  unused `using`, the default counter page, the absence of a `global.json`. The sample's evidential
+  value comes from being recognisably `dotnet new maui` output; tidying it would make the guide's
+  build claims *harder* to reproduce. The project file now says so explicitly.
+- **The "How this guide is kept true" section's five checks.** The verification tooling is not in
+  this repository, so a reader cannot re-run them. Rather than delete the section or overstate it,
+  it now tells the reader plainly that those claims are not falsifiable from a clone, and to weigh
+  each guide's §9 and §18 more heavily instead.
+
+## 7. Verification performed after each round
+
+Run against the whole repository, mechanically, after every commit:
+
+- Every relative link and heading anchor resolves (34 markdown files, GitHub slug rules).
+- All ten guides carry exactly twenty sections, correctly numbered and ordered.
+- No table has the historical blank-line-between-header-and-separator defect.
+- No decorative emoji beyond the functional ☐ ballot box.
+- Every signing command in every file carries its required properties (checked per-file, not by
+  sampling — this is the check that would have caught the propagation failures earlier).
+- No residual instance of any corrected term, path, URL or command.
+
+---
+
+*Audit and remediation performed against this repository on 2026-08-26, on the `Review` branch.
+Findings are file- and line-referenced in the commit messages and in `CHANGELOG.md` 1.3.0.*

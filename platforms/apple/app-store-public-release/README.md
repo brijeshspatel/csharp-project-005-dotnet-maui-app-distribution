@@ -117,12 +117,17 @@ rather than the single bare command used here, so treat this as the same underly
 than as a report of this exact invocation.
 
 The mechanism, read from the SDK's own targets files: in `Xamarin.Shared.Sdk.Publish.targets` the
-`Publish` target emits that message whenever `$(BuildIpa)` is true, with no check that the package
-was written.
-The target that actually writes the archive is `_CoreCreateIpa` (in `Xamarin.iOS.Common.targets`),
-which depends on `Codesign` and is reached through `CreateIpa`. Because `$(BuildIpa)` is set by
-`_PrePublish`, a run in which `Build` executes first leaves `_CoreCreateIpa` skipped while
-`Publish` still prints its success line.
+`Publish` target emits that message whenever `$(BuildIpa)` is true, **with no check that the
+package was written**. The target that actually writes the archive is `_CoreCreateIpa` (in
+`Xamarin.iOS.Common.targets`), which **depends on `Codesign`** and is reached through `CreateIpa`.
+
+**For the unsigned run recorded above, the operative cause is that `Codesign` dependency** — with
+no signing identity there is nothing for `_CoreCreateIpa` to produce, so it does not run, while
+`Publish` prints its success line regardless. Issue #20958 describes a second, separate route to
+the same symptom, where `Build` executing first leaves `_CoreCreateIpa` skipped even though signing
+is configured; that issue notes a bare `publish` is unaffected by *its* ordering fault. Both routes
+share the same root defect — an unconditional success message — which is why the issue is cited
+here, but do not read the ordering explanation as the cause of this repository's observation.
 
 **Never accept that line, or exit code 0, as evidence that an `.ipa` exists. Confirm the file is
 on disk.**

@@ -47,7 +47,7 @@ The absence of a gate is the channel's advantage and its entire risk.
 
 | Prerequisite | Notes |
 |---|---|
-| A JDK, for `keytool` | Ships with the Android workload. Any JDK providing `keytool` will do |
+| A JDK, for `keytool` | Install it separately — the .NET Android workload does **not** bundle a JDK, though Visual Studio and Android Studio installs commonly bring one. Any JDK providing `keytool` will do |
 | `apksigner`, for verifying a signature | Ships with the Android SDK build-tools. It reads every APK signature scheme; `keytool` reads only the v1 JAR scheme. See §14 |
 | A private keystore | Created once, then reused for every update. **Not** the debug keystore |
 | A signed `.apk` | The `.aab` is not usable here; see §11 |

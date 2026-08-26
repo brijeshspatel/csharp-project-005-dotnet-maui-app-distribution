@@ -53,8 +53,10 @@ anything you intend to ship.
 
 - An active **Apple Developer Program** membership. The Enterprise Program is a separate
   programme with its own eligibility, covered in the enterprise guide.
-- A **Bundle ID**, registered in your Apple Developer account, matching the Application ID in the
-  project and the value in `Info.plist`. It is permanent once you publish with it.
+- A **Bundle ID**, registered in your Apple Developer account, matching `<ApplicationId>` in the
+  project file. **That property is the only place it lives** — single-project MAUI generates the
+  bundle identifier from it, and `Platforms/iOS/Info.plist` carries no `CFBundleIdentifier` to
+  cross-check or keep in step. It is permanent once you publish with it.
 - **Xcode 26 with an iOS 26 SDK**, required for anything **uploaded** to App Store Connect from
   2026-04-28. Apple frames this as an upload requirement, not a submission one.
 - A **Mac** for the signing and packaging steps.

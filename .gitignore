@@ -493,9 +493,11 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
-# The governance machinery stays on disk so the workspace checkers can read it,
-# and out of git so a cloner receives the guide rather than the tooling that
-# verifies it. The root README's "How this guide is kept true" section states
-# the consequence for readers: these checks cannot be re-run from a clone.
+# Governance machinery, ignored so a cloner receives the guide rather than the
+# tooling that verifies it. These paths may or may not be present in any given
+# working copy - the patterns are kept either way so the tooling can never be
+# committed by accident. The root README's "How this guide is kept true"
+# section states the consequence for readers: these checks cannot be re-run
+# from a clone.
 config/
 .aia-conventions.json
