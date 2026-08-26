@@ -8,15 +8,18 @@ describing the correction as an improvement.
 
 ## [1.3.0] — 2026-08-26
 
-Four successive audits — an external review, an adversarial fact-check of the resulting
-corrections, an independent re-grade of the whole repository, and a final defect hunt — found
-faults at every stage, including several the earlier rounds had introduced or left behind. All are
+Five successive audits — an external review, an adversarial fact-check of the resulting
+corrections, an independent re-grade of the whole repository, and two further defect hunts — found
+faults at every stage, including many the earlier rounds had introduced or left behind. All are
 listed below and named as errors, not as improvements.
 
-**Each pass found what the previous one missed, which is the point.** A correction applied to five
-files but not the sixth is not a correction; it is a contradiction with better coverage. That
-happened repeatedly in this release and is recorded below each time, because the pattern matters
-more than any single instance of it.
+**Each pass found what the previous one missed, and the pattern is the finding.** A correction
+applied to five files but not the sixth is not a correction; it is a contradiction with better
+coverage. That happened *three separate times* in this release: with the manual-upload claim, with
+`ArchiveOnBuild`, and with `AndroidKeyStore=true`. Each time the fix was right and its propagation
+was not. The lesson this release records for its own future maintenance is that a claim appearing
+in a guide, its quick start, its hub, the comparison table and a checklist must be corrected as a
+set, and that verifying the set — not the fix — is what "corrected" has to mean here.
 
 **Two findings deserve singling out, because both were commands this guide told readers to run
 that could not do what the guide said they would.** The App Store guide's signing command omitted
@@ -128,8 +131,35 @@ this repository failing at precisely the thing it claims to be for.
   channels had execution-verified build paths. Four builds were executed; two produced artefacts
   and two produced recorded failures. It now says which is which.
 - **Found by a fourth pass: `keytool -list` was prescribed as the validation step for an APK
-  signature.** It reads a keystore, not a package. §14 now uses `keytool -printcert -jarfile`, and
-  §7 explains which command belongs on which side of the exchange.
+  signature.** It reads a keystore, not a package.
+- **Found by a fifth pass: the `AndroidKeyStore=true` fix had not reached four quick starts.** The
+  internal, closed, open and managed Google Play cards each said "**build and sign** the `.aab`"
+  above a command containing no signing properties at all. A reader following any of those cards
+  would have uploaded the debug-signed bundle those same guides say Play rejects. This is the third
+  time in one release that a correct fix stopped short of a file that needed it.
+- **Found by a fifth pass: `keytool -printcert -jarfile` was the wrong replacement.** It reads only
+  the **v1 (JAR)** signature scheme, so on an APK signed with v2/v3 only it reports `Not a signed
+  jar file` — indistinguishable from genuinely unsigned, and the same string §9 uses as evidence of
+  an unsigned artefact. §14 now prescribes **`apksigner verify --print-certs`**, which reads every
+  scheme; §7 and §9 carry the same correction and §9 states plainly what its original evidence does
+  and does not establish.
+- **Found by a fifth pass: a Play Protect claim stated harder than its source.** The guide said
+  Play Protect "automatically blocks" sideloaded apps requesting certain sensitive permissions,
+  naming messages and notifications. Google's wording is that it "may prevent" installation of an
+  app that is unverified and uses sensitive permissions, and Google names no permission categories.
+  The invented specificity is removed.
+- **Found by a fifth pass: two more claims contradicting their own guides.** The ad hoc guide's §5
+  described Apple Configurator as required for "the installation route this guide verifies", while
+  its §18 and §20 both state no installation was executed. A §5 prerequisite cited §9 for a JDK
+  detail §9 does not contain.
+- **Found by a fifth pass: the same iOS archive failure carried two different execution dates** —
+  2026-08-23 in the App Store guide, 2026-08-24 in the ad hoc guide. The ad hoc guide now says
+  explicitly that it re-ran the App Store guide's command a day later and got the same result,
+  rather than leaving two dates for one observation.
+- **Found by a fifth pass: the terminology table's "official term" column carried a term Apple does
+  not use.** "iOS App Store Package" is third-party usage; Apple writes ".ipa file". Also corrected
+  a checklist step that linked to the security-model section for a keystore-creation command that
+  lives elsewhere.
 
 ### Changed
 

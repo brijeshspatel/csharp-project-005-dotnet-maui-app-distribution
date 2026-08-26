@@ -3,8 +3,12 @@
 Get a build to up to 100 testers in minutes, shortest safe path. Links back to the
 [full guide](../README.md) at every step.
 
-1. Build and sign the `.aab` exactly as for public release —
-   `dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false`. See
+1. Build and sign the `.aab`. **`-p:AndroidKeyStore=true` is what switches signing on** — it
+   defaults to `false`, and without it the signing properties are ignored and you get a
+   debug-signed bundle Google Play will reject:
+   `dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
+   -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=<keystore> -p:AndroidSigningKeyAlias=<alias>
+   -p:AndroidSigningKeyPass=env:<var> -p:AndroidSigningStorePass=env:<var>`. See
    [§9](../README.md#9-build).
 2. Confirm the `.aab` exists by **listing** `bin/Release/net10.0-android/publish/`. See
    [§11](../README.md#11-package).

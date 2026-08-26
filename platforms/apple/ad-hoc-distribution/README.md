@@ -70,7 +70,7 @@ with is a slot you cannot recover until renewal.
 | The UDID of every target device | Collected per device, before the provisioning profile is created |
 | An **ad hoc** distribution provisioning profile | Distinct from the App Store profile. It embeds the device list |
 | A Mac, or a Mac build host paired to Visual Studio | Required to produce a signed `.ipa`. See §9 |
-| Apple Configurator, on a Mac | Required for the installation route this guide verifies. See §13 |
+| Apple Configurator, on a Mac | Required for the installation route this guide **documents** — no installation was executed here, see §18. See §13 |
 
 ## 6. How to Obtain the Prerequisites
 
@@ -136,8 +136,10 @@ Producing an ad hoc `.ipa` requires the archive form of the publish command:
 dotnet publish -f net10.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64
 ```
 
-**Verified by execution, 2026-08-24**, against this repository's own sample application: this
-command **fails**, correctly and immediately, with:
+**Verified by execution, 2026-08-24**, against this repository's own sample application — a re-run
+of the same command the [App Store guide](../app-store-public-release/README.md#9-build) executed
+on 2026-08-23, repeated here because this channel depends on it rather than merely referencing it.
+Both runs produced the same result. This command **fails**, correctly and immediately, with:
 
 ```
 error : Code signing must be enabled to create an Xcode archive.
