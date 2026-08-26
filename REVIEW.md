@@ -242,22 +242,64 @@ through: nothing was missing, so nothing was missed.
 
 ### What would close it
 
-**1. A committed claim-consistency checker.** The invariant classes that have actually broken, each
-expressible as an assertion over the file set:
+**1. A claim-consistency checker.** Specified here rather than built, so the decision to adopt it
+stays with the maintainer. It is the only measure that makes an A grade *stay* an A.
 
-| Invariant | Assertion |
-|---|---|
-| Command properties | Every Apple signing command carries `ArchiveOnBuild` + `RuntimeIdentifier`; every Android signing command carries `AndroidKeyStore=true`; every Android build command carries `AndroidEnableMarshalMethods=false` |
-| Tool per artefact | `apksigner` appears only where the artefact is an `.apk`; `jarsigner` where it is an `.aab`; `keytool -list` only against a keystore |
-| Password prefix | `env:` never appears in a command whose output includes an App Bundle |
-| Navigation paths | Play Console paths begin with the current top-level section name |
-| Vendor qualifications | "new apps" / "upload not submission" / "generally caused by" phrasings match the register's wording wherever the claim appears |
-| Section references | Every `§n` in prose resolves to a section whose heading matches the referenced topic |
-| Self-claims | Every statement about `.gitignore`, the sample, or produced artefacts is checked against the file |
+#### What it would assert
 
-This is roughly a day's work and it is the only thing that makes an A *stay* an A. Note it sits in
-tension with the deliberate decision recorded in 1.1.0 to keep tooling out of the repository — that
-decision would need revisiting, or the checker would live beside it as the existing machinery does.
+Each rule below encodes a defect that actually occurred during this remediation. That is the
+selection criterion: no speculative rules, only regressions with a history.
+
+| Invariant | Assertion | Instances it would have caught |
+|---|---|---|
+| Apple archive properties | Any command containing `CodesignKey` also contains `ArchiveOnBuild` and `RuntimeIdentifier` | 2 |
+| Android signing properties | Any command containing `AndroidSigningKeyStore` also contains `AndroidKeyStore=true` and `AndroidEnableMarshalMethods=false` | 2 |
+| Password prefix by format | `Pass=env:` never appears in a channel whose upload artefact is an App Bundle | 1 |
+| Tool per artefact | `apksigner` never appears where the artefact is an `.aab`; `keytool -list` never used against a package | 1 |
+| Navigation paths | Play Console paths carry the current top-level section name | 2 |
+| Vendor qualifications | "new apps since August 2021", "uploaded to App Store Connect", "generally caused by" match the register's wording wherever the claim appears | 3 |
+| Retired wording | Phrases withdrawn as wrong never reappear outside a retraction | — (preventive) |
+| Claims about own files | Every statement about `.gitignore`, the sample's `ApplicationId`, or produced artefacts is checked against the file | 2 |
+| Structure, links, tables | 20 sections in contract order; all relative links and anchors resolve; no blank line between a table header and its separator | 1 |
+
+#### Two design points that matter
+
+**Assertions must be one-directional.** "Every command with `CodesignKey` also has
+`ArchiveOnBuild`" is correct. The converse is not: §9 of the ad hoc guide deliberately shows
+`ArchiveOnBuild` *without* signing, because the resulting error is the evidence. A checker that
+demanded symmetry would flag the guide's most valuable content and be switched off within a week.
+
+**Retraction must stay sayable.** `CHANGELOG.md` and this file quote withdrawn wording in order to
+say it was wrong. Any rule forbidding a phrase has to exempt them, or the honest changelog this
+project is proud of becomes unwritable.
+
+#### What it buys
+
+- **It closes the gap that eight review rounds could not.** Every round found one to three new
+  instances of the same class; two were *introduced* by the previous round's fixes. That is a
+  process converging too slowly to trust, and the checker replaces recall with execution.
+- **It catches over-propagation, which grep cannot.** The `apksigner` defect had nothing missing —
+  a correct tool sat in a context it did not fit. Only an assertion tying tool to artefact finds it.
+- **It makes the repository's central claim falsifiable.** The root README lists five things
+  "checks confirm", and currently has to add that a reader cannot re-run them from a clone. A
+  committed checker turns that caveat into an instruction, which is a materially stronger position
+  for a project whose thesis is that nothing is correct merely because it was written.
+- **It converts review effort into review coverage.** Eight passes were spent rediscovering the
+  same class of defect. Encoding it once frees later reviews to look at things a script cannot
+  judge — whether the guidance is *good*, not merely consistent.
+- **It protects the freshness register's whole purpose.** Vendor requirements change on a schedule;
+  when a figure is updated, the checker names every file that must move with it.
+
+#### What it costs
+
+Roughly a day to write, and a standing obligation: every future correction must either pass the
+rules or add one. The real cost is a policy reversal — release 1.1.0 deliberately removed this
+repository's verification tooling so that "what is published here is the verified result rather
+than the machinery that verifies it". A committed checker contradicts that. Two ways out: revisit
+the 1.1.0 decision on the grounds that a *consistency* checker is documentation about the
+documentation rather than build machinery, or keep it beside the repository as the existing tooling
+already lives, and accept that readers still cannot run it. **The first is the honest option**, and
+it is the one that resolves the falsifiability caveat rather than restating it.
 
 **2. One exhaustive sweep by enumeration, not sampling.** For each of the seven invariants above,
 list every file asserting the claim and diff them. Prior rounds sampled; sampling is what left the
@@ -277,6 +319,20 @@ class has been flagged as a material defect since round three, and every grader 
 the underlying work is A-grade. But this document should not predict a grade it has not received —
 eight rounds have shown that this repository's defects are found by looking, not by reasoning about
 whether any remain.
+
+**A− is a different question from A**, and a closer one. The grader who returned B− stated that
+fixing the five items it listed "would support an A− comfortably"; all five were fixed two rounds
+later, and the two defects that held the most recent grade at B+ — `apksigner` on an App Bundle,
+and the over-corrected APK terminology row — are now fixed as well. On the evidence, A− turns on
+whether a tenth instance of the propagation class exists, and nothing else. The checker is what an
+**A** requires; **A−** may only require that no tenth instance is found.
+
+### Status of the checker
+
+**Specified above, deliberately not built.** Adopting it is a maintainer's decision, because it
+reverses a documented policy (1.1.0) rather than merely adding a file. This section exists so that
+decision can be made on the evidence — nine recorded instances, the rules that would have caught
+each, and the cost of both options — rather than on a recollection of how the audit felt.
 
 ---
 
