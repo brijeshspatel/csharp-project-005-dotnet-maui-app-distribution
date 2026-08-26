@@ -13,11 +13,11 @@ can apply for production access. Internal and open testing do not satisfy it. Se
    debug-signed bundle Google Play will reject:
    `dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
    -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=<keystore> -p:AndroidSigningKeyAlias=<alias>
-   -p:AndroidSigningKeyPass=env:<var> -p:AndroidSigningStorePass=env:<var>`. See
+   -p:AndroidSigningKeyPass=file:<file> -p:AndroidSigningStorePass=file:<file>`. See
    [§9](../README.md#9-build).
 2. Confirm the `.aab` exists by **listing** `bin/Release/net10.0-android/publish/`. See
    [§11](../README.md#11-package).
-3. In Play Console, open **Testing > Closed testing**, and add an email list or a Google Group.
+3. In Play Console, open **Test and release > Testing > Closed testing**, and add an email list or a Google Group.
    See [§12](../README.md#12-configure-distribution-platform).
 4. Create a release, upload the `.aab`, and roll it out. **Allow several hours** — this track is
    not instant. See [§13](../README.md#13-deploy).

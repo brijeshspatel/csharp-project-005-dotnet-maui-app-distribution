@@ -5,15 +5,22 @@ Each channel guide lists its own prerequisites in addition to these.
 
 ## Common to every channel
 
-- A supported .NET SDK and .NET MAUI workload, matching what each channel guide's Freshness
-  Register entry currently states as supported.
+- A supported .NET SDK and .NET MAUI workload. **This repository does not track supported .NET
+  versions** — the [freshness register](../docs/reference/requirements-freshness-register.md)
+  covers vendor-imposed store requirements, not the .NET release train. Take the supported
+  combination from Microsoft's own .NET MAUI documentation. What the register *does* pin, and what
+  will block a release, are Apple's Xcode/SDK floor and Google's target API level.
 - A stable application identifier: the Bundle ID (Apple) and package name (Android) usually
   follow the same reverse-domain form, but each platform enforces its own identifier and neither
   can change after you first publish with it.
 - A versioning scheme: a display version and a platform build number, both of which must
   increase on every release you submit.
-- App icons and a splash image, sized per the current requirements of whichever channel you use
-  — see that channel guide's own Prerequisites section for the values.
+- App icons and a splash image. **This repository deliberately does not reproduce icon and
+  screenshot dimensions**, because both vendors change them and a stale table here would be worse
+  than none. Take the sizes from
+  [Apple's Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/app-icons)
+  and [Google Play's graphic asset requirements](https://support.google.com/googleplay/android-developer/answer/9866151)
+  at the time you build.
 - Release-configuration build settings verified locally before you configure any distribution
   platform.
 

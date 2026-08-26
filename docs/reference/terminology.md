@@ -3,6 +3,12 @@
 One term per concept. Every guide in this repository uses these terms consistently. Where an
 official platform term exists, that term is used, not a paraphrase.
 
+**Read the first column as naming the concept, not prescribing capitalisation.** Entries are
+Title Cased here so the table scans; in running prose the guides follow each vendor's own casing —
+"upload key", "app signing key", "package name" and "track" are lowercase, while "App Review" and
+"Apple Business Manager" are capitalised because Apple capitalises them. Where the two columns
+disagree on case, the **Official term** column governs.
+
 | Term used here | Official term | Platform | Meaning |
 |---|---|---|---|
 | App Bundle | Android App Bundle (`.aab`) | Android | The publishing format Google Play requires for new apps; Google Play generates per-device APKs from it. Google's full term is "Android App Bundle"; "App Bundle" is the accepted short form and is what this repository uses after first mention. |

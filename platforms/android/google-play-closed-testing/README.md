@@ -117,7 +117,7 @@ The `.aab` is the upload artefact. **Confirm it exists by listing
 
 ## 12. Configure Distribution Platform
 
-In Play Console, open **Testing > Closed testing**:
+In Play Console, open **Test and release > Testing > Closed testing**:
 
 1. Select the track, or create an additional closed track.
 2. On the **Testers** tab, add an email list or a Google Group.

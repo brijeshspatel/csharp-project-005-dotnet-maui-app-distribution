@@ -11,7 +11,13 @@ replace the [full guide](../README.md), which it links back to at every step.
    run at the project's **real path**. Without that property the build fails from a clean tree
    with `XAGNM7009`; treat it as a mitigation, not a default. See
    [§9 Build](../README.md#9-build), then **list** the publish folder to confirm the `.aab`.
-4. Configure real release signing with your own upload keystore. See [§10 Sign](../README.md#10-sign).
+4. Configure real release signing with your own upload keystore. **`-p:AndroidKeyStore=true` is
+   what switches signing on** — it defaults to `false`, and without it the signing properties are
+   silently ignored and you ship a debug-signed bundle Google Play will reject:
+   `dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
+   -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=<keystore> -p:AndroidSigningKeyAlias=<alias>
+   -p:AndroidSigningKeyPass=file:<file> -p:AndroidSigningStorePass=file:<file>`. See
+   [§10 Sign](../README.md#10-sign).
 5. Create the app listing, store listing, content rating and Data safety declaration. See
    [§12 Configure Distribution Platform](../README.md#12-configure-distribution-platform).
 6. Upload the `.aab` for your first release. Doing it by hand in Play Console is the cautious

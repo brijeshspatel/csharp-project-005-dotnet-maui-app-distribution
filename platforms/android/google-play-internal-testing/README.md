@@ -105,7 +105,7 @@ is not sufficient evidence.
 
 ## 12. Configure Distribution Platform
 
-In Play Console, open **Testing > Internal testing**:
+In Play Console, open **Test and release > Testing > Internal testing**:
 
 1. On the **Testers** tab, create or select an email list, and add tester addresses. Enter them
    comma-separated, or upload a CSV.

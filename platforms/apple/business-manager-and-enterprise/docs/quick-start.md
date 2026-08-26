@@ -22,7 +22,9 @@ See [§1](../README.md#1-what-this-channel-is).
    **Organization ID**. See [§12](../README.md#12-configure-distribution-platform).
 3. Prepare a demo account and safe sample data — Apple signs in to review it. See
    [§8](../README.md#8-application-preparation).
-4. Build, sign with your **App Store** profile, and submit. See [§10](../README.md#10-sign).
+4. Build, sign with your **App Store** profile **and archive** — `-p:ArchiveOnBuild=true
+   -p:RuntimeIdentifier=ios-arm64` alongside `-p:CodesignKey`/`-p:CodesignProvision`, since signing
+   alone writes no package — then submit. See [§10](../README.md#10-sign).
 5. After approval, the app appears in each named organisation's Apps and Books. See
    [§13](../README.md#13-deploy).
 
@@ -35,7 +37,9 @@ approval it **cannot be changed** — switching to public needs a new app record
    [§4](../README.md#4-eligibility).
 2. Create an **In House** provisioning profile — not App Store, not Ad Hoc. See
    [§6](../README.md#6-how-to-obtain-the-prerequisites).
-3. Build and sign with that profile. See [§10](../README.md#10-sign).
+3. Build, sign with that profile **and archive** — `-p:ArchiveOnBuild=true
+   -p:RuntimeIdentifier=ios-arm64` alongside the codesign properties. Signing alone writes no
+   package. See [§10](../README.md#10-sign).
 4. Confirm the `.ipa` exists by **listing** `bin/Release/net10.0-ios/ios-arm64/publish/`. See
    [§11](../README.md#11-package).
 5. Serve it over authenticated HTTPS, or push it through MDM. See

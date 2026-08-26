@@ -47,8 +47,10 @@ The authoritative explanation lives in
 [Google Play public release §7](google-play-public-release/README.md#7-security-model) and
 [§10](google-play-public-release/README.md#10-sign). Every Android channel references it.
 
-**Never commit a keystore or its passwords.** Pass them by the `env:` or `file:` prefix so the
-passphrase never reaches the build log.
+**Never commit a keystore or its passwords.** Pass them by the `file:` or `env:` prefix so the
+passphrase never reaches the build log — but note that Microsoft documents **`env:` as unsupported
+when the package format is `aab`**. Every Play Console channel uploads an App Bundle, so **prefer
+`file:` for those**; `env:` is fine for the APK-only direct distribution channel.
 
 ## Prerequisites common to the five Play Console channels
 

@@ -12,13 +12,13 @@ first. See [§4](../README.md#4-eligibility).
    debug-signed bundle Google Play will reject:
    `dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
    -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=<keystore> -p:AndroidSigningKeyAlias=<alias>
-   -p:AndroidSigningKeyPass=env:<var> -p:AndroidSigningStorePass=env:<var>`. See
+   -p:AndroidSigningKeyPass=file:<file> -p:AndroidSigningStorePass=file:<file>`. See
    [§9](../README.md#9-build).
 2. Confirm the `.aab` exists by **listing** `bin/Release/net10.0-android/publish/`. See
    [§11](../README.md#11-package).
 3. Finish the store listing to a public standard — the app becomes publicly visible, and review
    applies. See [§8](../README.md#8-application-preparation).
-4. In Play Console, open **Testing > Open testing**, and set capacity: unlimited, or a limited
+4. In Play Console, open **Test and release > Testing > Open testing**, and set capacity: unlimited, or a limited
    number set to at least 1,000 — that is the **smallest cap you may set**, not a number of testers
    you must find. No tester list is needed. See
    [§12](../README.md#12-configure-distribution-platform).

@@ -8,18 +8,25 @@ describing the correction as an improvement.
 
 ## [1.3.0] — 2026-08-26
 
-Five successive audits — an external review, an adversarial fact-check of the resulting
-corrections, an independent re-grade of the whole repository, and two further defect hunts — found
-faults at every stage, including many the earlier rounds had introduced or left behind. All are
-listed below and named as errors, not as improvements.
+Six successive audits — an external review, an adversarial fact-check of the resulting corrections,
+two independent re-grades of the whole repository, and two dedicated defect hunts — found faults at
+every stage, including many the earlier rounds had introduced or left behind. All are listed below
+and named as errors, not as improvements.
 
 **Each pass found what the previous one missed, and the pattern is the finding.** A correction
 applied to five files but not the sixth is not a correction; it is a contradiction with better
-coverage. That happened *three separate times* in this release: with the manual-upload claim, with
-`ArchiveOnBuild`, and with `AndroidKeyStore=true`. Each time the fix was right and its propagation
-was not. The lesson this release records for its own future maintenance is that a claim appearing
-in a guide, its quick start, its hub, the comparison table and a checklist must be corrected as a
-set, and that verifying the set — not the fix — is what "corrected" has to mean here.
+coverage. That happened *six separate times* in this release: with the manual-upload claim,
+`ArchiveOnBuild`, `AndroidKeyStore=true`, the Play Console **Test and release** rename, the
+"upload, not submission" restatement, and the `env:`/`file:` password prefix. Every time the fix
+itself was right and its propagation was not.
+
+**So the rule this release leaves behind is procedural, not factual.** A claim in this repository
+typically appears in five or six places — the channel guide, its quick start, the platform hub, the
+comparison table, a checklist, and often the completeness matrix or freshness register. Correcting
+the guide is the easy half. **Verifying the set is what "corrected" has to mean here**, and the
+grep that proves it belongs in the same commit as the fix. Six rounds of review were needed to
+learn that, which is itself worth recording: the errors were not hard to fix, they were hard to
+*finish* fixing.
 
 **Two findings deserve singling out, because both were commands this guide told readers to run
 that could not do what the guide said they would.** The App Store guide's signing command omitted
@@ -109,8 +116,9 @@ this repository failing at precisely the thing it claims to be for.
 - **Found by the independent re-grade: an evidence figure that the documented command would not
   produce.** The direct APK guide reported its verification certificate as `SHA384withRSA`, but the
   `keytool` command it prescribes generates a 2048-bit RSA key, which signs with `SHA256withRSA` on
-  current JDKs. The guide no longer names an expected algorithm, because the useful check is that
-  the certificate is yours, not which digest it names.
+  current JDKs. The guide no longer presents any one algorithm as *the expected result* — it now
+  explains that the value follows the key size, because the useful check is that the certificate is
+  yours, not which digest it names.
 - **Found by a fourth pass: the Android signing command had the same defect as the iOS one.** §10
   gave the `AndroidSigningKeyStore` properties **without `-p:AndroidKeyStore=true`**, which defaults
   to `false`. Without it the signing properties are not rejected — they are silently ignored, and
@@ -156,6 +164,33 @@ this repository failing at precisely the thing it claims to be for.
   2026-08-23 in the App Store guide, 2026-08-24 in the ad hoc guide. The ad hoc guide now says
   explicitly that it re-ran the App Store guide's command a day later and got the same result,
   rather than leaving two dates for one observation.
+- **Found by a sixth pass: `env:` was prescribed for App Bundle builds, contradicting this
+  repository's own direct APK guide.** Microsoft documents the `env:` password prefix as
+  unsupported when the package format is `aab`, and the direct APK guide explains exactly that —
+  yet six Play Console files, which all upload App Bundles, prescribed `env:`. They now use
+  `file:`, and §10 and the Android hub explain which prefix belongs to which output format.
+- **Found by a sixth pass: three more incomplete propagations.** The Play Console **Test and
+  release** rename had not reached the six internal/closed/open testing navigation paths; the
+  `ArchiveOnBuild` correction had not reached the ad hoc or enterprise quick starts; and the
+  `AndroidKeyStore=true` correction had not reached the flagship Google Play quick start, leaving
+  it the only Android card without the warning.
+- **Found by a sixth pass: the unpublish path pointed at the wrong Play Console section.** It named
+  *Grow > Store presence*, where listing content is edited. Unpublishing is under *Test and
+  release > Setup > Advanced settings > App availability*.
+- **Found by a sixth pass: `keytool -printcert` in the Android checklist's verification column.**
+  Bare, it reads a certificate file, not a package — and with `-jarfile` it reads only v1
+  signatures, which the direct APK guide had already ruled out. The checklist now uses
+  `apksigner verify --print-certs`.
+- **Found by a sixth pass: two `start-here` prerequisites pointed at information that does not
+  exist** — a freshness-register entry for supported .NET versions (the register tracks vendor
+  store requirements, not the .NET release train) and per-channel icon dimension "values" (no guide
+  states any). Both now say plainly what this repository does not track, and link outward.
+- **Found by a sixth pass: the Bundle ID was said to live in `Info.plist`.** In single-project
+  MAUI it does not — `<ApplicationId>` is the only source and the build generates the rest. A
+  checklist step told readers to grep a file for a value it cannot contain.
+- **Found by a sixth pass: the sample declared a scope exclusion the catalogue did not record.**
+  The project file said Mac App Store distribution is out of scope; the catalogue listed only
+  Windows. Mac Catalyst is now recorded there, including the fact that the sample still builds it.
 - **Found by a fifth pass: the terminology table's "official term" column carried a term Apple does
   not use.** "iOS App Store Package" is third-party usage; Apple writes ".ipa file". Also corrected
   a checklist step that linked to the security-model section for a keystore-creation command that

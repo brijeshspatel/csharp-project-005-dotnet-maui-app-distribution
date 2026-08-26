@@ -69,7 +69,7 @@ with is a slot you cannot recover until renewal.
 | An App ID | May be the same App ID used for development and for App Store release |
 | The UDID of every target device | Collected per device, before the provisioning profile is created |
 | An **ad hoc** distribution provisioning profile | Distinct from the App Store profile. It embeds the device list |
-| A Mac, or a Mac build host paired to Visual Studio | Required to produce a signed `.ipa`. See §9 |
+| A Mac, or a Mac build host paired to Visual Studio | Required to produce a signed `.ipa`. See §10 |
 | Apple Configurator, on a Mac | Required for the installation route this guide **documents** — no installation was executed here, see §18. See §13 |
 
 ## 6. How to Obtain the Prerequisites

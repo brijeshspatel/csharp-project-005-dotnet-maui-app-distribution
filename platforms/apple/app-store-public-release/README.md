@@ -83,10 +83,14 @@ signed artefact rather than the presence of a self-signed one.
 
 ## 8. Application Preparation
 
-Set your Bundle ID as the **Application ID** property in your .NET MAUI project — Visual Studio
-keeps this synchronised with `Info.plist` automatically. Set your display version and build
-number; both must increase on every submission. Confirm your target framework is current enough
-to satisfy §5's SDK requirement.
+Set your Bundle ID as the **`<ApplicationId>`** property in your .NET MAUI project file. **In the
+single-project model that property is the single source of truth** — `Platforms/iOS/Info.plist`
+carries no `CFBundleIdentifier`, and the build generates one from `<ApplicationId>`. Do not expect
+to find a Bundle ID in `Info.plist` to cross-check, and do not add one by hand: two sources would
+be one more than this model has.
+
+Set your display version and build number; both must increase on every submission. Confirm your
+target framework is current enough to satisfy §5's SDK requirement.
 
 ## 9. Build
 

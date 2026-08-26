@@ -116,6 +116,12 @@ This exits 0 and writes these artefacts to `bin/Release/net10.0-android/publish/
 | `com.companyname.distributionsample-Signed.aab` | 28,478,415 bytes | debug-signed App Bundle |
 | `com.companyname.distributionsample-Signed.apk` | 29,058,372 bytes | debug-signed APK, local testing only |
 
+**This table lists the App Bundle artefacts, which are what this channel uploads.** The command
+carried no `AndroidPackageFormats`, and a Release build defaults to `aab;apk`, so APK artefacts
+were written alongside these and are simply not reproduced here — the direct APK guide's §9 covers
+that output in full. Nothing is being hidden: the omission is by relevance, not by selection of
+convenient evidence.
+
 **The sizes are quoted because each file was confirmed on disk, not because a log said so.** A
 .NET publish can report success and name an artefact it never wrote — this repository's iOS guide
 documents exactly that behaviour for the same sample application, in its
@@ -160,9 +166,16 @@ dotnet publish -f net10.0-android -c Release ^
   -p:AndroidKeyStore=true ^
   -p:AndroidSigningKeyStore=<path-to-keystore> ^
   -p:AndroidSigningKeyAlias=<key-alias> ^
-  -p:AndroidSigningKeyPass=env:<var-holding-key-password> ^
-  -p:AndroidSigningStorePass=env:<var-holding-store-password>
+  -p:AndroidSigningKeyPass=file:<file-holding-key-password> ^
+  -p:AndroidSigningStorePass=file:<file-holding-store-password>
 ```
+
+**The `file:` prefix is used here rather than `env:`, deliberately.** Both keep the passphrase out
+of the build log, but Microsoft documents that **`env:` is not supported when the package format is
+`aab`** — which is exactly what this channel uploads. The direct APK guide, whose output is an
+`.apk`, uses `env:` for that reason and
+[explains the restriction's exact scope](../direct-apk-distribution/README.md#10-sign). Where your
+output includes an App Bundle, prefer `file:`.
 
 **Never commit a keystore or its passwords to source control.** Use a secrets manager or a CI
 secret store. This repository's own [`.gitignore`](../../../.gitignore) excludes `*.keystore`,
@@ -210,10 +223,16 @@ whose version code does not exceed the previous release.
 
 ## 16. Revoke / Withdraw / Retire
 
-Unpublish an app from its Play Console listing (**Grow > Store presence > Main store listing**
-status controls, or the dedicated unpublish action). This stops new installs; it does not remove
-the app from devices that already installed it. There is no equivalent to revoking a certificate
-here unless you manage your own signing key outside Play App Signing.
+Unpublish an app from **Test and release > Setup > Advanced settings > App availability**. (This
+is not under *Grow > Store presence*, where the listing content is edited — an earlier revision of
+this guide sent readers there.) Unpublishing stops new installs; **it does not remove the app from
+devices that already installed it.**
+
+**There is no certificate-revocation equivalent on this platform.** Revoking a signing certificate
+is an Apple concept; with Play App Signing, Google holds the app signing key and you cannot
+invalidate previously installed copies. If you manage your own signing key outside Play App
+Signing you control that key, but that still does not retract installed builds — it only affects
+what you can sign in future. Plan withdrawal as "stop distributing and ship a replacement".
 
 ## 17. Troubleshooting
 

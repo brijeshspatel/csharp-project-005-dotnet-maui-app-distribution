@@ -103,7 +103,7 @@ The `.aab` is the upload artefact. **Confirm it exists by listing
 
 ## 12. Configure Distribution Platform
 
-In Play Console, open **Testing > Open testing**:
+In Play Console, open **Test and release > Testing > Open testing**:
 
 1. Select the track.
 2. Choose the tester capacity: unlimited, or a limited number set to at least 1,000 — the minimum
