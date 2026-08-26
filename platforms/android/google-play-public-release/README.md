@@ -69,8 +69,10 @@ against §5's current requirement before building for release.
 
 **Verified by execution against this repository's own sample application**
 (`sample/DistributionSample`), 2026-08-23, **at this repository's own real path** — not only a
-scratch fixture, because an earlier specification-review test found this exact command can fail
-from a sufficiently long Windows path (AAPT2 "failed to open file"):
+scratch fixture, because an earlier specification-review test saw this exact command fail from a
+sufficiently long Windows path, reporting an AAPT2 "failed to open file". That symptom has several
+possible causes and path length is only one of them (§17) — the reason to build at the real path
+is that a short scratch path cannot reproduce the condition either way:
 
 ```
 dotnet publish -f net10.0-android -c Release
@@ -144,14 +146,22 @@ state, not a property fault. Clean `obj/` when you change this property.
 The build in §9 produces a debug-signed package alongside the unsigned one when no explicit
 signing configuration is supplied. **A debug-signed bundle is for local testing only and Google
 Play will reject it.** For a real release, configure signing explicitly, referencing your own
-upload keystore:
+upload keystore.
+
+**`AndroidKeyStore=true` is the property that switches custom signing on, and it defaults to
+`false`.** Supplying the keystore path, alias and passwords *without* it does not error — the
+properties are simply ignored, and you get the same debug-signed package this section is warning
+you about. An earlier revision of this command omitted it. The marshal-methods property from §9 is
+also carried here, because this build is subject to the same clean-tree failure:
 
 ```
 dotnet publish -f net10.0-android -c Release ^
+  -p:AndroidEnableMarshalMethods=false ^
+  -p:AndroidKeyStore=true ^
   -p:AndroidSigningKeyStore=<path-to-keystore> ^
   -p:AndroidSigningKeyAlias=<key-alias> ^
-  -p:AndroidSigningKeyPass=<key-password> ^
-  -p:AndroidSigningStorePass=<store-password>
+  -p:AndroidSigningKeyPass=env:<var-holding-key-password> ^
+  -p:AndroidSigningStorePass=env:<var-holding-store-password>
 ```
 
 **Never commit a keystore or its passwords to source control.** Use a secrets manager or a CI
@@ -209,7 +219,7 @@ here unless you manage your own signing key outside Play App Signing.
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
-| `dotnet publish -f net10.0-android -c Release` fails with `APT2264`, or with `APT2098` "failed to open file" / `APT2261` "file failed to compile" | Project path is too long for the Android resource compiler on Windows. **`APT2264` is the only one of these Microsoft documents as a maximum-path-length failure**; `APT2098` and `APT2261` are generic open/compile failures with many possible causes, and a long path is only one of them | Compare your project's full path length against a known-short path | Move the project closer to a drive root, enable Windows long-path support, or redirect `$(BaseIntermediateOutputPath)` nearer the drive root via `Directory.Build.props` |
+| `dotnet publish -f net10.0-android -c Release` fails with `APT2264`, or with `APT2098` "failed to open file" / `APT2261` "file failed to compile" | Project path is too long for the Android resource compiler on Windows. **`APT2264` is the only one of these Microsoft ties to path length**, and even there the wording is "generally caused by", not exclusively; `APT2098` and `APT2261` are generic open/compile failures with many possible causes, of which a long path is one | Compare your project's full path length against a known-short path | Move the project closer to a drive root, enable Windows long-path support, or redirect `$(BaseIntermediateOutputPath)` nearer the drive root via `Directory.Build.props` |
 | Same command fails with `javac.exe exited with code 1` and no further detail | May be transient resource contention from concurrent processes | Re-run with `-v:detailed` and inspect the actual javac output | Retry; if it recurs identically, inspect the detailed log for a real compiler error |
 | `error XAGNM7009: ... missing native code generation state for architecture 'Arm64'` | Marshal methods, enabled by default in .NET 10, fail during native code generation | Re-run from a clean tree; it reproduces | Add `-p:AndroidEnableMarshalMethods=false`, per §9 |
 | R8 reports `Type android.runtime.JavaProxyThrowable is defined multiple times` | `AndroidEnableMarshalMethods` was changed against a stale `obj/` | Check whether the property changed since the last build | Delete `obj/` and rebuild, per §9 |
@@ -220,7 +230,7 @@ here unless you manage your own signing key outside Play App Signing.
 ## 18. Limitations
 
 This guide's build step (§9) was verified by execution at this repository's own real path, on
-Windows, from a clean tree, confirming Risk R-8 (path length) does not affect this specific path.
+Windows, from a clean tree, confirming that path length does not affect this specific path.
 **It required `-p:AndroidEnableMarshalMethods=false`; the command without that property does not
 complete on this toolchain.** The artefacts were confirmed on disk by listing them, not inferred
 from the build log. Real upload key generation and the actual Play Console submission flow were

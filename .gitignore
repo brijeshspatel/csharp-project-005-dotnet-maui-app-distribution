@@ -495,6 +495,7 @@ $RECYCLE.BIN/
 
 # The governance machinery stays on disk so the workspace checkers can read it,
 # and out of git so a cloner receives the guide rather than the tooling that
-# verifies it. Recorded in ADR 0015; project 003 set the precedent.
+# verifies it. The root README's "How this guide is kept true" section states
+# the consequence for readers: these checks cannot be re-run from a clone.
 config/
 .aia-conventions.json

@@ -14,5 +14,6 @@ not replace the [full guide](../README.md), which it links back to at every step
 5. Create an app record in App Store Connect. See [§12 Configure Distribution Platform](../README.md#12-configure-distribution-platform).
 6. Upload and submit for review. See [§13 Deploy](../README.md#13-deploy).
 
-STOP — VERIFY BEFORE CONTINUING: confirm your build tooling targets the iOS 26 SDK (required for
-submissions from 2026-04-28) before step 3. See the [Requirements & Freshness Register](../../../../docs/reference/requirements-freshness-register.md).
+STOP — VERIFY BEFORE CONTINUING: confirm your build tooling uses Xcode 26 with an iOS 26 SDK
+(required for anything **uploaded** to App Store Connect from 2026-04-28) before step 3. See the
+[Requirements & Freshness Register](../../../../docs/reference/requirements-freshness-register.md).

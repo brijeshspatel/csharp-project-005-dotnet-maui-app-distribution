@@ -47,7 +47,7 @@ The absence of a gate is the channel's advantage and its entire risk.
 
 | Prerequisite | Notes |
 |---|---|
-| A JDK, for `keytool` | Ships with the Android workload. Verified below at `C:\Program Files\Android\openjdk\jdk-21.0.8` |
+| A JDK, for `keytool` | Ships with the Android workload. The verification runs in §9 used the workload's own JDK 21 on Windows; any JDK providing `keytool` will do |
 | A private keystore | Created once, then reused for every update. **Not** the debug keystore |
 | A signed `.apk` | The `.aab` is not usable here; see §11 |
 | Somewhere to host the file | HTTPS |
@@ -104,7 +104,10 @@ refuse, and an app distributed with that instruction should not be trusted by an
 HTTP can be replaced in transit, and the user has no store signature to compare it against.
 
 **Publish the certificate fingerprint** alongside the download so a cautious user can verify what
-they received. Obtain it with `keytool -list`.
+they received. Read it from your keystore with `keytool -list -keystore <your>.keystore`. Tell
+recipients to check it against the package itself with
+`keytool -printcert -jarfile <downloaded>.apk` — **that** is the command that reads a signature off
+an APK, and it is what makes the published fingerprint worth publishing.
 
 ## 8. Application Preparation
 
@@ -237,7 +240,10 @@ Expect Play Protect to inspect the app at install (§7).
 ## 14. Validate
 
 1. **List the publish directory** and confirm the signed `.apk` exists.
-2. Confirm the signature with `keytool -list`, and check the fingerprint matches what you publish.
+2. Confirm the signature **of the APK itself** with `keytool -printcert -jarfile <your>.apk`, and
+   check the fingerprint matches what you publish. `keytool -list` reads a *keystore*, not a
+   package, so it cannot tell you what the file you are about to distribute was actually signed
+   with — which is the only question this step is asking.
 3. Install on a device that has **never** had a debug build of this app. A debug-signed install
    already present blocks a release-signed install with a signature mismatch, and that failure is
    easy to misread as a broken package.

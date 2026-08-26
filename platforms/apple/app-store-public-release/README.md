@@ -34,7 +34,8 @@ does not sell digital goods or services through its apps. **Last verified: 2026-
 
 - An enrolled Apple Developer Program membership (§4).
 - A macOS build host, or Visual Studio paired to one, for creating a distribution certificate and
-  for producing an App-Store-ready signed archive. See §7 for exactly which step this applies to.
+  for producing an App-Store-ready signed archive. See **§9** for what a Windows-only build does
+  and does not do, and **§10** for the signing step itself.
 - A stable Bundle ID in reverse-DNS form (for example `com.example.app`), matching your .NET MAUI
   project's **Application ID** property.
 - App icons and a launch image meeting Apple's current published sizes.
@@ -46,7 +47,8 @@ does not sell digital goods or services through its apps. **Last verified: 2026-
   that list. A missing declaration blocks upload to App Store Connect.
 - **Your build tooling must use Xcode 26 or later with an SDK for iOS 26** for anything
   **uploaded to App Store Connect** on or after 2026-04-28. Apple frames this as an *upload*
-  requirement rather than a submission one, and states it equally for iPadOS 26, tvOS 26,
+  requirement rather than a submission one, and accepts an SDK for any of iOS 26, iPadOS 26,
+  tvOS 26,
   visionOS 26 and watchOS 26. It is a hard requirement, not a recommendation. Confirm your
   installed .NET MAUI iOS workload supports it before you rely on it (§9).
 
@@ -223,7 +225,7 @@ the certificate itself is compromised or no longer needed.
 | Build rejected: privacy manifest missing a declaration | A required-reason API or third-party SDK is used but not declared | Check App Review's rejection message for the named API | Add the declaration to the privacy manifest, per §5, and resubmit |
 | Signing mismatch on upload | Provisioning profile does not match the certificate or Bundle ID used to sign | Compare the profile's App ID and certificate against `CodesignProvision`/`CodesignKey` | Regenerate or select the correct profile, per §10 |
 | Build built on the wrong SDK | Tooling predates the iOS 26 SDK requirement (effective 2026-04-28) | Check the installed `ios` workload version | Update the .NET MAUI iOS workload before building |
-| Build reports `Created the package: ...DistributionSample.ipa` but no `.ipa` exists | The SDK's `Publish` target prints this message unconditionally when `BuildIpa` is true, without running `CreateIpa` | List the `publish` folder; it is empty | Expected without signing. Supply `CodesignKey`/`CodesignProvision` per §10, or use the Archive/Distribute flow. See §9 |
+| Build reports `Created the package: ...DistributionSample.ipa` but no `.ipa` exists | The SDK's `Publish` target prints this message unconditionally when `BuildIpa` is true, without running the target that writes the package | List the `publish` folder; it is empty | Supply `CodesignKey`/`CodesignProvision` **together with `ArchiveOnBuild=true`**, per §10 — signing alone is not enough — or use the Archive/Distribute flow. See §9 |
 | `error : Code signing must be enabled to create an Xcode archive.` | `ArchiveOnBuild=true` was set with no signing identity | Confirm whether `CodesignKey` and `CodesignProvision` are supplied | Supply a real distribution identity per §10, or drop `ArchiveOnBuild` and accept that no `.ipa` is produced |
 
 ## 18. Limitations
@@ -242,6 +244,8 @@ guaranteed; do not present any duration as a commitment.
 - [Publish a .NET MAUI iOS app for App Store distribution — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-app-store?view=net-maui-10.0)
 - [Publish a .NET MAUI iOS app using the command line — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/publish-cli?view=net-maui-10.0)
 - [Apple Developer Program — Become a member](https://developer.apple.com/programs/enroll/)
+- [Apple Developer Program membership fee waivers](https://developer.apple.com/help/account/membership/fee-waivers/) — the source for §4's waiver conditions
+- [D-U-N-S Number requirement](https://developer.apple.com/support/D-U-N-S/) — the source for §4's government-organisation exception
 - [Apple Developer — SDK minimum requirements](https://developer.apple.com/news/upcoming-requirements/)
 
 ## 20. Last Verified

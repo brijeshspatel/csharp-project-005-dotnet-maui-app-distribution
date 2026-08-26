@@ -55,9 +55,11 @@ Identical command and result to public App Store release, verified by execution 
 [§9](../app-store-public-release/README.md#9-build): `dotnet publish -f net10.0-ios -c Release`.
 This guide does not re-run it.
 
-**Read that section before you rely on a build.** That command **does not produce an `.ipa`**
-without code signing, although it exits 0 and prints a message saying it did. A TestFlight upload
-needs the same signed `.ipa` an App Store submission needs, produced the same way. What differs
+**Read that section before you rely on a build.** That command **does not produce an `.ipa`** —
+it exits 0 and prints a message saying it did. Producing one needs both a real signing identity
+**and** the archive properties, as [§10](../app-store-public-release/README.md#10-sign) sets out;
+signing alone is not sufficient. A TestFlight upload needs the same signed `.ipa` an App Store
+submission needs, produced the same way. What differs
 between the two channels is the upload destination and the review path (§12-§13), not the build.
 
 ## 10. Sign

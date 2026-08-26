@@ -8,16 +8,22 @@ describing the correction as an improvement.
 
 ## [1.3.0] — 2026-08-26
 
-Three successive audits — an external review, an adversarial fact-check of the resulting
-corrections, and an independent re-grade of the whole repository — found faults at every stage,
-including several the earlier rounds had introduced or left behind. All are listed below and named
-as errors, not as improvements.
+Four successive audits — an external review, an adversarial fact-check of the resulting
+corrections, an independent re-grade of the whole repository, and a final defect hunt — found
+faults at every stage, including several the earlier rounds had introduced or left behind. All are
+listed below and named as errors, not as improvements.
 
 **Each pass found what the previous one missed, which is the point.** A correction applied to five
-files but not the sixth is not a correction; it is a contradiction with better coverage. That is
-exactly what happened with the manual-upload claim below. The most serious finding came last, from
-the pass that graded the repository cold rather than checking the corrections: the flagship App
-Store guide's signing command had never been able to produce the `.ipa` its own §11 promised.
+files but not the sixth is not a correction; it is a contradiction with better coverage. That
+happened repeatedly in this release and is recorded below each time, because the pattern matters
+more than any single instance of it.
+
+**Two findings deserve singling out, because both were commands this guide told readers to run
+that could not do what the guide said they would.** The App Store guide's signing command omitted
+`ArchiveOnBuild`, so it could never produce the `.ipa` its own §11 promised. The Google Play
+guide's signing command omitted `AndroidKeyStore=true`, so it silently produced the debug-signed
+package its own §10 warned would be rejected. Neither was a wrong fact about a vendor; both were
+this repository failing at precisely the thing it claims to be for.
 
 ### Fixed
 
@@ -102,6 +108,28 @@ Store guide's signing command had never been able to produce the `.ipa` its own 
   `keytool` command it prescribes generates a 2048-bit RSA key, which signs with `SHA256withRSA` on
   current JDKs. The guide no longer names an expected algorithm, because the useful check is that
   the certificate is yours, not which digest it names.
+- **Found by a fourth pass: the Android signing command had the same defect as the iOS one.** §10
+  gave the `AndroidSigningKeyStore` properties **without `-p:AndroidKeyStore=true`**, which defaults
+  to `false`. Without it the signing properties are not rejected — they are silently ignored, and
+  the output is the debug-signed package that same section opens by warning Google Play will
+  reject. The direct APK guide had stated this rule correctly all along. Corrected in §10 and the
+  Android release checklist.
+- **Found by a fourth pass: four more places where an earlier fix in this release stopped short.**
+  The `ArchiveOnBuild` correction had not reached the iOS release checklist, the App Store guide's
+  own §17 troubleshooting row, the Apple hub, or the TestFlight guide's build note — all four still
+  described signing as sufficient on its own. The "upload, not submission" correction had not
+  reached the freshness register, the Apple hub, or the App Store quick start. The TestFlight
+  "first build added to a *group*" correction had not reached the iOS checklist. The open testing
+  "minimum permitted cap" clarification existed only in a §20 note claiming it had been made.
+- **Found by a fourth pass: three references to things that do not exist in this repository** — a
+  "Risk R-8", an "ADR 0015", and a JDK path said to be "verified below" where nothing below
+  verified it. All three removed or replaced with what is actually true.
+- **Found by a fourth pass: the root README overstated execution coverage**, saying only two
+  channels had execution-verified build paths. Four builds were executed; two produced artefacts
+  and two produced recorded failures. It now says which is which.
+- **Found by a fourth pass: `keytool -list` was prescribed as the validation step for an APK
+  signature.** It reads a keystore, not a package. §14 now uses `keytool -printcert -jarfile`, and
+  §7 explains which command belongs on which side of the exchange.
 
 ### Changed
 

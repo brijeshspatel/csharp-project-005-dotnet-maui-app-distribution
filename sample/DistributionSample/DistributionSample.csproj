@@ -1,8 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<!-- Mobile-only per this increment's scope: net10.0-windows is deliberately omitted,
-		     because Microsoft/Windows distribution is out of scope for this phase.
+		<!-- net10.0-windows is deliberately omitted, because Microsoft/Windows distribution is
+		     out of scope for this phase.
+
+		     net10.0-maccatalyst IS still built. It comes from the stock template and no channel
+		     guide in this repository documents distributing it — Mac App Store distribution is
+		     out of scope alongside Windows. It is kept only so the sample matches template
+		     output; treat the Android and iOS target frameworks as the ones the guides describe.
 
 		     The stock template's Platforms/Windows/ files, the Windows-conditioned properties
 		     below, and the "Windows Machine" launch profile are retained but never built: no

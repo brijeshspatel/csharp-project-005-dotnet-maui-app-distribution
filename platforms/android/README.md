@@ -50,10 +50,12 @@ The authoritative explanation lives in
 **Never commit a keystore or its passwords.** Pass them by the `env:` or `file:` prefix so the
 passphrase never reaches the build log.
 
-## Prerequisites common to all six channels
+## Prerequisites common to the five Play Console channels
 
 - A **Google Play Console** developer account, US $25 one-time, with identity verification
-  complete. Direct APK distribution is the one exception: it needs no account at all.
+  complete. ([Direct APK distribution](direct-apk-distribution/README.md) needs no account, no
+  keystore registration and no console at all, which is why it sits outside this list rather than
+  being an exception within it.)
 - A **package name**, permanent once you publish with it, and not reusable even after an app is
   unpublished.
 - A target **API level** at or above Google's current floor. **API 36 (Android 16) is required for
@@ -76,7 +78,8 @@ optimisation.
 
 **A long project path fails the same step differently.** Microsoft documents
 [`APT2264`](https://learn.microsoft.com/en-us/dotnet/android/messages/apt2264) as the resource-
-compiler error caused specifically by exceeding the Windows maximum path length; a long path can
+compiler error it attributes to exceeding the Windows maximum path length — its wording is
+"generally caused by" that, not exclusively; a long path can
 also surface as `APT2098` ("failed to open file") or `APT2261` ("file failed to compile"). These
 are .NET for Android's own `APT2`-prefixed codes for `aapt2` failures — the prefix is not a
 misspelling of the tool's name. Microsoft's remedy for all three is the same: shorten the path,

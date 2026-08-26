@@ -76,7 +76,7 @@ platform.
 ## How this guide is kept true
 
 Nothing here is reported as correct because it was written. Before each release of this guide,
-automated checks confirm that:
+checks are run to confirm that:
 
 - every internal heading anchor resolves, so no cross-reference is silently broken;
 - every page has exactly one title, and the table of contents above lists every channel in the
@@ -88,6 +88,12 @@ automated checks confirm that:
 Those checks are maintained separately from this guide, so what is published here is the verified
 result rather than the machinery that verifies it. Their findings are what the `Last Verified`
 dates rest on.
+
+**Be aware of what that costs you as a reader.** Because the tooling is not in this repository,
+you cannot re-run it, and these five statements are not independently falsifiable from what you
+have in front of you. The claims you *can* check yourself are the ones each guide makes in its own
+§9 and §18 — the commands, their exact output, and what was explicitly not executed. Weigh those
+more heavily than this section.
 
 **Two build warnings to carry into your own project**, both found here by execution:
 
@@ -108,8 +114,10 @@ is mobile application distribution; Windows distribution may be added later if t
 need.
 
 Most channels here are **documented, not demonstrated** — each guide says which it is in its own
-section 18. Only Google Play public release and direct APK distribution have execution-verified
-build paths, and no channel has a verified upload, review or installation.
+section 18. Only Google Play public release and direct APK distribution have build paths that were
+executed **successfully**, producing an artefact confirmed on disk. The two Apple builds were also
+executed, but what they demonstrate is their *failure* modes, recorded exactly. **No channel has a
+verified upload, review or installation.**
 
 ## Changes
 
