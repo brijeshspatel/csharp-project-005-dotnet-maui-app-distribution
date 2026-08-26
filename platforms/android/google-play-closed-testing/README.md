@@ -4,14 +4,14 @@
 
 Closed testing distributes an App Bundle through Google Play to a controlled group of testers that
 you choose, at a scale internal testing cannot reach. Unlike internal testing, closed test releases
-**are** subject to standard Play policy review.
+**are** subject to Google Play's standard app review.
 
 **For many developer accounts it is also a gate, not a choice.** See §4.
 
 ## 2. When to Use It
 
 Use closed testing when you need a real testing population — larger than 100 people, or organised
-into groups you can target separately — and you want the build to have passed policy review before
+into groups you can target separately — and you want the build to have passed app review before
 testers see it.
 
 **Use it when you must reach production at all**, if your account falls under the testing
@@ -55,7 +55,7 @@ The application asks about the closed test, the app's design, and production rea
 | Prerequisite | Notes |
 |---|---|
 | A Play Console account | Same account as public release |
-| A complete app record | More complete than internal testing requires, because policy review applies |
+| A complete app record | More complete than internal testing requires, because app review applies |
 | A signed App Bundle (`.aab`) | Built as in the public release guide's §9-§10 |
 | A tester group | Email lists, or a Google Group |
 
@@ -152,7 +152,7 @@ opted out.
 ## 15. Update
 
 Increment the version code, rebuild, and upload a new release to the track. Expect the same
-several-hour delay. Policy review applies to updates as well.
+several-hour delay. App review applies to updates as well.
 
 ## 16. Revoke / Withdraw / Retire
 
@@ -199,6 +199,11 @@ tester minimum from 20 to 12 in December 2024.
 
 ## 20. Last Verified
 
-2026-08-24 — every claim verified against the sources in §19 on this date. The build step it relies
-on was verified by execution in the public release guide and is not re-executed here. Nothing in
+**Sources last verified: 2026-08-26.** Every claim was re-checked against the sources in §19 on
+that date, including the 12-tester / 14-continuous-day production-access requirement and the
+200-list / 2,000-user / 50-lists-per-track limits.
+
+**Execution evidence: 2026-08-23.** The build step this channel relies on was verified by execution
+in the [public release guide](../google-play-public-release/README.md#9-build) on that date and is
+not re-executed here; **that date does not advance when sources are re-verified**. Nothing in
 §12-§16 is execution-verified; see §18.

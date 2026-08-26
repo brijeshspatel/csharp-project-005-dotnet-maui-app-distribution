@@ -1,8 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<!-- Mobile-only per this increment's scope (D-K): net10.0-windows is deliberately
-		     omitted. Microsoft/Windows distribution is out of scope for this phase. -->
+		<!-- Mobile-only per this increment's scope: net10.0-windows is deliberately omitted,
+		     because Microsoft/Windows distribution is out of scope for this phase.
+
+		     The stock template's Platforms/Windows/ files, the Windows-conditioned properties
+		     below, and the "Windows Machine" launch profile are retained but never built: no
+		     Windows target framework is ever added to $(TargetFrameworks), so MSBuild does not
+		     compile that platform folder. They are kept so this sample stays directly diffable
+		     against unmodified `dotnet new maui` output, which is what lets a reader see exactly
+		     which properties this distribution guide changed and which it did not. Retained, not
+		     overlooked. -->
 		<TargetFrameworks>net10.0-android</TargetFrameworks>
 		<TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux'))">$(TargetFrameworks);net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
 

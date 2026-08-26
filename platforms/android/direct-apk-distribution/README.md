@@ -184,6 +184,12 @@ The `env:` form was used for the verification in §9.
 **The `env:` prefix is not supported when the package format is `aab`.** It works for this
 channel because this channel produces an `apk`.
 
+**One caveat on that restriction.** Microsoft states it against the **deprecated singular**
+`$(AndroidPackageFormat)`, not the plural `$(AndroidPackageFormats)` the same pages tell you to
+use — and whose Release default is `aab;apk`. How the restriction applies to
+`AndroidPackageFormats=aab`, or to that mixed default, is **not documented**. Where your output
+includes an App Bundle, prefer the `file:` prefix, which carries no such restriction.
+
 **Never commit a keystore or a password.** Set the keystore path and alias in the project file if
 you wish; keep the passwords on the command line, in an environment variable, or in a file outside
 the repository.
@@ -302,7 +308,12 @@ away, only accepted or avoided by choosing another channel.
 
 ## 20. Last Verified
 
-2026-08-24 — the §9 build, signing and packaging claims were verified by execution against this
-repository's own sample application, from a clean tree, with the artefact confirmed on disk. All
-other claims were verified against the sources in §19 on the same date. Installation, Play Protect
-behaviour and hosting are **not** execution-verified; see §18.
+**Sources last verified: 2026-08-26.** Every claim resting on §19's sources was re-checked on that
+date. That pass qualified §10's `env:` prefix restriction with what Microsoft actually documents —
+the restriction is written against the deprecated singular `$(AndroidPackageFormat)`, and its
+effect on the plural `$(AndroidPackageFormats)` is undocumented.
+
+**Execution evidence: 2026-08-24.** The §9 build, signing and packaging claims were verified by
+execution against this repository's own sample application, from a clean tree, with the artefact
+confirmed on disk. **That date does not advance when sources are re-verified.** Installation, Play
+Protect behaviour and hosting are **not** execution-verified; see §18.

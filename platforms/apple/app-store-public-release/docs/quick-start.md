@@ -5,8 +5,9 @@ not replace the [full guide](../README.md), which it links back to at every step
 
 1. Enrol in the Apple Developer Program. See the full guide's [§4 Eligibility](../README.md#4-eligibility).
 2. Create a distribution certificate, App ID and provisioning profile. See [§10 Sign](../README.md#10-sign).
-3. Build and package: `dotnet publish -f net10.0-ios -c Release`, verified working on Windows
-   without a Mac (ad hoc signing only — see [§9 Build](../README.md#9-build)).
+3. Build: `dotnet publish -f net10.0-ios -c Release`. This compiles, but writes **no `.ipa`** —
+   while printing a line that claims it did. There is no self-signed fallback. See
+   [§9 Build](../README.md#9-build).
 4. Re-run with `-p:CodesignKey`/`-p:CodesignProvision` for a real, App-Store-ready signature. See
    [§10 Sign](../README.md#10-sign).
 5. Create an app record in App Store Connect. See [§12 Configure Distribution Platform](../README.md#12-configure-distribution-platform).

@@ -11,7 +11,7 @@ share.
 
 | Channel | Reaches | Review | Use it when |
 |---|---|---|---|
-| [Google Play public release](google-play-public-release/README.md) | Anyone | Play Review | You are shipping to the public |
+| [Google Play public release](google-play-public-release/README.md) | Anyone | Yes — app review | You are shipping to the public |
 | [Internal testing](google-play-internal-testing/README.md) | Up to 100 named testers | Often skipped | You want the fastest feedback loop |
 | [Closed testing](google-play-closed-testing/README.md) | Invited testers or lists | Yes | You need a controlled group, or are working towards production access |
 | [Open testing](google-play-open-testing/README.md) | Anyone who opts in | Yes | You want a public beta |
@@ -56,10 +56,11 @@ passphrase never reaches the build log.
   complete. Direct APK distribution is the one exception: it needs no account at all.
 - A **package name**, permanent once you publish with it, and not reusable even after an app is
   unpublished.
-- A target **API level** at or above Google's current floor. **API 36 is required from
-  2026-08-31**, with an extension available to 2026-11-01 through Play Console. Google raises
-  this floor every year, so confirm the current requirement before you build rather than
-  trusting any fixed number, including this one.
+- A target **API level** at or above Google's current floor. **API 35 is the currently binding
+  floor; API 36 (Android 16) is required for new apps and updates from 2026-08-31**, with an
+  extension to 2026-11-01 available on request through Play Console's **Policy status** page.
+  Google raises this floor every year, so confirm the current requirement before you build rather
+  than trusting any fixed number, including this one.
 - An **upload keystore**, for every channel that goes through Play Console.
 
 Each channel guide's §5 lists what it adds to this.
@@ -71,8 +72,16 @@ Each channel guide's §5 lists what it adds to this.
 `-p:AndroidEnableMarshalMethods=false` makes it succeed and write a real `.aab`.
 
 **Treat that property as a mitigation, not a recommendation** — it disables a startup
-optimisation. A long project path can fail the same step with `APT2098` or `APT2261`; build at the
-project's real path rather than a temporary copy.
+optimisation.
+
+**A long project path fails the same step differently.** Microsoft documents
+[`APT2264`](https://learn.microsoft.com/en-us/dotnet/android/messages/apt2264) as the resource-
+compiler error caused specifically by exceeding the Windows maximum path length; a long path can
+also surface as `APT2098` ("failed to open file") or `APT2261` ("file failed to compile"). These
+are .NET for Android's own `APT2`-prefixed codes for `aapt2` failures — the prefix is not a
+misspelling of the tool's name. Microsoft's remedy for all three is the same: shorten the path,
+enable Windows long-path support, or redirect `$(BaseIntermediateOutputPath)` nearer the drive
+root via `Directory.Build.props`. Build at the project's real path rather than a temporary copy.
 
 ## Package format
 
@@ -84,8 +93,12 @@ direct distribution only. `AndroidPackageFormats` — note the plural — contro
 Every Play channel needs the **version code** to increase on every upload. The version name is for
 humans and is not checked for ordering.
 
-The **first** production upload must be made manually through Play Console: it establishes the
-signing-key relationship every later release depends on.
+**Make the first release deliberately.** Play App Signing is configured on your first release, and
+the key you sign it with becomes your upload key for every release afterwards. Google does **not**
+document a requirement that this first upload be made by hand rather than through the Play
+Developer API — the API supports uploading a bundle and creating a draft release — so treat the
+"upload the first one manually" advice as a way to slow yourself down at the one irreversible step,
+not as a platform rule.
 
 ## Troubleshooting
 

@@ -26,7 +26,7 @@ You need a **Google Play Console developer account**: a **one-time, non-refundab
 registration fee, plus identity verification. **If your personal account was created after
 2023-11-13, Google requires a 14-day closed test with at least 12 opted-in testers before
 granting production access** — this applies before you can use this channel at all, so confirm
-your account's creation date and status first. **Last verified: 2026-08-23.**
+your account's creation date and status first. **Last verified: 2026-08-26.**
 
 ## 5. Prerequisites
 
@@ -85,8 +85,17 @@ state for architecture 'Arm64'
 and writes no `.aab`. This was reproduced on two consecutive clean attempts, run sequentially and
 **not** under concurrent load, which rules out resource contention as the cause.
 
-**The command that completes here disables marshal methods**, which .NET 10 enables by default and
-which Microsoft documents as the mitigation when marshal methods misbehave:
+**What `XAGNM7009` is.** .NET for Android composes unhandled-exception codes as
+`XA<TaskPrefix>7<NNN>`. `GNM` is the prefix of the `GenerateNativeMarshalMethodSources` task and
+`7009` denotes an `InvalidOperationException` — and that task throws exactly one such exception,
+with exactly the "missing native code generation state" text quoted above. So the code decodes
+cleanly to the marshal-methods generator. **Microsoft publishes no reference page for
+`XAGNM7009`**, and it appears in no tracked issue; the decode above comes from the SDK's own
+error-code scheme and task source, not from documentation of this specific failure.
+
+**The command that completes here disables marshal methods.** .NET 10 enables them by default on
+the MonoVM runtime — note that the published build-properties page still says "False by default",
+which is stale against the SDK's own targets:
 
 ```
 dotnet publish -f net10.0-android -c Release -p:AndroidEnableMarshalMethods=false
@@ -108,11 +117,17 @@ message.**
 
 **Google Play requires the App Bundle (`.aab`) format**, not the `.apk`, for new app submissions.
 
-**Disabling marshal methods is a mitigation, not a default to adopt blindly.** Marshal methods are
-a startup-performance optimisation. Disabling them is the documented response to a marshal-method
-fault, and it is what makes this build complete here; it is not a recommendation for a project
-whose build already succeeds without it. Retest with the property removed after any Android
-workload update.
+**Disabling marshal methods is a mitigation, not a default to adopt blindly.** Microsoft describes
+marshal methods as "an app startup optimization which uses native entry points for Java `native`
+method registration", so turning them off is a genuine performance trade, not a free switch.
+
+**Be clear about what is established here and what is inferred.** That this build fails with
+`XAGNM7009` and succeeds with `-p:AndroidEnableMarshalMethods=false` was observed by execution.
+That the property is *the* prescribed remedy for this error is **inference** — reasonable, because
+the failing task is the marshal-methods generator and the property stops it running, but Microsoft
+does not document that link. Treat it as a working mitigation for this toolchain, not a
+recommendation for a project whose build already succeeds without it, and retest with the property
+removed after any Android workload update.
 
 **One further trap, observed here.** Setting `AndroidEnableMarshalMethods=false` against a `obj/`
 directory produced with marshal methods **enabled** fails differently again, with R8 reporting
@@ -178,7 +193,7 @@ here unless you manage your own signing key outside Play App Signing.
 
 | Symptom | Likely Cause | How to Verify | Corrective Action |
 |---|---|---|---|
-| `dotnet publish -f net10.0-android -c Release` fails with `APT2098`/`APT2261` "failed to open file" | Project path is too long for the Android resource compiler on Windows | Compare your project's full path length against a known-short path | Move the project closer to a drive root, or enable Windows long-path support |
+| `dotnet publish -f net10.0-android -c Release` fails with `APT2264`, or with `APT2098` "failed to open file" / `APT2261` "file failed to compile" | Project path is too long for the Android resource compiler on Windows. **`APT2264` is the only one of these Microsoft documents as a maximum-path-length failure**; `APT2098` and `APT2261` are generic open/compile failures with many possible causes, and a long path is only one of them | Compare your project's full path length against a known-short path | Move the project closer to a drive root, enable Windows long-path support, or redirect `$(BaseIntermediateOutputPath)` nearer the drive root via `Directory.Build.props` |
 | Same command fails with `javac.exe exited with code 1` and no further detail | May be transient resource contention from concurrent processes | Re-run with `-v:detailed` and inspect the actual javac output | Retry; if it recurs identically, inspect the detailed log for a real compiler error |
 | `error XAGNM7009: ... missing native code generation state for architecture 'Arm64'` | Marshal methods, enabled by default in .NET 10, fail during native code generation | Re-run from a clean tree; it reproduces | Add `-p:AndroidEnableMarshalMethods=false`, per §9 |
 | R8 reports `Type android.runtime.JavaProxyThrowable is defined multiple times` | `AndroidEnableMarshalMethods` was changed against a stale `obj/` | Check whether the property changed since the last build | Delete `obj/` and rebuild, per §9 |
@@ -206,7 +221,17 @@ current, after 2026-08-31.
 
 ## 20. Last Verified
 
-2026-08-23 — build claims verified by execution against this repository's own sample application,
-at its real repository path, from a clean tree, with the produced artefacts confirmed on disk.
-Signing with a real upload key and the Play Console submission flow are **not** execution-verified.
-All other claims were verified against the sources in §19 on the same date.
+This section separates two different dates, because they mean different things and only one of
+them can advance.
+
+**Sources last verified: 2026-08-26.** Every claim resting on §19's sources was re-checked on that
+date. That pass restated §5's target API level (API 35 is the currently binding floor; API 36
+applies from 2026-08-31, extendable to 2026-11-01 via Play Console's Policy status page),
+corrected §17's AAPT2 error-code guidance, and marked the marshal-methods workaround in §9 as
+**observed but not documented** by Microsoft as the remedy for `XAGNM7009`.
+
+**Execution evidence: 2026-08-23.** Build claims verified by execution against this repository's
+own sample application, at its real repository path, from a clean tree, with the produced
+artefacts confirmed on disk. **That date does not advance when sources are re-verified** — the run
+happened when it happened. Signing with a real upload key and the Play Console submission flow are
+**not** execution-verified.

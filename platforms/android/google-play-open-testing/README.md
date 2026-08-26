@@ -179,6 +179,11 @@ for your own account rather than assuming this guide's applies.
 
 ## 20. Last Verified
 
-2026-08-24 — every claim verified against the sources in §19 on this date. The build step it relies
-on was verified by execution in the public release guide and is not re-executed here. Nothing in
+**Sources last verified: 2026-08-26.** Every claim was re-checked against the sources in §19 on
+that date. That pass clarified that the 1,000 figure is the minimum permitted value of a tester
+*cap*, not a number of testers you must recruit.
+
+**Execution evidence: 2026-08-23.** The build step this channel relies on was verified by execution
+in the [public release guide](../google-play-public-release/README.md#9-build) on that date and is
+not re-executed here; **that date does not advance when sources are re-verified**. Nothing in
 §12-§16 is execution-verified; see §18.

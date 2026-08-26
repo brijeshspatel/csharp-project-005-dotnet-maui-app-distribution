@@ -13,7 +13,7 @@ Distribute privately to named organisations, shortest safe path. Links back to t
    [§9](../README.md#9-build).
 3. Confirm the `.aab` exists by **listing** `bin/Release/net10.0-android/publish/`. See
    [§11](../README.md#11-package).
-4. In Play Console, go to **Release > Setup > Advanced settings > Managed Google Play**, select
+4. In Play Console, go to **Test and release > Setup > Advanced settings > Managed Google Play**, select
    **Add organization**, and enter each Organization ID with a description. Up to 1,000. See
    [§12](../README.md#12-configure-distribution-platform).
 5. Upload the App Bundle and publish to production. The app reaches recipients' EMM consoles within

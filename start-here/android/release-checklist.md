@@ -28,9 +28,9 @@ how to prove it. Where a row needs more than a line of explanation, follow its l
 | 12 | **Gate** | **Complete store readiness**: store listing, content rating questionnaire, Data safety declaration | 11 | All three complete | **Play Console blocks production publishing while any is incomplete** | ☐ |
 | 13 | Testing | Run an [internal test](../../platforms/android/google-play-internal-testing/README.md) — fastest feedback, up to 100 testers | 10 | Testers install from the internal track | A tester installs and launches the build | ☐ |
 | 14 | Testing | If step 2 applies, complete the [closed test](../../platforms/android/google-play-closed-testing/README.md): 12 opted-in testers, 14 continuous days | 2, 10 | Production access granted | Play Console shows production access unlocked | ☐ |
-| 15 | Deploy | [Upload the `.aab` manually](../../platforms/android/google-play-public-release/README.md#13-deploy) for the first release | 10, 12, and 14 where it applies | Upload accepted; signing relationship established | The release shows your App Bundle | ☐ |
+| 15 | Deploy | [Upload the `.aab`](../../platforms/android/google-play-public-release/README.md#13-deploy) for the first release. Doing it by hand in Play Console is a deliberate slow-down at an irreversible step, not a platform rule — the Play Developer API can upload too | 10, 12, and 14 where it applies | Upload accepted; Play App Signing configured and the upload key fixed | The release shows your App Bundle | ☐ |
 | 16 | Validate | [Confirm the pre-launch checks](../../platforms/android/google-play-public-release/README.md#14-validate) | 15 | Release reaches **Ready to publish** | Read the release status and the pre-launch report | ☐ |
-| 17 | Release | Submit for Play Review | 16 | Submission accepted | Status changes to In review | ☐ |
+| 17 | Release | Submit for review | 16 | Submission accepted | Status changes to In review | ☐ |
 | 18 | Release | Handle the outcome. If rejected, fix the named policy issue and return to step 5, 6 or 12 | 17 | Approved, or a clear reason to fix | Read the policy message. [Troubleshooting](../../platforms/android/google-play-public-release/README.md#17-troubleshooting) | ☐ |
 | 19 | Release | Release to production | 18 | The app is live | The listing is reachable from a device that never had it | ☐ |
 | 20 | Post-release | Verify the live listing | 19 | It downloads and launches | Install from the public Play Store on a real device | ☐ |
@@ -42,7 +42,8 @@ how to prove it. Where a row needs more than a line of explanation, follow its l
 Android exits with `XAGNM7009 ... missing native code generation state`. Adding
 `-p:AndroidEnableMarshalMethods=false` makes it succeed and write a real `.aab`. This is a
 **mitigation, not a recommendation** — the property disables a startup optimisation. A long project
-path can also fail this step with `APT2098` or `APT2261`.
+path can also fail this step: Microsoft documents `APT2264` as the maximum-path-length error, and a
+long path may also surface as the more generic `APT2098` or `APT2261`.
 
 **Step 2 decides your timeline, and it is easy to read too late.** A personal account created after
 2023-11-13 needs 12 opted-in testers running a closed test for 14 continuous days *before*

@@ -80,11 +80,19 @@ public link or an email-invited group.
 ## 13. Deploy
 
 Upload the build exactly as in public App Store release's [§13](../app-store-public-release/README.md#13-deploy).
-**Internal testers** get access within minutes, no review. **External testers'** first build per
-version requires Apple's beta review (commonly 24 hours, reported as ranging 4-48 hours);
-subsequent builds of the same version are typically reviewed faster, and are auto-approved when
-they change nothing Apple's review specifically cares about (entitlements, privacy strings,
-marketing copy) — do not treat auto-approval as guaranteed for every change.
+**Internal testers** get access within minutes, no review.
+
+**External testers may require beta review.** Apple's own framing: when you add the **first build
+of your app to a group**, that build is sent to App Review; a review is required only for the
+first build, and subsequent builds may not require a full review. Note this is scoped to the first
+build added to a *group*, not to each version.
+
+**Apple publishes no beta review turnaround time.** An earlier revision of this guide gave
+"commonly 24 hours, reported as ranging 4-48 hours" — those figures could not be traced to any
+first-party Apple source and have been removed rather than left standing. The only duration Apple
+publishes is for App Store submissions, not TestFlight beta review. **Do not promise testers or
+stakeholders any beta review duration**, and plan the schedule so that a slow review is an
+inconvenience rather than a missed commitment.
 
 ## 14. Validate
 
@@ -129,6 +137,11 @@ not**, and no `.ipa` was produced in any run of this repository. See that guide'
 
 ## 20. Last Verified
 
-2026-08-23 — verified against the sources in §19. The build claim was verified by execution in the
-public App Store release guide on the same date and is not re-executed here; the sign and package
-claims are **not** execution-verified in either guide.
+**Sources last verified: 2026-08-26.** That pass removed the beta review duration figures formerly
+given in §13 — they could not be traced to any first-party Apple source — and restated Apple's own
+scoping of beta review to the first build added to a tester *group*.
+
+**Execution evidence: 2026-08-23.** The build claim was verified by execution in the public App
+Store release guide on that date and is not re-executed here; **that date does not advance when
+sources are re-verified**. The sign and package claims are **not** execution-verified in either
+guide.

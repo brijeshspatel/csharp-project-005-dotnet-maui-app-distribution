@@ -92,9 +92,13 @@ dates rest on.
 **Two build warnings to carry into your own project**, both found here by execution:
 
 - `dotnet publish -f net10.0-ios -c Release` **writes no `.ipa`** while printing that it did, and
-  exiting 0 with 0 warnings. **List the file; never read the log.**
+  exiting 0 with 0 warnings. This is a known, still-open SDK defect
+  ([dotnet/macios#20958](https://github.com/dotnet/macios/issues/20958)). **List the file; never
+  read the log.** There is no self-signed fallback: an `.ipa` needs a real Apple identity.
 - `dotnet publish -f net10.0-android -c Release` **fails from a clean tree** with `XAGNM7009`.
-  Adding `-p:AndroidEnableMarshalMethods=false` makes it succeed.
+  Adding `-p:AndroidEnableMarshalMethods=false` makes it succeed. The failure and the fix were both
+  observed here; Microsoft does not document that property as the remedy for that error, so treat
+  the link as inference and the property as a mitigation, not a default.
 
 ## Scope
 
